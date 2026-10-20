@@ -1,0 +1,1642 @@
+/* ==========================================================================
+   SchoolBook SMS - Notion.com Style Landing Page
+   Aesthetic: Ultra-clean, modern, minimalist workspace typography & cards
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Landing Page Navbar
+   -------------------------------------------------------------------------- */
+.landing-navbar {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--notion-bg);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--notion-border);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 clamp(16px, 4vw, 48px);
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+[data-theme="dark"] .landing-navbar {
+  background: rgba(25, 25, 25, 0.88);
+}
+
+.landing-nav-left {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.landing-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--notion-text);
+  font-weight: 700;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.landing-brand img {
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-xs);
+  object-fit: contain;
+}
+
+.landing-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+@media (max-width: 860px) {
+  .landing-nav-links {
+    display: none;
+  }
+}
+
+.landing-nav-link {
+  color: var(--notion-text-secondary);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  border-radius: var(--radius-xs);
+  transition: all 0.15s ease;
+}
+
+.landing-nav-link:hover {
+  color: var(--notion-text);
+  background: var(--notion-hover);
+}
+
+.landing-nav-right {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+/* Notion Style CTA Buttons */
+.notion-btn-cta {
+  background: #000000;
+  color: #ffffff !important;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 8px 18px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid transparent;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
+.notion-btn-cta:hover {
+  background: #333333;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
+}
+
+[data-theme="dark"] .notion-btn-cta {
+  background: #ffffff;
+  color: #121212 !important;
+}
+
+[data-theme="dark"] .notion-btn-cta:hover {
+  background: #e5e5e5;
+}
+
+.notion-btn-ghost {
+  background: transparent;
+  color: var(--notion-text);
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+
+.notion-btn-ghost:hover {
+  background: var(--notion-hover);
+}
+
+/* --------------------------------------------------------------------------
+   2. Hero Section
+   -------------------------------------------------------------------------- */
+.landing-hero {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: clamp(48px, 8vw, 88px) clamp(20px, 4vw, 40px) 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.landing-hero-title {
+  font-size: clamp(2.5rem, 6vw, 4.25rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.08;
+  color: var(--notion-text);
+  max-width: 900px;
+  margin: 0 auto 20px;
+}
+
+.landing-hero-sub {
+  font-size: clamp(1.1rem, 2vw, 1.35rem);
+  font-weight: 400;
+  line-height: 1.6;
+  color: var(--notion-text-secondary);
+  max-width: 720px;
+  margin: 0 auto 32px;
+}
+
+.landing-hero-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+
+.btn-hero-primary {
+  padding: 13px 28px !important;
+  font-size: 1.02rem !important;
+  border-radius: var(--radius-md) !important;
+}
+
+.btn-hero-secondary {
+  padding: 13px 24px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  background: var(--notion-subpanel-bg);
+  color: var(--notion-text);
+  border: 1px solid var(--notion-border-strong);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.15s ease;
+}
+
+.btn-hero-secondary:hover {
+  background: var(--notion-hover);
+  border-color: var(--notion-text-secondary);
+}
+
+/* Trusted By Academic Badges */
+.landing-trust-bar {
+  margin-top: 18px;
+  margin-bottom: 48px;
+}
+
+.trust-title {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--notion-text-muted);
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+.trust-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: clamp(16px, 3vw, 32px);
+}
+
+.trust-logo-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--notion-text-secondary);
+  font-size: 0.95rem;
+  font-weight: 600;
+  opacity: 0.85;
+  transition: opacity 0.2s ease;
+}
+
+.trust-logo-item:hover {
+  opacity: 1;
+  color: var(--notion-text);
+}
+
+.trust-icon {
+  font-size: 1.25rem;
+}
+
+/* --------------------------------------------------------------------------
+   3. Notion Window Interactive Hero Showcase
+   -------------------------------------------------------------------------- */
+.hero-showcase-window {
+  width: 100%;
+  max-width: 1140px;
+  background: var(--notion-card-bg);
+  border: 1px solid var(--notion-border-strong);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--notion-shadow-lg), 0 20px 48px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  text-align: left;
+  margin: 0 auto 64px;
+}
+
+.window-titlebar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: var(--notion-subpanel-bg);
+  border-bottom: 1px solid var(--notion-border);
+}
+
+.window-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.window-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.dot-red {
+  background: #ff5f56;
+}
+
+.dot-yellow {
+  background: #ffbd2e;
+}
+
+.dot-green {
+  background: #27c93f;
+}
+
+.window-breadcrumbs {
+  font-size: 0.82rem;
+  color: var(--notion-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+.window-campus-tag {
+  color: var(--notion-text);
+  font-weight: 600;
+}
+
+.showcase-tab-pills {
+  display: flex;
+  gap: 6px;
+}
+
+.showcase-tab-btn {
+  background: transparent;
+  border: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--notion-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.showcase-tab-btn:hover {
+  color: var(--notion-text);
+  background: var(--notion-hover);
+}
+
+.showcase-tab-btn.active {
+  color: var(--notion-blue);
+  background: var(--notion-blue-subtle);
+}
+
+.window-body {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: 480px;
+}
+
+@media (max-width: 768px) {
+  .window-body {
+    grid-template-columns: 1fr;
+  }
+
+  .window-mock-sidebar {
+    display: none;
+  }
+}
+
+.window-mock-sidebar {
+  background: var(--notion-sidebar-bg);
+  border-right: 1px solid var(--notion-border);
+  padding: 18px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.mock-sidebar-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.mock-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  color: var(--notion-text-secondary);
+  font-weight: 500;
+}
+
+.mock-nav-item.active {
+  background: var(--notion-hover);
+  color: var(--notion-text);
+  font-weight: 600;
+}
+
+.window-content-canvas {
+  padding: 24px;
+  background: var(--notion-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --------------------------------------------------------------------------
+   4. Bento Grid Features Section
+   -------------------------------------------------------------------------- */
+.landing-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 64px clamp(20px, 4vw, 40px);
+}
+
+.section-header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 48px;
+}
+
+.section-tag {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--notion-blue);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  font-size: clamp(1.8rem, 4vw, 2.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--notion-text);
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.section-desc {
+  font-size: 1.1rem;
+  color: var(--notion-text-secondary);
+  line-height: 1.6;
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 992px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .bento-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-card {
+  background: var(--notion-panel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-card:hover {
+  border-color: var(--notion-border-strong);
+  transform: translateY(-2px);
+  box-shadow: var(--notion-shadow-md);
+}
+
+.bento-card.span-2 {
+  grid-column: span 2;
+}
+
+@media (max-width: 640px) {
+  .bento-card.span-2 {
+    grid-column: span 1;
+  }
+}
+
+.bento-icon {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.bento-title {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--notion-text);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+
+.bento-desc {
+  font-size: 0.92rem;
+  color: var(--notion-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 18px;
+}
+
+.bento-preview-box {
+  margin-top: auto;
+  padding: 16px;
+  background: var(--notion-subpanel-bg);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--notion-border);
+}
+
+/* --------------------------------------------------------------------------
+   5. Interactive Indicator Simulator in Bento
+   -------------------------------------------------------------------------- */
+.perf-simulator-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.perf-sim-input-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sim-input {
+  width: 90px;
+  padding: 6px 10px;
+  font-size: 1rem;
+  font-weight: 700;
+  text-align: center;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--notion-border-strong);
+  background: var(--notion-input-bg);
+  color: var(--notion-text);
+}
+
+.sim-indicator-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: 1px solid var(--notion-border);
+  background: var(--notion-card-bg);
+}
+
+/* --------------------------------------------------------------------------
+   6. Role-Based Solutions Tabs
+   -------------------------------------------------------------------------- */
+.roles-tabs-nav {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+
+.role-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  background: var(--notion-subpanel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-pill);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--notion-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.role-tab-btn:hover {
+  background: var(--notion-hover);
+  color: var(--notion-text);
+}
+
+.role-tab-btn.active {
+  background: var(--notion-text);
+  color: var(--notion-bg);
+  border-color: var(--notion-text);
+}
+
+.role-tab-pane {
+  display: none;
+  grid-template-columns: 1fr 1fr;
+  gap: 36px;
+  align-items: center;
+}
+
+.role-tab-pane.active {
+  display: grid;
+}
+
+@media (max-width: 768px) {
+  .role-tab-pane {
+    grid-template-columns: 1fr;
+  }
+}
+
+.role-content h3 {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--notion-text);
+  margin-bottom: 14px;
+}
+
+.role-content p {
+  font-size: 1.05rem;
+  color: var(--notion-text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.role-feature-bullets {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.role-feature-bullets li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--notion-text);
+}
+
+.bullet-icon {
+  color: var(--notion-blue);
+  font-weight: 700;
+}
+
+.role-mockup-card {
+  background: var(--notion-panel-bg);
+  border: 1px solid var(--notion-border-strong);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--notion-shadow-md);
+}
+
+/* --------------------------------------------------------------------------
+   7. Testimonials & Educator Quotes
+   -------------------------------------------------------------------------- */
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .quotes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.notion-quote-card {
+  background: var(--notion-panel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.quote-body {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--notion-text);
+  font-style: italic;
+}
+
+.quote-author {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.quote-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.quote-meta strong {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--notion-text);
+}
+
+.quote-meta span {
+  font-size: 0.8rem;
+  color: var(--notion-text-secondary);
+}
+
+/* --------------------------------------------------------------------------
+   8. Pricing Matrix (Notion Simple Style)
+   -------------------------------------------------------------------------- */
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 992px) {
+  .pricing-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.pricing-card {
+  background: var(--notion-panel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.pricing-card.featured {
+  border-color: var(--notion-blue);
+  box-shadow: 0 8px 24px rgba(35, 131, 226, 0.12);
+}
+
+.pricing-badge {
+  position: absolute;
+  top: -12px;
+  right: 24px;
+  background: var(--notion-blue);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.pricing-tier-name {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--notion-text);
+  margin-bottom: 6px;
+}
+
+.pricing-tier-desc {
+  font-size: 0.88rem;
+  color: var(--notion-text-secondary);
+  margin-bottom: 20px;
+  min-height: 40px;
+}
+
+.pricing-price {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--notion-text);
+  margin-bottom: 24px;
+}
+
+.pricing-price span {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--notion-text-secondary);
+}
+
+.pricing-features {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+  flex-grow: 1;
+}
+
+.pricing-features li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.9rem;
+  color: var(--notion-text);
+}
+
+.pricing-features li.disabled {
+  color: var(--notion-text-muted);
+  text-decoration: line-through;
+}
+
+/* --------------------------------------------------------------------------
+   9. Final CTA Banner
+   -------------------------------------------------------------------------- */
+.landing-final-cta {
+  max-width: 1140px;
+  margin: 64px auto;
+  padding: clamp(48px, 6vw, 72px) clamp(24px, 4vw, 48px);
+  background: var(--notion-subpanel-bg);
+  border: 1px solid var(--notion-border-strong);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.final-cta-title {
+  font-size: clamp(2rem, 4.5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--notion-text);
+  margin-bottom: 16px;
+}
+
+.final-cta-sub {
+  font-size: 1.15rem;
+  color: var(--notion-text-secondary);
+  max-width: 600px;
+  margin: 0 auto 32px;
+  line-height: 1.6;
+}
+
+/* --------------------------------------------------------------------------
+   10. Notion Style Footer
+   -------------------------------------------------------------------------- */
+.landing-footer {
+  border-top: 1px solid var(--notion-border);
+  padding: 64px clamp(20px, 4vw, 48px) 32px;
+  background: var(--notion-bg);
+  margin-top: 64px;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 40px;
+  margin-bottom: 48px;
+}
+
+@media (max-width: 860px) {
+  .footer-inner {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-inner {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-brand-col p {
+  font-size: 0.9rem;
+  color: var(--notion-text-secondary);
+  margin-top: 12px;
+  max-width: 280px;
+  line-height: 1.5;
+}
+
+.footer-col h4 {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--notion-text);
+  margin-bottom: 16px;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-links a {
+  text-decoration: none;
+  font-size: 0.88rem;
+  color: var(--notion-text-secondary);
+  transition: color 0.15s ease;
+}
+
+.footer-links a:hover {
+  color: var(--notion-text);
+}
+
+.footer-bottom {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid var(--notion-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-size: 0.82rem;
+  color: var(--notion-text-secondary);
+}
+
+/* ==========================================================================
+   Showcase View: Broadcast Channel & Circulars Hub (Modern Redesign)
+   ========================================================================== */
+.showcase-broadcast-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.broadcast-channel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--notion-subpanel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.bc-header-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.bc-channel-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--notion-text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bc-live-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #15803d;
+  background: rgba(34, 197, 94, 0.14);
+  padding: 3px 8px;
+  border-radius: 9999px;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.bc-pulse-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 8px #22c55e;
+  animation: bcPulse 2s infinite ease-in-out;
+}
+
+@keyframes bcPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.bc-filter-chips {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.bc-filter-chip {
+  background: transparent;
+  border: 1px solid var(--notion-border);
+  font-size: 0.76rem;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  color: var(--notion-text-secondary);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bc-filter-chip:hover {
+  background: var(--notion-hover);
+  color: var(--notion-text);
+}
+
+.bc-filter-chip.active {
+  background: var(--notion-text);
+  color: var(--notion-bg);
+  border-color: var(--notion-text);
+}
+
+[data-theme="dark"] .bc-filter-chip.active {
+  background: #ffffff;
+  color: #121212;
+}
+
+.broadcast-compose-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--notion-card-bg);
+  border: 1px dashed var(--notion-border-strong);
+  border-radius: var(--radius-md);
+  transition: border-color 0.15s ease;
+}
+
+.broadcast-compose-bar:hover {
+  border-color: var(--notion-blue);
+}
+
+.bc-compose-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+  color: #ffffff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bc-compose-placeholder {
+  color: var(--notion-text-muted);
+  font-size: 0.86rem;
+  flex: 1;
+}
+
+.bc-compose-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bc-compose-pill {
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: var(--radius-xs);
+  background: var(--notion-subpanel-bg);
+  color: var(--notion-text-secondary);
+  border: 1px solid var(--notion-border);
+}
+
+/* Premium Broadcast Card Styles */
+.premium-bc-card {
+  background: var(--notion-card-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.premium-bc-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+  border-color: var(--notion-border-strong);
+}
+
+.pbc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+.pbc-author-lockup {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pbc-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
+  flex-shrink: 0;
+}
+
+.avatar-emerald { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
+.avatar-indigo { background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%); }
+.avatar-amber { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
+
+.pbc-author-meta {
+  display: flex;
+  flex-direction: column;
+}
+
+.pbc-name-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--notion-text);
+}
+
+.pbc-verified {
+  color: var(--notion-blue);
+  font-size: 0.8rem;
+}
+
+.pbc-sub {
+  font-size: 0.74rem;
+  color: var(--notion-text-muted);
+}
+
+.pbc-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--notion-text);
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.pbc-body {
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--notion-text);
+  margin: 0;
+}
+
+.pbc-highlight-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  background: var(--tag-orange-bg);
+  border-left: 3px solid #f97316;
+  border-radius: var(--radius-xs);
+  font-size: 0.82rem;
+  color: var(--tag-orange-text);
+  font-weight: 500;
+}
+
+.pbc-attachment-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: var(--notion-subpanel-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-md);
+  gap: 12px;
+}
+
+.pbc-att-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pbc-pdf-badge {
+  background: #ef4444;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 4px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.pbc-att-title {
+  font-weight: 600;
+  font-size: 0.84rem;
+  color: var(--notion-text);
+}
+
+.pbc-att-meta {
+  font-size: 0.74rem;
+  color: var(--notion-text-muted);
+}
+
+.pbc-footer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid var(--notion-border-light);
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pbc-stats-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  color: var(--notion-text-secondary);
+}
+
+.pbc-reactions-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pbc-reaction-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  background: var(--notion-hover);
+  border-radius: 9999px;
+  font-size: 0.74rem;
+  font-weight: 600;
+  color: var(--notion-text-secondary);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pbc-reaction-pill:hover {
+  border-color: var(--notion-border);
+  color: var(--notion-text);
+}
+
+/* ==========================================================================
+   Showcase View: Visual Telemetry Command Center (Modern Redesign)
+   ========================================================================== */
+.showcase-telemetry-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.telemetry-ribbon-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: linear-gradient(90deg, rgba(35, 131, 226, 0.08) 0%, rgba(168, 85, 247, 0.06) 100%);
+  border: 1px solid rgba(35, 131, 226, 0.2);
+  border-radius: var(--radius-md);
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.tel-ribbon-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--notion-text);
+}
+
+.tel-ribbon-metrics {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.tel-metric-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--notion-text-secondary);
+}
+
+.tel-metric-badge strong {
+  color: var(--notion-text);
+}
+
+/* Telemetry 3-Card Grid */
+.telemetry-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 900px) {
+  .telemetry-grid-3 {
+    grid-template-columns: 1fr;
+  }
+}
+
+.tel-card {
+  background: var(--notion-card-bg);
+  border: 1px solid var(--notion-border);
+  border-radius: var(--radius-lg);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.tel-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.06);
+}
+
+.tel-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 14px;
+}
+
+.tel-title-group h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--notion-text);
+  margin: 0;
+}
+
+.tel-title-group span {
+  font-size: 0.74rem;
+  color: var(--notion-text-muted);
+}
+
+.tel-badge-green {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.tel-badge-blue {
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+.tel-badge-purple {
+  background: #f3e8ff;
+  color: #7e22ce;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 9999px;
+}
+
+[data-theme="dark"] .tel-badge-green {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+[data-theme="dark"] .tel-badge-blue {
+  background: rgba(59, 130, 246, 0.2);
+  color: #60a5fa;
+}
+
+[data-theme="dark"] .tel-badge-purple {
+  background: rgba(168, 85, 247, 0.2);
+  color: #c084fc;
+}
+
+/* Polished Vertical Attendance Bars */
+.tel-bars-row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  height: 120px;
+  padding: 8px 4px;
+  border-bottom: 1px dashed var(--notion-border);
+  margin-bottom: 10px;
+}
+
+.tel-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  justify-content: flex-end;
+  gap: 5px;
+  flex: 1;
+}
+
+.tel-bar-num {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--notion-text);
+}
+
+.tel-bar-pillar {
+  width: 22px;
+  border-radius: 6px 6px 2px 2px;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  transition: height 0.3s ease, filter 0.15s ease;
+}
+
+.tel-bar-pillar:hover {
+  filter: brightness(1.15);
+}
+
+.tel-bar-pillar.accent {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+}
+
+.tel-bar-day {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--notion-text-muted);
+}
+
+/* Financial Bars in Telemetry */
+.tel-progress-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 10px 0;
+}
+
+.tel-progress-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tel-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.76rem;
+  color: var(--notion-text-secondary);
+}
+
+.tel-progress-meta strong {
+  color: var(--notion-text);
+}
+
+.tel-track {
+  height: 8px;
+  background: var(--notion-subpanel-bg);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.tel-fill {
+  height: 100%;
+  border-radius: 9999px;
+}
+
+.tel-fill.blue { background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%); }
+.tel-fill.green { background: linear-gradient(90deg, #10b981 0%, #059669 100%); }
+.tel-fill.amber { background: linear-gradient(90deg, #f59e0b 0%, #d97706 100%); }
+
+/* Academic Mastery Cohort Card */
+.tel-breakdown-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 10px 0;
+}
+
+.tel-breakdown-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  padding: 5px 8px;
+  background: var(--notion-subpanel-bg);
+  border-radius: var(--radius-xs);
+}
+
+.tel-row-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--notion-text);
+  font-weight: 500;
+}
+
+.tel-circle {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+.tel-circle.green { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.5); }
+.tel-circle.yellow { background: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.5); }
+.tel-circle.red { background: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.5); }
+
+.tel-footer-note {
+  font-size: 0.72rem;
+  color: var(--notion-text-muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+/* ==========================================================================
+   Bento Mini Previews for Circulars & Telemetry
+   ========================================================================== */
+.bento-broadcast-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.bbm-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.bbm-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.bbm-meta {
+  flex: 1;
+}
+
+.bbm-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--notion-text);
+}
+
+.bbm-sub {
+  font-size: 0.7rem;
+  color: var(--notion-text-muted);
+}
+
+.bbm-progress-bar {
+  height: 5px;
+  background: var(--notion-subpanel-bg);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.bbm-progress-fill {
+  height: 100%;
+  background: #10b981;
+  border-radius: 9999px;
+}
+
+.bbm-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--notion-text-muted);
+}
+
+.bento-telemetry-mini {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.btm-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.btm-stat-num {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--notion-text);
+  letter-spacing: -0.02em;
+}
+
+.btm-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #15803d;
+  background: #dcfce7;
+  padding: 2px 6px;
+  border-radius: 9999px;
+}
+
+[data-theme="dark"] .btm-badge {
+  background: rgba(34, 197, 94, 0.2);
+  color: #4ade80;
+}
+
+.btm-spark-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 40px;
+}
+
+.btm-bar {
+  flex: 1;
+  background: var(--notion-blue);
+  opacity: 0.5;
+  border-radius: 3px 3px 1px 1px;
+  transition: opacity 0.2s ease;
+}
+
+.btm-bar-active {
+  opacity: 1;
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%);
+}
+
+.btm-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--notion-text-muted);
+}
+
+.live-dot-pulse {
+  color: #15803d;
+  font-weight: 700;
+}
+
+[data-theme="dark"] .live-dot-pulse {
+  color: #4ade80;
+}

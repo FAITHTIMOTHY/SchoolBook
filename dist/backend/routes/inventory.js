@@ -1,17 +1,17 @@
 import { Router } from 'express';
 import { collections, saveDB } from '../db/db.js';
-import { authMiddleware, requireUnitOrPastor } from '../middleware/auth.js';
+import { authMiddleware, requireUnitOrPrincipal } from '../middleware/auth.js';
 const router = Router();
-// 1. Get all inventory items for the active tenant
-// Accessible by any authenticated member to view what equipments are in church
+// 1. Get all inventory items for the active campus
+// Accessible by any authenticated student or staff to view school facilities and equipment
 router.get('/', authMiddleware, (req, res) => {
     const tenantId = req.tenantId;
     const inventory = collections.getInventory().filter(i => i.tenant_id === tenantId);
     return res.json(inventory);
 });
 // 2. Create new inventory item
-// Restricted to members of Technical, Sanctuary, or Music departments, and the Pastor
-router.post('/', authMiddleware, requireUnitOrPastor(['tech', 'sanctuary', 'music', 'choir', 'instrument']), (req, res) => {
+// Restricted to members of STEM/Science, Arts/Humanities, Athletics, and the Principal
+router.post('/', authMiddleware, requireUnitOrPrincipal(['science', 'stem', 'tech', 'library', 'athletic', 'art', 'lab', 'humanities', 'admin']), (req, res) => {
     const tenantId = req.tenantId;
     const { item_name, description, status, unit_id } = req.body;
     if (!item_name || !status) {
@@ -31,15 +31,15 @@ router.post('/', authMiddleware, requireUnitOrPastor(['tech', 'sanctuary', 'musi
     return res.status(201).json(newItem);
 });
 // 3. Update inventory item status or details
-// Restricted to members of Technical, Sanctuary, or Music departments, and the Pastor
-router.put('/:id', authMiddleware, requireUnitOrPastor(['tech', 'sanctuary', 'music', 'choir', 'instrument']), (req, res) => {
+// Restricted to faculty departments and the Principal
+router.put('/:id', authMiddleware, requireUnitOrPrincipal(['science', 'stem', 'tech', 'library', 'athletic', 'art', 'lab', 'humanities', 'admin']), (req, res) => {
     const tenantId = req.tenantId;
     const itemId = req.params.id;
     const { item_name, description, status, unit_id } = req.body;
     const inventory = collections.getInventory();
     const itemIdx = inventory.findIndex(i => i.id === itemId && i.tenant_id === tenantId);
     if (itemIdx === -1) {
-        return res.status(404).json({ error: 'Inventory item not found.' });
+        return res.status(404).json({ error: 'Equipment item not found.' });
     }
     const item = inventory[itemIdx];
     if (item_name !== undefined)
@@ -59,21 +59,21 @@ router.put('/:id', authMiddleware, requireUnitOrPastor(['tech', 'sanctuary', 'mu
     return res.json(item);
 });
 // 4. Delete inventory item
-// Restricted to Pastor only for safety
+// Restricted to Principal only for safety
 router.delete('/:id', authMiddleware, (req, res) => {
     const currentUser = req.user;
     const tenantId = req.tenantId;
     const itemId = req.params.id;
-    if (currentUser.role !== 'Pastor') {
-        return res.status(403).json({ error: 'Access Denied: Only the Senior Pastor can delete items from the registry.' });
+    if (currentUser.role !== 'Principal') {
+        return res.status(403).json({ error: 'Access Denied: Only the Principal / Headmaster can delete items from the registry.' });
     }
     const inventory = collections.getInventory();
     const idx = inventory.findIndex(i => i.id === itemId && i.tenant_id === tenantId);
     if (idx === -1) {
-        return res.status(404).json({ error: 'Inventory item not found.' });
+        return res.status(404).json({ error: 'Equipment item not found.' });
     }
     inventory.splice(idx, 1);
     saveDB();
-    return res.json({ success: true, message: 'Inventory item deleted successfully.' });
+    return res.json({ success: true, message: 'Campus asset deleted successfully.' });
 });
 export default router;

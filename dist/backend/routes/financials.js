@@ -2,27 +2,27 @@ import { Router } from 'express';
 import { collections, saveDB } from '../db/db.js';
 import { authMiddleware } from '../middleware/auth.js';
 const router = Router();
-// Helper helper to check if a user has access to financials (Only Senior Pastor and Finance Unit)
+// Helper to check if a user has access to financials (Only Principal and Bursar / Finance Unit)
 function checkFinanceAccess(req) {
     if (!req.user)
         return false;
-    if (req.user.role === 'Pastor')
+    if (req.user.role === 'Principal')
         return true;
     if (req.user.unit_id) {
         const units = collections.getUnits();
         const userUnit = units.find(u => u.id === req.user?.unit_id);
-        if (userUnit && userUnit.name.toLowerCase().includes('finance')) {
+        if (userUnit && (userUnit.name.toLowerCase().includes('finance') || userUnit.name.toLowerCase().includes('bursar'))) {
             return true;
         }
     }
     return false;
 }
 // 1. Get financial records
-// Specialized for Pastor and Finance Department members
+// Specialized for Principal and Bursar / Finance Office
 router.get('/', authMiddleware, (req, res) => {
     if (!checkFinanceAccess(req)) {
         return res.status(403).json({
-            error: 'Access Denied: Financial registries are strictly specialized for the Senior Pastor and Finance Committee.'
+            error: 'Access Denied: Financial registries are strictly specialized for the Principal and Bursar / Finance Office.'
         });
     }
     const tenantId = req.tenantId;
@@ -38,8 +38,8 @@ router.get('/', authMiddleware, (req, res) => {
     });
     return res.json(recordsWithNames);
 });
-// 2. Submit payment (Secure mock payment gateway for Tithes, Offerings, Donations)
-// Accessible by any user logged into the application to pay directly to the church
+// 2. Submit payment (Secure mock payment gateway for Tuition, Lab & Library Fees, PTA)
+// Accessible by students, parents, or staff logged in to pay fees directly
 router.post('/pay', authMiddleware, (req, res) => {
     const currentUser = req.user;
     const tenantId = req.tenantId;
@@ -47,8 +47,9 @@ router.post('/pay', authMiddleware, (req, res) => {
     if (!amount || isNaN(amount) || amount <= 0) {
         return res.status(400).json({ error: 'Please enter a valid amount greater than zero.' });
     }
-    if (!category || !['Offering', 'Tithes', 'Donations'].includes(category)) {
-        return res.status(400).json({ error: 'Category must be Offering, Tithes, or Donations.' });
+    const validCategories = ['Tuition', 'Lab & Library Fees', 'PTA & Extracurricular', 'Donations'];
+    if (!category || !validCategories.includes(category)) {
+        return res.status(400).json({ error: `Category must be one of: ${validCategories.join(', ')}.` });
     }
     if (!payment_method) {
         return res.status(400).json({ error: 'Payment method is required.' });
@@ -80,33 +81,35 @@ router.post('/pay', authMiddleware, (req, res) => {
     saveDB();
     return res.status(201).json({
         success: true,
-        message: `Payment of $${amount} for ${category} successfully processed via Secure Gateway.`,
+        message: `Payment of $${amount} for ${category} successfully processed via Secure School Gateway.`,
         receipt: newRecord,
     });
 });
 // 3. Projections & Statistics calculations
-// Restricted to Pastor and Finance Department
+// Restricted to Principal and Bursar / Finance Office
 router.get('/projections', authMiddleware, (req, res) => {
     if (!checkFinanceAccess(req)) {
         return res.status(403).json({
-            error: 'Access Denied: Financial projections are restricted to the Senior Pastor and Finance Committee.'
+            error: 'Access Denied: Financial projections are restricted to the Principal and Bursar / Finance Office.'
         });
     }
     const tenantId = req.tenantId;
     const financials = collections.getFinancials().filter(f => f.tenant_id === tenantId);
     // Group transactions by category
     const categories = {
-        Tithes: 0,
-        Offering: 0,
+        Tuition: 0,
+        'Lab & Library Fees': 0,
+        'PTA & Extracurricular': 0,
         Donations: 0,
         Total: 0,
     };
     financials.forEach(f => {
-        categories[f.category] += f.amount;
+        if (categories[f.category] !== undefined) {
+            categories[f.category] += f.amount;
+        }
         categories.Total += f.amount;
     });
     // Calculate trends over the past 4 weeks (weekly projections)
-    // Group financials by service weeks
     const today = new Date();
     const getWeekIndex = (dateStr) => {
         const txDate = new Date(dateStr);
@@ -118,14 +121,11 @@ router.get('/projections', authMiddleware, (req, res) => {
     financials.forEach(f => {
         const weekIdx = getWeekIndex(f.transaction_date);
         if (weekIdx >= 0 && weekIdx < 4) {
-            // Map index so week 0 is oldest and week 3 is current
             const mapIdx = 3 - weekIdx;
             weeklyTotals[mapIdx] += f.amount;
         }
     });
     // Project next week's collections using average growth rate
-    // Growth rates between weeks:
-    // Week 1 -> 2, Week 2 -> 3, Week 3 -> 4
     const growthRates = [];
     for (let i = 0; i < weeklyTotals.length - 1; i++) {
         const prev = weeklyTotals[i];

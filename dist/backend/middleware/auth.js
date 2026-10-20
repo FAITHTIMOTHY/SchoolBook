@@ -18,7 +18,7 @@ export function authMiddleware(req, res, next) {
     req.user = matchedUser;
     next();
 }
-// Restricts routes to specific roles (e.g. Pastor, HOD)
+// Restricts routes to specific roles (e.g. Principal, Dean, Teacher)
 export function requireRole(allowedRoles) {
     return (req, res, next) => {
         if (!req.user) {
@@ -32,20 +32,20 @@ export function requireRole(allowedRoles) {
         next();
     };
 }
-// Restricts route to a set of department/unit names, but permits the Senior Pastor to bypass
-export function requireUnitOrPastor(allowedUnitKeywords) {
+// Restricts route to a set of department/faculty names, but permits the Principal to bypass
+export function requireUnitOrPrincipal(allowedUnitKeywords) {
     return (req, res, next) => {
         if (!req.user) {
             return res.status(401).json({ error: 'Unauthorized.' });
         }
-        // Senior Pastor has absolute control over all areas of the application
-        if (req.user.role === 'Pastor') {
+        // Principal has absolute administrative control over all areas of the school
+        if (req.user.role === 'Principal') {
             return next();
         }
-        // Check if the user has an associated unit
+        // Check if the user has an associated unit/faculty
         if (!req.user.unit_id) {
             return res.status(403).json({
-                error: 'Access Denied: You do not belong to a department responsible for this operation.'
+                error: 'Access Denied: You do not belong to a department or faculty responsible for this operation.'
             });
         }
         // Load unit details
@@ -54,12 +54,12 @@ export function requireUnitOrPastor(allowedUnitKeywords) {
         if (!userUnit) {
             return res.status(403).json({ error: 'Access Denied: Associated department not found.' });
         }
-        // Verify if unit name contains any of the allowed keywords (e.g. "tech", "usher", "follow")
+        // Verify if unit name contains any of the allowed keywords (e.g. "science", "bursar", "admin", "athletic")
         const unitNameLower = userUnit.name.toLowerCase();
         const isAuthorized = allowedUnitKeywords.some(keyword => unitNameLower.includes(keyword.toLowerCase()));
         if (!isAuthorized) {
             return res.status(403).json({
-                error: `Access Denied: Features of unit "${userUnit.name}" do not include permissions for this task.`
+                error: `Access Denied: Members of faculty/unit "${userUnit.name}" do not have permissions for this action.`
             });
         }
         next();

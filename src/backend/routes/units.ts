@@ -4,28 +4,28 @@ import { AuthenticatedRequest, authMiddleware, requireRole } from '../middleware
 
 const router = Router();
 
-// 1. Get all units for the active tenant
+// 1. Get all departments/faculties for the active campus
 router.get('/', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
   const tenantId = req.tenantId!;
   const units = collections.getUnits().filter(u => u.tenant_id === tenantId);
   return res.json(units);
 });
 
-// 2. Create new unit (Pastor creates units, HOD can create sub-units)
-router.post('/', authMiddleware, requireRole(['Pastor', 'HOD']), (req: AuthenticatedRequest, res: Response) => {
+// 2. Create new department/class (Principal creates units, Dean can create sub-units)
+router.post('/', authMiddleware, requireRole(['Principal', 'Dean']), (req: AuthenticatedRequest, res: Response) => {
   const currentUser = req.user!;
   const tenantId = req.tenantId!;
   const { name, parent_unit_id, description } = req.body;
 
   if (!name) {
-    return res.status(400).json({ error: 'Department name is required.' });
+    return res.status(400).json({ error: 'Department / class name is required.' });
   }
 
-  // If HOD is creating a unit, verify it is a subunit under their department
-  if (currentUser.role === 'HOD') {
+  // If Dean is creating a unit, verify it is a subunit under their faculty
+  if (currentUser.role === 'Dean') {
     if (!parent_unit_id || parent_unit_id !== currentUser.unit_id) {
       return res.status(403).json({
-        error: 'Access Denied: HODs can only create sub-units nested under their own department.'
+        error: 'Access Denied: Deans can only create sub-units nested under their own faculty department.'
       });
     }
   }
@@ -34,7 +34,7 @@ router.post('/', authMiddleware, requireRole(['Pastor', 'HOD']), (req: Authentic
   const duplicate = units.some(u => u.tenant_id === tenantId && u.name.toLowerCase() === name.toLowerCase());
   
   if (duplicate) {
-    return res.status(400).json({ error: `A unit named "${name}" already exists in this church.` });
+    return res.status(400).json({ error: `A department or class named "${name}" already exists on this campus.` });
   }
 
   const newUnit: Unit = {
@@ -51,8 +51,8 @@ router.post('/', authMiddleware, requireRole(['Pastor', 'HOD']), (req: Authentic
   return res.status(201).json(newUnit);
 });
 
-// 3. Delete unit (Strictly Senior Pastor)
-router.delete('/:id', authMiddleware, requireRole(['Pastor']), (req: AuthenticatedRequest, res: Response) => {
+// 3. Delete unit (Strictly Principal)
+router.delete('/:id', authMiddleware, requireRole(['Principal']), (req: AuthenticatedRequest, res: Response) => {
   const tenantId = req.tenantId!;
   const unitId = req.params.id;
 
@@ -77,7 +77,7 @@ router.delete('/:id', authMiddleware, requireRole(['Pastor']), (req: Authenticat
   units.splice(idx, 1);
   saveDB();
 
-  return res.json({ success: true, message: 'Department unit and its cascading associations deleted.' });
+  return res.json({ success: true, message: 'Department and its cascading associations deleted.' });
 });
 
 export default router;
