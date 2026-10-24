@@ -9,7 +9,6 @@ import {
   OAUTH_STATE_TTL_SECONDS,
   OAUTH_STATE_TYPE,
   ACCESS_TOKEN_TYPE,
-  REFRESH_TOKEN_COOKIE_NAME,
 } from './auth.constants.js';
 import type {
   AuthenticatedUser,
@@ -86,7 +85,7 @@ export class AuthService {
       }
 
       user = await this.prisma.user.update({
-        where: { id: user.id },
+        where: { id: user.id, tenantId: school.id },
         data: {
           googleId: user.googleId ?? input.googleId,
           avatarUrl: user.avatarUrl ?? input.avatarUrl ?? undefined,

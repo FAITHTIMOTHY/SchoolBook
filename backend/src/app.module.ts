@@ -7,6 +7,7 @@ import { AppService } from './app.service.js';
 import { AuthModule } from './auth/auth.module.js';
 import { PrismaModule } from './prisma/prisma.module.js';
 import { SupabaseModule } from './supabase/supabase.module.js';
+import { TenantModule } from './tenant/tenant.module.js';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from './auth/guards/roles.guard.js';
 import { TenantGuard } from './auth/guards/tenant.guard.js';
@@ -26,6 +27,7 @@ import { CustomThrottlerGuard } from './common/throttler/custom-throttler.guard.
     PrismaModule,
     SupabaseModule,
     AuthModule,
+    TenantModule,
   ],
   controllers: [AppController],
   providers: [

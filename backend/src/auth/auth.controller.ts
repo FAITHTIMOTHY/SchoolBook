@@ -166,7 +166,7 @@ export class AuthController {
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @Post('request-email-verification')
   async requestEmailVerification(@CurrentUser() user: AuthenticatedUser) {
-    await this.passwordService.requestEmailVerification(user.tenantSlug, user.id);
+    await this.passwordService.requestEmailVerification(user.tenantId, user.id);
     return { success: true };
   }
 

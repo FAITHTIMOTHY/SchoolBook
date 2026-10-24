@@ -1,11 +1,11 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
+import type { UserRole } from '@prisma/client';
 import { PrismaService } from '../../prisma/prisma.service.js';
 import { randomBytes } from 'crypto';
 import * as argon2 from 'argon2';
 import {
-  REFRESH_TOKEN_COOKIE_NAME,
   REFRESH_TOKEN_TTL_SECONDS,
   REFRESH_TOKEN_TYPE,
 } from '../auth.constants.js';
@@ -24,7 +24,7 @@ export class RefreshTokensService {
     id: string;
     tenantId: string;
     email: string;
-    role: any;
+    role: UserRole;
   }): Promise<string> {
     const jti = randomBytes(32).toString('hex');
     const payload: JwtRefreshPayload = {
@@ -55,9 +55,13 @@ export class RefreshTokensService {
     return token;
   }
 
-  async rotateRefreshToken(
-    token: string,
-  ): Promise<{ userId: string; tenantId: string; email: string; role: any; newRefreshToken: string }> {
+  async rotateRefreshToken(token: string): Promise<{
+    userId: string;
+    tenantId: string;
+    email: string;
+    role: UserRole;
+    newRefreshToken: string;
+  }> {
     let payload: JwtRefreshPayload;
     try {
       payload = await this.jwtService.verifyAsync<JwtRefreshPayload>(token);
@@ -69,8 +73,12 @@ export class RefreshTokensService {
       throw new UnauthorizedException('Invalid refresh token');
     }
 
-    const stored = await this.prisma.refreshToken.findUnique({
-      where: { jti: payload.jti },
+    const stored = await this.prisma.refreshToken.findFirst({
+      where: {
+        jti: payload.jti,
+        userId: payload.sub,
+        tenantId: payload.tenantId,
+      },
     });
 
     if (!stored) {
@@ -107,8 +115,12 @@ export class RefreshTokensService {
     // Revoke current token and issue new one
     const [newRefreshToken] = await Promise.all([
       this.generateRefreshToken(user),
-      this.prisma.refreshToken.update({
-        where: { id: stored.id },
+      this.prisma.refreshToken.updateMany({
+        where: {
+          id: stored.id,
+          userId: stored.userId,
+          tenantId: stored.tenantId,
+        },
         data: { revokedAt: new Date() },
       }),
     ]);

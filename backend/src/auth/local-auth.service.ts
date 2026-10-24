@@ -120,7 +120,7 @@ export class LocalAuthService {
     }
 
     await this.prisma.user.update({
-      where: { id: user.id },
+      where: { id: user.id, tenantId: school.id },
       data: { lastLoginAt: new Date() },
     });
 

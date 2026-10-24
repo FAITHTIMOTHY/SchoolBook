@@ -45,7 +45,7 @@ export class PasswordService {
 
         if (user) {
           await this.prisma.passwordResetToken.updateMany({
-            where: { userId: user.id, usedAt: null },
+            where: { tenantId: tenant.id, userId: user.id, usedAt: null },
             data: { usedAt: new Date() },
           });
 
@@ -97,27 +97,34 @@ export class PasswordService {
         const match = await argon2.verify(t.tokenHash, token);
         if (match) {
           const passwordHash = await argon2.hash(password);
-          const user = await this.prisma.user.findUnique({
-            where: { id: t.userId },
+          const user = await this.prisma.user.findFirst({
+            where: { id: t.userId, tenantId: tenant.id },
             select: { email: true },
           });
 
           await this.prisma.$transaction([
-            this.prisma.user.update({
-              where: { id: t.userId },
+            this.prisma.user.updateMany({
+              where: { id: t.userId, tenantId: tenant.id },
               data: { passwordHash },
             }),
-            this.prisma.passwordResetToken.update({
-              where: { id: t.id },
+            this.prisma.passwordResetToken.updateMany({
+              where: { id: t.id, tenantId: tenant.id },
               data: { usedAt: new Date() },
             }),
             this.prisma.passwordResetToken.updateMany({
-              where: { userId: t.userId, usedAt: null },
+              where: {
+                tenantId: tenant.id,
+                userId: t.userId,
+                usedAt: null,
+              },
               data: { usedAt: new Date() },
             }),
           ]);
 
-          await this.refreshTokensService.revokeAllForUser(t.userId, t.tenantId);
+          await this.refreshTokensService.revokeAllForUser(
+            t.userId,
+            tenant.id,
+          );
           if (user) {
             await this.emailService.sendPasswordChangedEmail(user.email, tenantSlug);
           }
@@ -137,18 +144,30 @@ export class PasswordService {
     }
   }
 
-  async requestEmailVerification(tenantSlug: string, userId: string): Promise<void> {
-    const tenant = await this.prisma.school.findUnique({
-      where: { slug: tenantSlug.trim().toLowerCase() },
-      select: { id: true, isActive: true },
+  async requestEmailVerification(
+    tenantId: string,
+    userId: string,
+  ): Promise<void> {
+    const tenant = await this.prisma.school.findFirst({
+      where: { id: tenantId, isActive: true },
+      select: { id: true, slug: true },
     });
 
-    if (!tenant || !tenant.isActive) {
+    if (!tenant) {
+      return;
+    }
+
+    const user = await this.prisma.user.findFirst({
+      where: { id: userId, tenantId: tenant.id },
+      select: { email: true },
+    });
+
+    if (!user) {
       return;
     }
 
     await this.prisma.emailVerificationToken.updateMany({
-      where: { userId, usedAt: null },
+      where: { tenantId: tenant.id, userId, usedAt: null },
       data: { usedAt: new Date() },
     });
 
@@ -165,14 +184,11 @@ export class PasswordService {
       },
     });
 
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-      select: { email: true },
-    });
-
-    if (user) {
-      await this.emailService.sendEmailVerificationEmail(user.email, tenantSlug, token);
-    }
+    await this.emailService.sendEmailVerificationEmail(
+      user.email,
+      tenant.slug,
+      token,
+    );
   }
 
   async verifyEmail(tenantSlug: string, token: string): Promise<void> {
@@ -194,16 +210,20 @@ export class PasswordService {
       const match = await argon2.verify(t.tokenHash, token);
       if (match) {
         await this.prisma.$transaction([
-          this.prisma.user.update({
-            where: { id: t.userId },
+          this.prisma.user.updateMany({
+            where: { id: t.userId, tenantId: tenant.id },
             data: { emailVerifiedAt: new Date() },
           }),
-          this.prisma.emailVerificationToken.update({
-            where: { id: t.id },
+          this.prisma.emailVerificationToken.updateMany({
+            where: { id: t.id, tenantId: tenant.id },
             data: { usedAt: new Date() },
           }),
           this.prisma.emailVerificationToken.updateMany({
-            where: { userId: t.userId, usedAt: null },
+            where: {
+              tenantId: tenant.id,
+              userId: t.userId,
+              usedAt: null,
+            },
             data: { usedAt: new Date() },
           }),
         ]);
