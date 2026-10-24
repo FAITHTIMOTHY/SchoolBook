@@ -1,6 +1,7 @@
 /* ==========================================================================
-   SchoolBook SMS - Notion.com Design System
+   SchoolBook SMS - Notion.com Design System + Apple Liquid Glass (iOS 26/27)
    Iconic, ultra-clean, minimal workspace aesthetics with light & dark theme
+   Glass is ONLY applied to floating/interactive UI layers.
    ========================================================================== */
 
 /* --------------------------------------------------------------------------
@@ -10,14 +11,14 @@
 [data-theme="light"] {
   /* Notion Light Canvas & Palette */
   --notion-bg: #ffffff;
-  --notion-sidebar-bg: #f7f6f3;
-  --notion-hover: rgba(55, 53, 47, 0.06);
-  --notion-active: rgba(55, 53, 47, 0.08);
-  --notion-row-hover: rgba(55, 53, 47, 0.035);
+  --notion-sidebar-bg: #fbfbfa;
+  --notion-hover: rgba(55, 53, 47, 0.03);
+  --notion-active: rgba(55, 53, 47, 0.06);
+  --notion-row-hover: rgba(55, 53, 47, 0.01);
 
-  --notion-border: rgba(55, 53, 47, 0.09);
-  --notion-border-strong: rgba(55, 53, 47, 0.16);
-  --notion-border-light: rgba(55, 53, 47, 0.06);
+  --notion-border: rgba(55, 53, 47, 0.08);
+  --notion-border-strong: rgba(55, 53, 47, 0.14);
+  --notion-border-light: rgba(55, 53, 47, 0.04);
 
   --notion-text: #37352f;
   --notion-text-secondary: #787774;
@@ -28,7 +29,6 @@
   --notion-blue-hover: #1d74c6;
   --notion-blue-subtle: #d3e5ef;
   --notion-blue-text: #183347;
-
 
   /* Notion Tag Pills (Pastel Tints) */
   --tag-gray-bg: #e3e2e0;
@@ -66,6 +66,20 @@
   --radius-lg: 8px;
   --radius-pill: 99px;
 
+  /* Liquid Glass (Apple iOS 26/27) - ONLY for floating/interactive layers */
+  --glass-blur: 20px;
+  --glass-saturate: 180%;
+  --glass-radius-sm: 16px;
+  --glass-radius-md: 20px;
+  --glass-radius-lg: 28px;
+  --glass-pill: 999px;
+  --glass-bg: rgba(255, 255, 255, 0.72);
+  --glass-bg-strong: rgba(255, 255, 255, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.45);
+  --glass-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.55);
+  --glass-shadow: 0 8px 30px rgba(15, 15, 15, 0.08), 0 1px 2px rgba(15, 15, 15, 0.04);
+  --glass-interaction: 200ms cubic-bezier(0.25, 0.8, 0.25, 1);
+
   /* Backward-compatible legacy aliases for TS controllers */
   --bg-deep: var(--notion-bg);
   --bg-panel: var(--notion-panel-bg);
@@ -77,16 +91,16 @@
 }
 
 [data-theme="dark"] {
-  /* Notion Dark Canvas & Palette */
+  /* Notion Dark Canvas & Palette (warm near-black) */
   --notion-bg: #191919;
-  --notion-sidebar-bg: #202020;
+  --notion-sidebar-bg: #1c1c1c;
   --notion-hover: rgba(255, 255, 255, 0.055);
-  --notion-active: rgba(255, 255, 255, 0.08);
-  --notion-row-hover: rgba(255, 255, 255, 0.035);
+  --notion-active: rgba(255, 255, 255, 0.09);
+  --notion-row-hover: rgba(255, 255, 255, 0.03);
 
-  --notion-border: rgba(255, 255, 255, 0.094);
+  --notion-border: rgba(255, 255, 255, 0.08);
   --notion-border-strong: rgba(255, 255, 255, 0.16);
-  --notion-border-light: rgba(255, 255, 255, 0.05);
+  --notion-border-light: rgba(255, 255, 255, 0.04);
 
   --notion-text: #ffffff;
   --notion-text-secondary: #9b9a97;
@@ -96,7 +110,6 @@
   --notion-blue-hover: #1d74c6;
   --notion-blue-subtle: #1e303f;
   --notion-blue-text: #96c8eb;
-
 
   /* Notion Tag Pills (Dark Tints) */
   --tag-gray-bg: #2c2c2c;
@@ -122,6 +135,13 @@
   --notion-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
   --notion-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
   --notion-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.5);
+
+  /* Liquid Glass (Dark) */
+  --glass-bg: rgba(28, 28, 28, 0.72);
+  --glass-bg-strong: rgba(32, 32, 32, 0.82);
+  --glass-border: rgba(255, 255, 255, 0.14);
+  --glass-inner-highlight: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 10px 40px rgba(0, 0, 0, 0.45), 0 1px 2px rgba(0, 0, 0, 0.4);
 
   --bg-deep: var(--notion-bg);
   --bg-panel: var(--notion-panel-bg);
@@ -152,7 +172,40 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Kill the 300ms tap delay across the workspace */
+a,
+button,
+input,
+select,
+textarea,
+summary,
+label,
+[role="button"] {
+  touch-action: manipulation;
+}
+
+/* --------------------------------------------------------------------------
+   2b. Shared Icon Utility
+   Pairs with the /icons.svg sprite. Paths inside the sprite carry no fill or
+   stroke of their own, so they inherit colour and weight from this element.
+   -------------------------------------------------------------------------- */
+.sb-icon {
+  width: 1em;
+  height: 1em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 
 /* Clean Custom Scrollbar */
@@ -175,7 +228,7 @@ body {
 }
 
 /* --------------------------------------------------------------------------
-   3. Notion Top Bar (Global Workspace & Breadcrumb Header)
+   3. Notion Top Bar (Global Workspace & Breadcrumb Header) - Liquid Glass (floating layer)
    -------------------------------------------------------------------------- */
 .notion-topbar {
   display: flex;
@@ -183,11 +236,15 @@ body {
   align-items: center;
   height: 48px;
   padding: 0 16px;
-  background: var(--notion-bg);
-  border-bottom: 1px solid var(--notion-border);
   position: sticky;
   top: 0;
   z-index: 100;
+  background: var(--glass-bg);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight), var(--glass-shadow);
+  border-radius: 0;
 }
 
 .notion-topbar-left {
@@ -266,16 +323,23 @@ body {
   display: flex;
   align-items: center;
   gap: 4px;
-  background: var(--notion-hover);
-  border: 1px solid var(--notion-border);
-  border-radius: var(--radius-sm);
-  padding: 2px 8px;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  background: var(--glass-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight);
+  border-radius: var(--glass-pill);
+  padding: 2px 10px;
+  transition: transform var(--glass-interaction), background var(--glass-interaction), border-color var(--glass-interaction);
 }
 
 .notion-select-group:hover {
-  background: var(--notion-active);
-  border-color: var(--notion-border-strong);
+  background: var(--glass-bg-strong);
+  transform: scale(1.01);
+}
+
+.notion-select-group:active {
+  transform: scale(0.99);
 }
 
 .notion-control-icon {
@@ -296,22 +360,28 @@ body {
 
 .notion-icon-btn {
   background: transparent;
-  border: 1px solid var(--notion-border);
-  border-radius: var(--radius-sm);
-  width: 30px;
-  height: 30px;
+  border: 1px solid transparent;
+  border-radius: var(--glass-pill);
+  width: 34px;
+  height: 34px;
+  flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
   font-size: 14px;
   color: var(--notion-text-secondary);
-  transition: background 0.15s ease;
+  transition: transform var(--glass-interaction), background var(--glass-interaction), color var(--glass-interaction), box-shadow var(--glass-interaction);
 }
 
 .notion-icon-btn:hover {
   background: var(--notion-hover);
   color: var(--notion-text);
+  transform: scale(1.02);
+}
+
+.notion-icon-btn:active {
+  transform: scale(0.98);
 }
 
 /* --------------------------------------------------------------------------
@@ -320,6 +390,7 @@ body {
 .app-layout {
   display: flex;
   min-height: calc(100vh - 48px);
+  min-height: calc(100dvh - 48px);
   width: 100%;
 }
 
@@ -387,24 +458,33 @@ body {
   color: var(--notion-text-muted);
 }
 
-/* Quick Search Pill */
+/* Quick Search Pill - command palette trigger (floating, glass) */
 .notion-search-pill {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 10px;
-  background: var(--notion-hover);
-  border-radius: var(--radius-sm);
+  padding: 7px 11px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 4px)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight);
+  border-radius: var(--glass-pill);
   color: var(--notion-text-secondary);
   font-size: 13px;
   cursor: pointer;
   margin-bottom: 14px;
-  transition: background 0.15s ease;
+  transition: transform var(--glass-interaction), background var(--glass-interaction), color var(--glass-interaction);
 }
 
 .notion-search-pill:hover {
-  background: var(--notion-active);
+  background: var(--glass-bg-strong);
   color: var(--notion-text);
+  transform: scale(1.015);
+}
+
+.notion-search-pill:active {
+  transform: scale(0.99);
 }
 
 .search-icon {
@@ -448,7 +528,7 @@ body {
   align-items: center;
   gap: 10px;
   width: 100%;
-  padding: 6px 10px;
+  padding: 8px 10px;
   background: transparent;
   border: none;
   border-radius: var(--radius-sm);
@@ -475,6 +555,20 @@ body {
 .nav-emoji {
   font-size: 15px;
   line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--notion-text-muted);
+  transition: color 0.12s ease;
+}
+
+.nav-btn:hover .nav-emoji,
+.nav-btn.active .nav-emoji {
+  color: var(--notion-text-secondary);
+}
+
+.nav-btn.active .nav-emoji {
+  color: var(--notion-blue);
 }
 
 .nav-text {
@@ -594,7 +688,7 @@ body {
 /* Page Covers */
 .notion-page-cover {
   height: 120px;
-  margin: 0 -48px 24px -48px;
+  margin: 0 calc(-1 * max(48px, env(safe-area-inset-right, 0px))) 24px calc(-1 * max(48px, env(safe-area-inset-left, 0px)));
   position: relative;
   border-bottom: 1px solid var(--notion-border-light);
 }
@@ -833,6 +927,19 @@ body {
   width: 100%;
 }
 
+.table-container {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+}
+
+.table-container > .notion-table {
+  min-width: 520px;
+}
+
 .notion-table {
   width: 100%;
   border-collapse: collapse;
@@ -955,6 +1062,7 @@ body {
   border-radius: var(--radius-md);
   padding: 14px 16px;
   display: flex;
+  min-width: 0;
   align-items: center;
   gap: 14px;
   transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
@@ -1019,12 +1127,15 @@ body {
 .btn-primary {
   background: var(--notion-blue);
   color: #ffffff;
-  border-color: var(--notion-blue);
+  border-color: transparent;
+  border-radius: var(--glass-pill);
+  transition: transform var(--glass-interaction), background var(--glass-interaction), box-shadow var(--glass-interaction);
 }
 
 .notion-btn-primary:hover,
 .btn-primary:hover {
   background: var(--notion-blue-hover);
+  transform: scale(1.02);
 }
 
 .notion-btn-primary:active,
@@ -1039,14 +1150,25 @@ body {
 
 .notion-btn-secondary,
 .btn-secondary {
-  background: var(--notion-bg);
-  border: 1px solid var(--notion-border-strong);
+  background: var(--glass-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) - 6px)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 6px)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight);
   color: var(--notion-text);
+  border-radius: var(--glass-pill);
+  transition: transform var(--glass-interaction), background var(--glass-interaction);
 }
 
 .notion-btn-secondary:hover,
 .btn-secondary:hover {
-  background: var(--notion-hover);
+  background: var(--glass-bg-strong);
+  transform: scale(1.02);
+}
+
+.notion-btn-secondary:active,
+.btn-secondary:active {
+  transform: scale(0.98);
 }
 
 .btn-danger {
@@ -1330,12 +1452,13 @@ select option {
 .notion-modal-backdrop,
 .modal-backdrop {
   position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(15, 15, 15, 0.4);
-  backdrop-filter: blur(2px);
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  background: rgba(15, 15, 15, 0.32);
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
   display: none;
   align-items: center;
   justify-content: center;
@@ -1349,12 +1472,14 @@ select option {
 
 .notion-modal-card,
 .modal-card {
-  background: var(--notion-bg);
-  border: 1px solid var(--notion-border);
-  border-radius: var(--radius-lg);
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight), var(--glass-shadow);
+  border-radius: var(--glass-radius-lg);
   max-width: 520px;
   width: 100%;
-  box-shadow: var(--notion-shadow-lg);
   animation: modalPeek 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   overflow: hidden;
 }
@@ -1377,8 +1502,8 @@ select option {
   justify-content: space-between;
   align-items: center;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--notion-border);
-  background: var(--notion-subpanel-bg);
+  border-bottom: 1px solid var(--glass-border);
+  background: transparent;
 }
 
 .notion-modal-title-group {
@@ -1398,26 +1523,35 @@ select option {
 }
 
 .btn-close-modal {
-  background: transparent;
-  border: none;
+  background: var(--glass-bg);
+  backdrop-filter: blur(calc(var(--glass-blur) - 6px));
+  -webkit-backdrop-filter: blur(calc(var(--glass-blur) - 6px));
+  border: 1px solid var(--glass-border);
   color: var(--notion-text-muted);
   font-size: 14px;
   cursor: pointer;
-  padding: 2px 6px;
-  border-radius: var(--radius-xs);
-  transition: background 0.12s ease;
+  padding: 4px 8px;
+  border-radius: var(--glass-pill);
+  transition: transform var(--glass-interaction), background var(--glass-interaction), color var(--glass-interaction);
 }
 
 .btn-close-modal:hover {
-  background: var(--notion-hover);
+  background: var(--glass-bg-strong);
   color: var(--notion-text);
+  transform: scale(1.02);
+}
+
+.btn-close-modal:active {
+  transform: scale(0.98);
 }
 
 .notion-modal-body,
 .modal-body {
   padding: 20px;
   max-height: 75vh;
+  max-height: 75dvh;
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .notion-modal-footer,
@@ -1545,7 +1679,7 @@ select option {
 
 @media (max-width: 992px) {
   .notion-topbar {
-    position: relative;
+    position: sticky;
     height: auto;
     padding: 8px 12px;
     flex-wrap: wrap;
@@ -1591,14 +1725,17 @@ select option {
     cursor: pointer;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    width: 20px;
-    height: 14px;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 40px;
+    height: 40px;
     padding: 0;
+    flex: none;
   }
 
   .hamburger-line {
-    width: 100%;
+    width: 20px;
     height: 2px;
     background-color: var(--notion-text);
     border-radius: 1px;
@@ -1633,7 +1770,7 @@ select option {
   }
 
   .notion-page-cover {
-    margin: 0 -16px 16px -16px;
+    margin: 0 calc(-1 * max(16px, env(safe-area-inset-right, 0px))) 16px calc(-1 * max(16px, env(safe-area-inset-left, 0px)));
     height: 90px;
   }
 
@@ -1697,7 +1834,8 @@ select option {
    ========================================================================== */
 
 .notion-topbar {
-  border-bottom: 1px solid var(--notion-border);
+  border-bottom: 1px solid var(--glass-border);
+  box-shadow: var(--glass-inner-highlight), var(--glass-shadow);
 }
 
 .notion-plan-badge {
@@ -2157,4 +2295,193 @@ select option {
 .bc-recipients-pill {
   font-size: 0.75rem;
   color: var(--notion-text-secondary);
+}
+/* --------------------------------------------------------------------------
+   Reduced transparency / accessibility fallbacks
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-transparency: reduce) {
+  .notion-topbar,
+  .notion-select-group,
+  .notion-icon-btn,
+  .notion-btn-primary,
+  .notion-btn-secondary,
+  .btn-primary,
+  .btn-secondary,
+  .notion-search-pill,
+  .modal-backdrop,
+  .notion-modal-backdrop,
+  .notion-modal-card,
+  .modal-card,
+  .btn-close-modal {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: var(--notion-bg) !important;
+    box-shadow: none !important;
+  }
+
+  [data-theme="dark"] .notion-topbar,
+  [data-theme="dark"] .notion-select-group,
+  [data-theme="dark"] .notion-search-pill,
+  [data-theme="dark"] .notion-modal-card,
+  [data-theme="dark"] .modal-card {
+    background: var(--notion-bg) !important;
+  }
+}
+
+/* ==========================================================================
+   VIEWPORT FIT & TOUCH
+   Keeps the workspace inside the visible area on every device: safe-area
+   insets for notched screens, no iOS zoom-on-focus, roomy tap targets.
+   ========================================================================== */
+
+/* Safe-area insets (notches, rounded corners, home indicator) */
+.notion-topbar {
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+
+.notion-sidebar {
+  padding-left: max(10px, env(safe-area-inset-left, 0px));
+  padding-right: max(10px, env(safe-area-inset-right, 0px));
+}
+
+.tab-pane {
+  padding-left: max(48px, env(safe-area-inset-left, 0px));
+  padding-right: max(48px, env(safe-area-inset-right, 0px));
+  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+}
+
+/* iOS zooms the whole page when a focused field renders under 16px */
+@media (max-width: 992px) {
+
+  .notion-topbar {
+    padding-left: max(12px, env(safe-area-inset-left, 0px));
+    padding-right: max(12px, env(safe-area-inset-right, 0px));
+  }
+
+  .tab-pane {
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-bottom: calc(40px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .notion-input,
+  .notion-select,
+  .notion-textarea,
+  .notion-select-group select,
+  select:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+  textarea {
+    font-size: 16px;
+  }
+}
+
+/* Comfortable hit areas on touch hardware */
+@media (pointer: coarse) {
+
+  .notion-icon-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .btn:not(.btn-sm) {
+    min-height: 40px;
+  }
+
+  .nav-btn {
+    min-height: 44px;
+  }
+
+  .notion-select-group select {
+    min-height: 38px;
+  }
+}
+/* The "Public Site" link carries a text label, so it must not inherit the
+   fixed square width that the icon-only buttons use. */
+a.notion-icon-btn {
+  width: auto;
+}
+
+/* The top bar must never push the page sideways. The controls shrink and
+   truncate their labels instead of overflowing the viewport. */
+/* The brand and the workspace controls keep their full size; the breadcrumb
+   trail is the only thing allowed to be truncated. */
+.notion-topbar-left {
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.notion-brand {
+  flex: none;
+}
+
+.notion-breadcrumbs {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.notion-topbar-right {
+  min-width: 0;
+  flex: 0 0 auto;
+}
+
+/* Deterministic switcher widths: they never size themselves from the option
+   text, so a long label can never stretch or squeeze the top bar. */
+.notion-select-group {
+  flex: 0 0 auto;
+  min-width: 0;
+}
+
+.notion-select-group select {
+  flex: 0 0 auto;
+  width: 150px;
+  min-width: 0;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 641px) {
+  .notion-select-group select {
+    width: 190px;
+  }
+}
+
+@media (min-width: 1200px) {
+  #tenant-selector {
+    width: 210px;
+  }
+
+  #profile-selector {
+    width: 320px;
+  }
+}
+
+@media (max-width: 640px) {
+  .notion-select-group {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .notion-select-group select {
+    flex: 1 1 auto;
+    width: auto;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .notion-select-group {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  a.notion-icon-btn .notion-public-label {
+    display: none;
+  }
+
+  a.notion-icon-btn {
+    padding: 0 9px;
+  }
 }

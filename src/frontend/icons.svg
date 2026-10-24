@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none">
+  <!--
+    Shared icon sprite for SchoolBook.
+    Referenced externally:  <svg class="sb-icon"><use href="/icons.svg#i-overview"/></svg>
+    Paths carry no fill/stroke of their own so they inherit colour, weight and
+    line caps from the referencing <svg> element.
+  -->
+  <symbol id="i-overview" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="7.5" height="7.5" rx="2" />
+    <rect x="13.5" y="3" width="7.5" height="7.5" rx="2" />
+    <rect x="3" y="13.5" width="7.5" height="7.5" rx="2" />
+    <rect x="13.5" y="13.5" width="7.5" height="7.5" rx="2" />
+  </symbol>
+
+  <symbol id="i-portal" viewBox="0 0 24 24">
+    <path d="M12 4 2.5 8.5 12 13l9.5-4.5L12 4Z" />
+    <path d="M6.5 10.8V16c0 1.6 2.5 3 5.5 3s5.5-1.4 5.5-3v-5.2" />
+    <path d="M21.5 8.5V14" />
+  </symbol>
+
+  <symbol id="i-users" viewBox="0 0 24 24">
+    <circle cx="9.5" cy="8" r="3.2" />
+    <path d="M3.5 20c0-3.3 2.9-5.6 6-5.6s6 2.3 6 5.6" />
+    <path d="M16.5 5.2a3.2 3.2 0 0 1 0 5.9" />
+    <path d="M18.5 14.8c1.3.7 2 2 2 4.2" />
+  </symbol>
+
+  <symbol id="i-attendance" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="3.5" />
+    <path d="m8 12.3 2.6 2.6L16 9.4" />
+  </symbol>
+
+  <symbol id="i-assets" viewBox="0 0 24 24">
+    <path d="M20.5 7.6 12 3.2 3.5 7.6v8.8L12 20.8l8.5-4.4V7.6Z" />
+    <path d="M3.5 7.6 12 12l8.5-4.4" />
+    <path d="M12 12v8.8" />
+  </symbol>
+
+  <symbol id="i-fees" viewBox="0 0 24 24">
+    <rect x="2.5" y="5" width="19" height="14" rx="3" />
+    <path d="M2.5 9.7h19" />
+    <path d="M6.5 15.2h3.5" />
+  </symbol>
+
+  <symbol id="i-broadcast" viewBox="0 0 24 24">
+    <path d="M4 10.4v3.2A1.6 1.6 0 0 0 5.6 15H8l8 4.5V4.5L8 9H5.6A1.6 1.6 0 0 0 4 10.4Z" />
+    <path d="M19 8.8a4.6 4.6 0 0 1 0 6.4" />
+  </symbol>
+
+  <symbol id="i-shield" viewBox="0 0 24 24">
+    <path d="M12 3 4.6 6v5.6c0 4.3 3 8.2 7.4 9.4 4.4-1.2 7.4-5.1 7.4-9.4V6L12 3Z" />
+    <path d="m9.2 11.8 2 2 3.8-3.9" />
+  </symbol>
+
+  <symbol id="i-campus" viewBox="0 0 24 24">
+    <path d="M3.5 21V7L12 3l8.5 4v14" />
+    <path d="M9.5 21v-5h5v5" />
+    <path d="M9 10.2h.01M15 10.2h.01" />
+  </symbol>
+
+  <symbol id="i-mail" viewBox="0 0 24 24">
+    <rect x="2.5" y="5" width="19" height="14" rx="3" />
+    <path d="m3.6 7.6 8.4 5.9 8.4-5.9" />
+  </symbol>
+
+  <symbol id="i-file" viewBox="0 0 24 24">
+    <path d="M14 3H7.5A2.5 2.5 0 0 0 5 5.5v13A2.5 2.5 0 0 0 7.5 21h9a2.5 2.5 0 0 0 2.5-2.5V8L14 3Z" />
+    <path d="M13.8 3.2V8.2h4.7" />
+    <path d="M8.8 13h6.4M8.8 16.8h4.2" />
+  </symbol>
+
+  <symbol id="i-check" viewBox="0 0 24 24">
+    <path d="m5 12.4 4.6 4.6L19 7" />
+  </symbol>
+
+  <symbol id="i-arrow" viewBox="0 0 24 24">
+    <path d="M4 12h15" />
+    <path d="m13 6 6 6-6 6" />
+  </symbol>
+
+  <symbol id="i-chevron" viewBox="0 0 24 24">
+    <path d="m6 9.5 6 6 6-6" />
+  </symbol>
+
+  <symbol id="i-clock" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" />
+    <path d="M12 6.8v5.4l3.2 2" />
+  </symbol>
+
+  <symbol id="i-lock" viewBox="0 0 24 24">
+    <rect x="4.5" y="10" width="15" height="10.5" rx="3" />
+    <path d="M8.2 10V7.4a3.8 3.8 0 0 1 7.6 0V10" />
+  </symbol>
+
+  <symbol id="i-globe" viewBox="0 0 24 24">
+    <circle cx="12" cy="12" r="8.6" />
+    <path d="M3.4 12h17.2" />
+    <path d="M12 3.4c2.2 2.4 3.4 5.4 3.4 8.6S14.2 18.2 12 20.6c-2.2-2.4-3.4-5.4-3.4-8.6S9.8 5.8 12 3.4Z" />
+  </symbol>
+
+  <symbol id="i-x" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="5" />
+    <path d="M7.8 7.8l8.4 8.4M16.2 7.8l-8.4 8.4" />
+  </symbol>
+
+  <symbol id="i-play" viewBox="0 0 24 24">
+    <rect x="2.5" y="5" width="19" height="14" rx="4.5" />
+    <path d="m10.2 9.4 5 2.6-5 2.6V9.4Z" />
+  </symbol>
+
+  <symbol id="i-in" viewBox="0 0 24 24">
+    <rect x="3" y="3" width="18" height="18" rx="4" />
+    <path d="M8 11v6M8 7.8v.01M12 17v-3.4a2 2 0 0 1 4 0V17" />
+  </symbol>
+</svg>

@@ -87,8 +87,8 @@ function updateMemberStatuses() {
         memberAttendanceMap[record.member_id].push(record);
     }
     for (const member of db.members) {
-        // Principals and Deans/Department heads bypass the automatic inactive tagging
-        if (member.role === 'Principal' || member.role === 'Dean') {
+        // Principals bypass the automatic inactive tagging
+        if (member.role === 'Principal') {
             member.status = 'Active';
             continue;
         }
@@ -156,7 +156,7 @@ export function seedDB() {
             specialization: 'Institutional Governance & Accreditation'
         },
         {
-            id: 'm_oak_dean_stem',
+            id: 'm_oak_stem_teacher',
             tenant_id: 'tenant_oakridge',
             name: 'Prof. Marcus Brody',
             email: 'marcus.brody@oakridge.edu',
@@ -165,8 +165,8 @@ export function seedDB() {
             profile_picture_url: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop',
             dob_month: 3,
             dob_day: 14,
-            role: 'Dean',
-            position: 'Dean of Science & STEM',
+            role: 'Teacher',
+            position: 'Senior STEM Instructor',
             unit_id: 'unit_oak_sciences',
             status: 'Active',
             joined_date: '2020-05-20T10:30:00Z',
@@ -185,7 +185,7 @@ export function seedDB() {
             profile_picture_url: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=150&h=150&fit=crop',
             dob_month: 6,
             dob_day: 11,
-            role: 'Dean',
+            role: 'Teacher',
             position: 'Bursar & Chief Financial Comptroller',
             unit_id: 'unit_oak_bursar',
             status: 'Active',
@@ -416,7 +416,7 @@ export function seedDB() {
         { id: 'att_o_emily_2', tenant_id: 'tenant_oakridge', member_id: 'm_oak_student4', service_date: getPastDateStr(7), service_name: 'Morning Roll Call', status: 'Present', recorded_by: 'm_oak_teacher', recorded_at: new Date().toISOString() },
         // Faculty & Staff attending preparatory / staff meeting
         { id: 'att_o_10', tenant_id: 'tenant_oakridge', member_id: 'm_oak_teacher', service_date: getPastDateStr(7), service_name: 'Faculty Staff Meeting', status: 'Present', recorded_by: 'm_oak_principal', recorded_at: new Date().toISOString() },
-        { id: 'att_o_11', tenant_id: 'tenant_oakridge', member_id: 'm_oak_dean_stem', service_date: getPastDateStr(7), service_name: 'Faculty Staff Meeting', status: 'Present', recorded_by: 'm_oak_principal', recorded_at: new Date().toISOString() },
+        { id: 'att_o_11', tenant_id: 'tenant_oakridge', member_id: 'm_oak_stem_teacher', service_date: getPastDateStr(7), service_name: 'Faculty Staff Meeting', status: 'Present', recorded_by: 'm_oak_principal', recorded_at: new Date().toISOString() },
         { id: 'att_o_12', tenant_id: 'tenant_oakridge', member_id: 'm_oak_counselor', service_date: getPastDateStr(7), service_name: 'Faculty Staff Meeting', status: 'Present', recorded_by: 'm_oak_principal', recorded_at: new Date().toISOString() },
     ];
     const inventory = [
@@ -457,7 +457,7 @@ export function seedDB() {
                 { id: 'g_3', subject: 'World Literature & Rhetoric', score: 85, teacher: 'Mr. Aaron Wright', term: 'Fall 2026', comments: 'Insightful essay contributions during seminar debates.' },
                 { id: 'g_4', subject: 'Robotics & STEM Design', score: 86, teacher: 'Prof. Marcus Brody', term: 'Fall 2026', comments: 'Outstanding sensor integration on autonomous rover prototype.' }
             ],
-            teacher_remarks: 'Sophia continues to perform at the highest academic standard. Her leadership in classroom discussions and laboratory group experiments sets a benchmark for the cohort. Recommended for the Dean’s Honors List.',
+            teacher_remarks: 'Sophia continues to perform at the highest academic standard. Her leadership in classroom discussions and laboratory group experiments sets a benchmark for the cohort. Recommended for the Honors List.',
             guardian_name: 'Mrs. Wei Chen',
             guardian_email: 'wei.chen@family.com',
             guardian_phone: '+1 234-555-0199',
@@ -541,9 +541,9 @@ export function seedDB() {
         {
             id: 'bc_2',
             tenant_id: 'tenant_oakridge',
-            sender_id: 'm_oak_dean_stem',
+            sender_id: 'm_oak_stem_teacher',
             sender_name: 'Prof. Marcus Brody',
-            sender_role: 'Dean',
+            sender_role: 'Teacher',
             target: 'all',
             unit_id: null,
             category: 'test',

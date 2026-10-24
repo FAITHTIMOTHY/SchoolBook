@@ -113,15 +113,15 @@ router.post('/close-service', authMiddleware, requireRole(['Teacher', 'Principal
     });
 });
 // 4. Get attendance performance statistics
-// Restricted to Principals, Deans, and Guidance Counselors
-router.get('/stats', authMiddleware, requireRole(['Principal', 'Dean', 'Counselor']), (req, res) => {
+// Restricted to Principals and Guidance Counselors
+router.get('/stats', authMiddleware, requireRole(['Principal', 'Counselor']), (req, res) => {
     const tenantId = req.tenantId;
     const { type } = req.query; // 'all' or 'workers' / 'faculty'
     const members = collections.getMembers().filter(m => {
         if (m.tenant_id !== tenantId)
             return false;
         if (type === 'workers' || type === 'faculty') {
-            return m.role !== 'Student'; // Faculty / Staff are Principal, Dean, Teacher, Counselor
+            return m.role !== 'Student'; // Faculty / Staff are Principal, Teacher, Counselor
         }
         return true;
     });

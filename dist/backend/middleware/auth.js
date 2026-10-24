@@ -18,7 +18,7 @@ export function authMiddleware(req, res, next) {
     req.user = matchedUser;
     next();
 }
-// Restricts routes to specific roles (e.g. Principal, Dean, Teacher)
+// Restricts routes to specific roles (e.g. Principal, Teacher)
 export function requireRole(allowedRoles) {
     return (req, res, next) => {
         if (!req.user) {

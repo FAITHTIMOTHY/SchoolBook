@@ -45,7 +45,7 @@ export async function loadMembersData(): Promise<void> {
             <strong>${m.academic_score || 0}%</strong>
           </div>
         `;
-      } else if (m.role === 'Principal' || m.role === 'Dean') {
+      } else if (m.role === 'Principal') {
         perfDisplay = `<span class="notion-tag tag-purple">Core Admin</span>`;
       } else {
         perfDisplay = `<span class="notion-tag tag-blue">Academic Staff</span>`;
@@ -128,7 +128,7 @@ export async function viewMemberDetail(id: string): Promise<void> {
 
     // Role-Specific Profile Sections for Core Admin, Academic Staff, and Students
     if (detCustomSection) {
-      if (member.role === 'Principal' || member.role === 'Dean') {
+      if (member.role === 'Principal') {
         // Core Admin Profile
         detCustomSection.innerHTML = `
           <div class="notion-callout mt-2">

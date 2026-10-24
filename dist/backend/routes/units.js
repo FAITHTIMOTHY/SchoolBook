@@ -8,21 +8,12 @@ router.get('/', authMiddleware, (req, res) => {
     const units = collections.getUnits().filter(u => u.tenant_id === tenantId);
     return res.json(units);
 });
-// 2. Create new department/class (Principal creates units, Dean can create sub-units)
-router.post('/', authMiddleware, requireRole(['Principal', 'Dean']), (req, res) => {
-    const currentUser = req.user;
+// 2. Create new department/class (Strictly Principal)
+router.post('/', authMiddleware, requireRole(['Principal']), (req, res) => {
     const tenantId = req.tenantId;
     const { name, parent_unit_id, description } = req.body;
     if (!name) {
         return res.status(400).json({ error: 'Department / class name is required.' });
-    }
-    // If Dean is creating a unit, verify it is a subunit under their faculty
-    if (currentUser.role === 'Dean') {
-        if (!parent_unit_id || parent_unit_id !== currentUser.unit_id) {
-            return res.status(403).json({
-                error: 'Access Denied: Deans can only create sub-units nested under their own faculty department.'
-            });
-        }
     }
     const units = collections.getUnits();
     const duplicate = units.some(u => u.tenant_id === tenantId && u.name.toLowerCase() === name.toLowerCase());

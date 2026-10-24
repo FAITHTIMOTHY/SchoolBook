@@ -21,7 +21,7 @@ router.get('/', authMiddleware, (req, res) => {
 // 2. Dispatch broadcast circular, reminder, or curriculum upload
 // STRICT REQUIREMENT: "Broadcast channel for teachers to set reminders on assignment, test and impromptu informations, bulk mailing possible."
 // "Uploading of sylabus and curicullum to broadcast channel"
-router.post('/send', authMiddleware, requireRole(['Principal', 'Dean', 'Counselor', 'Teacher']), (req, res) => {
+router.post('/send', authMiddleware, requireRole(['Principal', 'Counselor', 'Teacher']), (req, res) => {
     const currentUser = req.user;
     const tenantId = req.tenantId;
     const { target, unitId, category = 'impromptu', title, message, event_date, attachment, bulk_mail = false } = req.body;

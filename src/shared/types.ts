@@ -3,7 +3,7 @@
  * Strongly typed contracts shared between backend and frontend.
  */
 
-export type Role = 'Principal' | 'Dean' | 'Teacher' | 'Counselor' | 'Student';
+export type Role = 'Principal' | 'Teacher' | 'Counselor' | 'Student';
 
 export type MemberStatus = 'Active' | 'Inactive';
 

@@ -37,8 +37,7 @@ class ApplicationState {
   }
 
   public isLeader(): boolean {
-    const role = this.activeUser?.role;
-    return role === 'Principal' || role === 'Dean';
+    return this.isPrincipal();
   }
 
   public isTeacherOrPrincipal(): boolean {
@@ -48,7 +47,7 @@ class ApplicationState {
 
   public canRegisterMembers(): boolean {
     const role = this.activeUser?.role;
-    return role === 'Principal' || role === 'Dean' || role === 'Counselor';
+    return role === 'Principal' || role === 'Counselor';
   }
 
   public canAccessFinance(): boolean {
@@ -59,12 +58,12 @@ class ApplicationState {
 
   public canEditPortal(): boolean {
     const role = this.activeUser?.role;
-    return role === 'Teacher' || role === 'Principal' || role === 'Dean';
+    return role === 'Teacher' || role === 'Principal';
   }
 
   public canBroadcast(): boolean {
     const role = this.activeUser?.role;
-    return role === 'Teacher' || role === 'Principal' || role === 'Dean' || role === 'Counselor';
+    return role === 'Teacher' || role === 'Principal' || role === 'Counselor';
   }
 
   public isStudent(): boolean {

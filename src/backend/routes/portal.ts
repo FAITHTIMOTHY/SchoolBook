@@ -18,7 +18,7 @@ router.get('/', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
     return res.json(myPortals);
   }
 
-  // Teachers, Principals, Deans, Counselors see all student portals
+  // Teachers, Principals, and Counselors see all student portals
   return res.json(portals);
 });
 
@@ -80,10 +80,10 @@ router.put('/:studentId', authMiddleware, (req: AuthenticatedRequest, res: Respo
   const studentId = req.params.studentId;
 
   // Enforce Teacher and Management authorization
-  const isAuthorizedEditor = currentUser.role === 'Teacher' || currentUser.role === 'Principal' || currentUser.role === 'Dean';
+  const isAuthorizedEditor = currentUser.role === 'Teacher' || currentUser.role === 'Principal';
   if (!isAuthorizedEditor) {
     return res.status(403).json({
-      error: 'Access Denied: Student portals can only be created and edited by Teachers and Management (Principal / Dean).'
+      error: 'Access Denied: Student portals can only be created and edited by Teachers and Management (Principal).'
     });
   }
 

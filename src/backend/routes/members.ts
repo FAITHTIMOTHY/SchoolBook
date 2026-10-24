@@ -9,11 +9,8 @@ function pruneMemberData(member: Member, currentUser: Member): Partial<Member> {
   const isPrincipal = currentUser.role === 'Principal';
   const isCounselor = currentUser.role === 'Counselor';
   const isSelf = currentUser.id === member.id;
-  
-  // Dean can see full details of members in their own faculty/department
-  const isOwnDean = currentUser.role === 'Dean' && currentUser.unit_id === member.unit_id && member.unit_id !== null;
 
-  if (isPrincipal || isCounselor || isSelf || isOwnDean) {
+  if (isPrincipal || isCounselor || isSelf) {
     return member; // Full access
   }
 
@@ -86,12 +83,12 @@ router.get('/:id', authMiddleware, (req: AuthenticatedRequest, res: Response) =>
 });
 
 // 3. Register a new student or staff profile
-// Restricted to Principal, Deans, or Guidance Counselors
+// Restricted to Principal or Guidance Counselors
 router.post('/', authMiddleware, (req: AuthenticatedRequest, res: Response) => {
   const currentUser = req.user!;
   const tenantId = req.tenantId!;
 
-  if (currentUser.role !== 'Principal' && currentUser.role !== 'Dean' && currentUser.role !== 'Counselor') {
+  if (currentUser.role !== 'Principal' && currentUser.role !== 'Counselor') {
     return res.status(403).json({ error: 'Access Denied: You do not have permissions to register student/staff profiles.' });
   }
 
@@ -168,12 +165,11 @@ router.put('/:id', authMiddleware, (req: AuthenticatedRequest, res: Response) =>
 
   const targetMember = members[memberIdx];
 
-  // Access check: Principal, Dean of the same faculty, or the user updating themselves
+  // Access check: Principal, or the user updating themselves
   const isPrincipal = currentUser.role === 'Principal';
   const isSelf = currentUser.id === memberId;
-  const isOwnDean = currentUser.role === 'Dean' && currentUser.unit_id === targetMember.unit_id && targetMember.unit_id !== null;
 
-  if (!isPrincipal && !isSelf && !isOwnDean) {
+  if (!isPrincipal && !isSelf) {
     return res.status(403).json({ error: 'Access Denied: Insufficient permissions to update this profile.' });
   }
 
@@ -200,7 +196,7 @@ router.put('/:id', authMiddleware, (req: AuthenticatedRequest, res: Response) =>
   } = req.body;
 
   // Standard student cannot modify their own role, position, faculty, or status
-  if (!isPrincipal && !isOwnDean) {
+  if (!isPrincipal) {
     if (role !== undefined && role !== targetMember.role) {
       return res.status(403).json({ error: 'Access Denied: Students cannot modify roles.' });
     }

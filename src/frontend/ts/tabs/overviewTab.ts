@@ -58,7 +58,7 @@ export async function loadOverviewData(): Promise<void> {
 
     // 3. Attendance Statistics (restricted by RBAC)
     const elAttendanceAvg = document.getElementById('kpi-attendance-avg');
-    const isStatsAdmin = ['Principal', 'Dean', 'Counselor', 'Teacher'].includes(state.activeUser?.role || '');
+    const isStatsAdmin = ['Principal', 'Counselor', 'Teacher'].includes(state.activeUser?.role || '');
 
     if (isStatsAdmin) {
       const stats = await apiFetch<AttendanceStatsResponse>('/api/attendance/stats');

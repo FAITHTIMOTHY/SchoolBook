@@ -29,8 +29,7 @@
       return this.activeUser?.role === "Principal";
     }
     isLeader() {
-      const role = this.activeUser?.role;
-      return role === "Principal" || role === "Dean";
+      return this.isPrincipal();
     }
     isTeacherOrPrincipal() {
       const role = this.activeUser?.role;
@@ -38,7 +37,7 @@
     }
     canRegisterMembers() {
       const role = this.activeUser?.role;
-      return role === "Principal" || role === "Dean" || role === "Counselor";
+      return role === "Principal" || role === "Counselor";
     }
     canAccessFinance() {
       if (this.isPrincipal()) return true;
@@ -47,11 +46,11 @@
     }
     canEditPortal() {
       const role = this.activeUser?.role;
-      return role === "Teacher" || role === "Principal" || role === "Dean";
+      return role === "Teacher" || role === "Principal";
     }
     canBroadcast() {
       const role = this.activeUser?.role;
-      return role === "Teacher" || role === "Principal" || role === "Dean" || role === "Counselor";
+      return role === "Teacher" || role === "Principal" || role === "Counselor";
     }
     isStudent() {
       return this.activeUser?.role === "Student";
@@ -214,7 +213,7 @@
         renderFinancialBars(null);
       }
       const elAttendanceAvg = document.getElementById("kpi-attendance-avg");
-      const isStatsAdmin = ["Principal", "Dean", "Counselor", "Teacher"].includes(state.activeUser?.role || "");
+      const isStatsAdmin = ["Principal", "Counselor", "Teacher"].includes(state.activeUser?.role || "");
       if (isStatsAdmin) {
         const stats = await apiFetch("/api/attendance/stats");
         if (elAttendanceAvg) elAttendanceAvg.textContent = `${stats.avgAttendanceRate}%`;
@@ -662,7 +661,7 @@
             <strong>${m.academic_score || 0}%</strong>
           </div>
         `;
-        } else if (m.role === "Principal" || m.role === "Dean") {
+        } else if (m.role === "Principal") {
           perfDisplay = `<span class="notion-tag tag-purple">Core Admin</span>`;
         } else {
           perfDisplay = `<span class="notion-tag tag-blue">Academic Staff</span>`;
@@ -736,7 +735,7 @@
         }
       }
       if (detCustomSection) {
-        if (member.role === "Principal" || member.role === "Dean") {
+        if (member.role === "Principal") {
           detCustomSection.innerHTML = `
           <div class="notion-callout mt-2">
             <span class="callout-emoji">\u{1F3DB}\uFE0F</span>
@@ -938,7 +937,7 @@
   async function loadWorkersPerformance() {
     const tbody = document.getElementById("workers-performance-tbody");
     const elRate = document.getElementById("workers-activeness-rate");
-    const isStatsLeader = ["Principal", "Dean", "Counselor"].includes(state.activeUser?.role || "");
+    const isStatsLeader = ["Principal", "Counselor"].includes(state.activeUser?.role || "");
     if (!isStatsLeader) {
       if (tbody) {
         tbody.innerHTML = `<tr><td colspan="4" class="text-center">Reports restricted to academic administrators.</td></tr>`;
