@@ -226,6 +226,88 @@ export class AttendanceService {
     }
   }
 
+  async createSessionFromTimetable(
+    actor: AttendanceActorContext,
+    input: { timetableId: string; date: string; period?: string; notes?: string; takenById?: string },
+  ): Promise<AttendanceSessionDetail> {
+    this.assertTenantContext(actor.tenantId);
+    await this.assertActiveTenant(actor.tenantId);
+
+    const timetable = await this.prisma.timetableEntry.findFirst({
+      where: { id: input.timetableId, tenantId: actor.tenantId },
+      select: {
+        id: true,
+        classroomId: true,
+        subjectId: true,
+        teacherId: true,
+      },
+    });
+
+    if (!timetable) {
+      throw new NotFoundException('Timetable entry not found');
+    }
+
+    // Enforce teacher can only mark their assigned slots
+    if (actor.role === 'TEACHER') {
+      const staff = await this.prisma.staff.findFirst({
+        where: { tenantId: actor.tenantId, userId: actor.id },
+        select: { id: true },
+      });
+
+      if (!staff || !timetable.teacherId || staff.id !== timetable.teacherId) {
+        throw new ForbiddenException('You can only create attendance sessions for your assigned timetable slots');
+      }
+    }
+
+    // Get current term
+    const term = await this.prisma.term.findFirst({
+      where: { tenantId: actor.tenantId, isCurrent: true },
+      select: { id: true },
+    });
+
+    if (!term) {
+      throw new NotFoundException('No active term found');
+    }
+
+    const date = this.toDate(input.date);
+    const period = input.period?.trim() || 'FULL_DAY';
+
+    // Prevent duplicate sessions per slot
+    const existing = await this.prisma.attendanceSession.findFirst({
+      where: {
+        tenantId: actor.tenantId,
+        classroomId: timetable.classroomId,
+        date,
+        period,
+      },
+      select: { id: true },
+    });
+
+    if (existing) {
+      throw new ConflictException('An attendance session already exists for this class, date, and period');
+    }
+
+    try {
+      const session = await this.prisma.attendanceSession.create({
+        data: {
+          tenantId: actor.tenantId,
+          classroomId: timetable.classroomId,
+          termId: term.id,
+          subjectId: timetable.subjectId,
+          period,
+          date,
+          takenById: input.takenById ?? null,
+          notes: this.normalizeNullableString(input.notes),
+        },
+        select: sessionDetailSelect,
+      });
+
+      return this.toSessionDetail(session);
+    } catch (error) {
+      this.rethrowSessionWriteError(error);
+    }
+  }
+
   async updateSession(
     actor: AttendanceActorContext,
     sessionId: string,
@@ -389,6 +471,49 @@ export class AttendanceService {
       where: { id: sessionId, tenantId: actor.tenantId },
       data: { status: AttendanceSessionStatus.LOCKED },
       select: sessionDetailSelect,
+    });
+
+    await this.createAuditLog(actor, 'ATTENDANCE_SESSION_LOCKED', 'AttendanceSession', sessionId, {
+      fromStatus: existing.status,
+      toStatus: AttendanceSessionStatus.LOCKED,
+    });
+
+    return this.toSessionDetail(session);
+  }
+
+  async unlockSession(
+    actor: AttendanceActorContext,
+    sessionId: string,
+  ): Promise<AttendanceSessionDetail> {
+    this.assertTenantContext(actor.tenantId);
+    await this.assertActiveTenant(actor.tenantId);
+
+    if (actor.role !== 'SUPER_ADMIN' && actor.role !== 'ADMIN') {
+      throw new ForbiddenException('Only super admins and admins can unlock sessions');
+    }
+
+    const existing = await this.prisma.attendanceSession.findFirst({
+      where: { id: sessionId, tenantId: actor.tenantId },
+      select: { id: true, status: true },
+    });
+
+    if (!existing) {
+      throw new NotFoundException('Attendance session not found');
+    }
+
+    if (existing.status !== AttendanceSessionStatus.LOCKED) {
+      throw new ConflictException('Only locked sessions can be unlocked');
+    }
+
+    const session = await this.prisma.attendanceSession.update({
+      where: { id: sessionId, tenantId: actor.tenantId },
+      data: { status: AttendanceSessionStatus.SUBMITTED },
+      select: sessionDetailSelect,
+    });
+
+    await this.createAuditLog(actor, 'ATTENDANCE_SESSION_UNLOCKED', 'AttendanceSession', sessionId, {
+      fromStatus: existing.status,
+      toStatus: AttendanceSessionStatus.SUBMITTED,
     });
 
     return this.toSessionDetail(session);
@@ -747,6 +872,31 @@ export class AttendanceService {
 
     if (!tenant.isActive) {
       throw new ForbiddenException('Tenant is inactive');
+    }
+  }
+
+  private async createAuditLog(
+    actor: AttendanceActorContext,
+    action: string,
+    entity: string,
+    entityId: string,
+    metadata?: Record<string, any>,
+  ): Promise<void> {
+    try {
+      await this.prisma.auditLog.create({
+        data: {
+          tenantId: actor.tenantId,
+          userId: actor.id,
+          action,
+          entity,
+          entityId,
+          metadata: metadata
+            ? (metadata as Prisma.InputJsonValue)
+            : Prisma.JsonNull,
+        },
+      });
+    } catch {
+      // Audit logging should not block the main operation
     }
   }
 
