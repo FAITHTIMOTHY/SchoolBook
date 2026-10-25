@@ -15,11 +15,18 @@ import type { AuthenticatedUser } from '../auth/auth.types.js';
 import { CurrentUser } from '../auth/decorators/current-user.decorator.js';
 import { Roles } from '../auth/decorators/roles.decorator.js';
 import { AttendanceService } from './attendance.service.js';
+import { AttendanceReportsService } from './attendance-reports.service.js';
 import { CreateAttendanceSessionDto } from './dto/create-attendance-session.dto.js';
 import { ListAttendanceSessionsQueryDto } from './dto/list-attendance-sessions.dto.js';
 import { SaveAttendanceRecordsDto } from './dto/save-attendance-records.dto.js';
 import { UpdateAttendanceRecordDto } from './dto/update-attendance-record.dto.js';
 import { UpdateAttendanceSessionDto } from './dto/update-attendance-session.dto.js';
+import {
+  ClassAttendanceSummaryQueryDto,
+  StaffAttendanceReportQueryDto,
+  StudentAttendanceHistoryQueryDto,
+} from './dto/attendance-reports.dto.js';
+import { CreateSessionFromTimetableDto } from './dto/create-session-from-timetable.dto.js';
 
 const ATTENDANCE_READERS = [
   UserRole.SUPER_ADMIN,
@@ -52,7 +59,10 @@ const ATTENDANCE_ADMINS = [
 
 @Controller('attendance')
 export class AttendanceController {
-  constructor(private readonly attendanceService: AttendanceService) {}
+  constructor(
+    private readonly attendanceService: AttendanceService,
+    private readonly attendanceReportsService: AttendanceReportsService,
+  ) {}
 
   @Roles(...ATTENDANCE_READERS)
   @Get('sessions')
@@ -70,6 +80,15 @@ export class AttendanceController {
     @Body() dto: CreateAttendanceSessionDto,
   ) {
     return this.attendanceService.createSession(actor, dto);
+  }
+
+  @Roles(...ATTENDANCE_EDITORS)
+  @Post('sessions/from-timetable')
+  createSessionFromTimetable(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Body() dto: CreateSessionFromTimetableDto,
+  ) {
+    return this.attendanceService.createSessionFromTimetable(actor, dto);
   }
 
   @Roles(...ATTENDANCE_READERS)
@@ -120,6 +139,16 @@ export class AttendanceController {
     return this.attendanceService.lockSession(actor, sessionId);
   }
 
+  @Roles(UserRole.SUPER_ADMIN, UserRole.ADMIN)
+  @HttpCode(HttpStatus.OK)
+  @Post('sessions/:id/unlock')
+  unlockSession(
+    @CurrentUser() actor: AuthenticatedUser,
+    @Param('id') sessionId: string,
+  ) {
+    return this.attendanceService.unlockSession(actor, sessionId);
+  }
+
   @Roles(...ATTENDANCE_READERS)
   @Get('sessions/:id/roster')
   getSessionRoster(
@@ -148,5 +177,32 @@ export class AttendanceController {
     @Body() dto: UpdateAttendanceRecordDto,
   ) {
     return this.attendanceService.updateRecord(actor, recordId, dto);
+  }
+
+  @Roles(...ATTENDANCE_READERS)
+  @Get('reports/class-summary')
+  getClassAttendanceSummary(
+    @CurrentUser('tenantId') tenantId: string,
+    @Query() query: ClassAttendanceSummaryQueryDto,
+  ) {
+    return this.attendanceReportsService.getClassAttendanceSummary(tenantId, query);
+  }
+
+  @Roles(...ATTENDANCE_READERS)
+  @Get('reports/student-history')
+  getStudentAttendanceHistory(
+    @CurrentUser('tenantId') tenantId: string,
+    @Query() query: StudentAttendanceHistoryQueryDto,
+  ) {
+    return this.attendanceReportsService.getStudentAttendanceHistory(tenantId, query);
+  }
+
+  @Roles(...ATTENDANCE_READERS)
+  @Get('reports/staff')
+  getStaffAttendanceReport(
+    @CurrentUser('tenantId') tenantId: string,
+    @Query() query: StaffAttendanceReportQueryDto,
+  ) {
+    return this.attendanceReportsService.getStaffAttendanceReport(tenantId, query);
   }
 }
