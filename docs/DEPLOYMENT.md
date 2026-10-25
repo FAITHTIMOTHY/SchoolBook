@@ -72,7 +72,7 @@ Then restart the service.
 
 Vercel runs the Nest app as a single function through `src/app.ts` and serves the frontend from `public/`. The repository includes `vercel.json`, which configures the install command, build, static assets, clean URLs, and security headers.
 
-1. In the Vercel project settings, set **Root Directory** to the repository root. If it is set to `backend`, Vercel only sees the API package and the build fails with Prisma type errors.
+1. In the Vercel project settings, clear **Root Directory** so it points at the repository root. If it is set to `backend`, Vercel runs the install command from `backend/` and the build fails with `npm error code EUSAGE` / `The npm ci command can only install with an existing package-lock.json`. The install command checks for this and stops with an explicit message.
 2. Set **Framework Preset** to **Express** (or leave it on auto-detect).
 3. Set the environment variables:
 
