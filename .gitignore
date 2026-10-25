@@ -5,6 +5,8 @@ jspm_packages/
 # Build output
 dist/
 build/
+public/
+.vercel/
 
 # Database files
 database.json

@@ -2,16 +2,23 @@
 
 SchoolBook runs as one long-running NestJS process that serves the API and the compiled frontend. PostgreSQL is hosted on Supabase. This is the simplest production topology for the current code: same-origin cookies, one Prisma pool, and an in-process broadcast email queue.
 
-## Why not Vercel as the primary host?
+## Supported hosts
 
-Vercel can host static files well, but this build is not a set of serverless functions:
+SchoolBook is one NestJS process that serves the API and the frontend. It can run in two shapes:
+
+- **Long-running Node host (recommended primary):** Render, Railway, Fly.io, or a VPS. The process serves the frontend, the API, health checks, and CSP headers from one origin with one Prisma pool. This is the simplest production topology.
+- **Vercel:** supported as a single Vercel Function using the Express entrypoint in `src/app.ts`. Vercel serves `public/**` from its CDN and forwards API and health requests to the Nest function. See section 2b.
+
+Either way, use PostgreSQL on Supabase and keep the app on one origin so the HttpOnly session cookies stay same-site.
+
+## Why a long-running host is still the default
 
 - The broadcast email queue runs after the HTTP response and is not durable across function freezes.
-- Prisma keeps a connection pool for the life of the process.
+- Prisma keeps a connection pool for the life of the process. Serverless instances each open their own pool, so use the Supabase pooled connection string.
 - Authentication uses same-origin HttpOnly cookies, not cross-site tokens.
-- The NestJS process serves the frontend, API, health checks, and CSP headers from one origin.
+- Health checks and migrations are easier to run and observe on a single service.
 
-Deploy the app to Render, Railway, Fly.io, or a VPS. Vercel can host a future static frontend, but the API still needs a persistent Node host, CORS configuration, and cross-site cookie rules.
+Vercel works for this codebase, but the first three points remain trade-offs. Move broadcast email to a durable queue before high-volume use, and keep an eye on database connections.
 
 ## 1. Create the production database
 
@@ -60,6 +67,34 @@ npm run prisma:migrate --prefix backend
 ```
 
 Then restart the service.
+
+## 2b. Deploy on Vercel
+
+Vercel runs the Nest app as a single function through `src/app.ts` and serves the frontend from `public/`. The repository includes `vercel.json`, which configures the install command, build, static assets, clean URLs, and security headers.
+
+1. In the Vercel project settings, set **Root Directory** to the repository root. If it is set to `backend`, Vercel only sees the API package and the build fails with Prisma type errors.
+2. Set **Framework Preset** to **Express** (or leave it on auto-detect).
+3. Set the environment variables:
+
+| Variable | Value |
+| --- | --- |
+| `DATABASE_URL` | Supabase pooled URL |
+| `DIRECT_URL` | Supabase direct URL |
+| `JWT_SECRET` | At least 32 random characters, generated fresh for production |
+| `FRONTEND_URL` | `https://<your-project>.vercel.app` (or your custom domain) |
+| `TRUST_PROXY` | `1` |
+| `SEED_DEMO_DATA` | `false` |
+
+4. For the first deployment, add `RUN_MIGRATIONS=1` so the build applies `prisma migrate deploy`. Remove it after the first successful deploy, or run migrations manually:
+
+```bash
+DATABASE_URL="..." DIRECT_URL="..." npm run prisma:migrate --prefix backend
+```
+
+5. Deploy the latest `main` commit. The build generates the Prisma client, builds the frontend and backend, and copies static assets into `public/`.
+6. Set the production domain in Vercel and make `FRONTEND_URL` match it exactly, then redeploy so cookies and CORS use the right origin.
+
+Health check: `GET /health`. Vercel functions are stateless, so the in-process broadcast email queue and connection pool behave differently than on Render; see the trade-offs above.
 
 ## 3. Bootstrap the first school and principal
 

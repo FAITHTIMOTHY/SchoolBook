@@ -19,7 +19,7 @@ SchoolBook is a multi-tenant school management and student information system. T
 | Database | PostgreSQL 17 (Supabase) |
 | Frontend | Vanilla TypeScript, esbuild, HTML/CSS |
 | Auth | Cookie JWT access token + rotating refresh token; Google OAuth optional |
-| Deployment | Single Node web service (Render/Railway/Fly/VPS); Supabase for Postgres |
+| Deployment | Single Node service (Render/Railway/Fly/VPS) or a Vercel Function; Supabase for Postgres |
 
 The NestJS compatibility layer keeps the original frontend response shapes stable while all persistence goes through Prisma. There is no JSON-file database in the production path.
 
@@ -134,9 +134,9 @@ The UI smoke test uses headless Chrome and writes screenshots to `backend/ui-scr
 
 ## Deployment
 
-See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the Render, Docker, and VPS paths, migration commands, health checks, backups, and post-deploy checklist.
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the Render, Vercel, Docker, and VPS paths, migration commands, health checks, backups, and the post-deploy checklist.
 
-**Vercel note:** Vercel is a good host for static assets, but this build expects one long-running Node process. The in-process broadcast email queue, Prisma connection pooling, and same-origin cookie sessions do not fit a serverless function cleanly. Deploy the single NestJS service to Render/Railway/Fly/VPS. If the frontend is split onto Vercel later, the API must move to a persistent host and cookies must be configured for cross-site use.
+**Vercel:** the repository includes `vercel.json` and `src/app.ts`, so the Nest API runs as a single Vercel Function and the frontend is served from `public/`. Set the Vercel **Root Directory** to the repository root, not `backend`. The trade-offs of serverless hosting (no durable in-process email queue, per-instance database pools) are documented in the deployment runbook.
 
 ## Repository layout
 
