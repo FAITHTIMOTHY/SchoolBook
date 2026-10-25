@@ -8,7 +8,7 @@ export function applyRBACStyling(): void {
   if (!state.activeUser) return;
   const role = state.activeUser.role;
 
-  // 1. Members/Students Tab: Register button visibility (Principal, Dean, Counselor)
+  // 1. Members/Students Tab: Register button visibility (Principal, Counselor)
   const btnOpenMemberModal = document.getElementById('btn-open-member-modal');
   if (btnOpenMemberModal) {
     btnOpenMemberModal.style.display = state.canRegisterMembers() ? 'block' : 'none';
@@ -26,7 +26,7 @@ export function applyRBACStyling(): void {
     attCloseBtn.style.display = isTeacherOrPrincipal ? 'inline-flex' : 'none';
   }
 
-  // 3. Inventory Tab: Adding items restricted to Principal and Deans
+  // 3. Inventory Tab: Adding items restricted to the Principal
   const btnOpenInventoryModal = document.getElementById('btn-open-inventory-modal');
   if (btnOpenInventoryModal) {
     btnOpenInventoryModal.style.display = state.isLeader() ? 'block' : 'none';
@@ -50,7 +50,7 @@ export function applyRBACStyling(): void {
     deniedPanel.style.display = canAccessFinance ? 'none' : 'flex';
   }
 
-  // 5. Broadcast Tab: Compose form accessible to Principal, Deans, Counselors, and Teachers
+  // 5. Broadcast Tab: Compose form accessible to Principal, Counselors, and Teachers
   const broadcastArea = document.getElementById('broadcast-content-area');
   const broadcastBanner = document.getElementById('broadcast-restricted-banner');
   const canBroadcast = state.canBroadcast();

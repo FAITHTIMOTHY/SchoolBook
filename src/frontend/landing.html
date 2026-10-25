@@ -3,1236 +3,866 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description"
-    content="SchoolBook SMS - The connected workspace for modern schools. Traffic-light academic tracking, student portals, teacher broadcast circulars, attendance telemetry, and campus finance in Notion-inspired clarity.">
-  <title>SchoolBook | The All-in-One Notion-Style Workspace for Modern Schools</title>
+    content="SchoolBook is one calm workspace for school administration: attendance, student records, tuition, and family communication.">
+  <title>SchoolBook | A calm workspace for your school</title>
 
-  <!-- Typography: Inter for authentic, ultra-clean Notion typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Immediate Theme Initializer: Prevents FOUC -->
-  <script>
-    (function () {
-      try {
-        const saved = localStorage.getItem('schoolbook-theme') ||
-          (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', saved);
-      } catch (e) {
-        document.documentElement.setAttribute('data-theme', 'light');
-      }
-    })();
-  </script>
-
-  <!-- Core Stylesheets & Favicon -->
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="landing.css">
+  <noscript><style>[data-reveal]{opacity:1 !important;transform:none !important;}</style></noscript>
   <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
 <body>
 
-  <!-- NOTION.COM STYLE NAVBAR -->
-  <header class="landing-navbar">
-    <div class="landing-nav-left">
-      <a href="/" class="landing-brand">
-        <img src="logo.png" alt="SchoolBook Logo">
-        <span>SchoolBook</span>
-        <span class="notion-plan-badge">Campus Workspace</span>
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="sb-nav">
+    <div class="sb-nav-inner">
+      <a href="#" class="sb-logo" aria-label="SchoolBook home">
+        <img src="logo.png" alt="" width="26" height="26">
       </a>
 
-      <nav class="landing-nav-links">
-        <a href="#features" class="landing-nav-link">Product</a>
-        <a href="#interactive-demo" class="landing-nav-link">Live Workspace</a>
-        <a href="#solutions" class="landing-nav-link">Solutions</a>
-        <a href="#testimonials" class="landing-nav-link">Campuses</a>
-        <a href="#pricing" class="landing-nav-link">Pricing</a>
+      <nav class="sb-nav-links" aria-label="Primary">
+        <a href="#tour">Live workspace</a>
+        <a href="#features">Features</a>
+        <a href="#roles">Roles</a>
+        <a href="#faq">FAQ</a>
       </nav>
-    </div>
 
-    <div class="landing-nav-right">
-      <button class="notion-icon-btn" id="landing-theme-toggle" title="Toggle Notion Light/Dark theme"
-        aria-label="Toggle theme">
-        🌙
+      <div class="sb-nav-actions">
+        <a href="/app" class="sb-link">Log in</a>
+        <a href="/app" class="sb-btn sb-btn-primary sb-btn-sm">Launch</a>
+      </div>
+
+      <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
       </button>
-      <a href="/app" class="notion-btn-ghost">Log in</a>
-      <a href="/app" class="notion-btn-cta">
-        Launch Workspace <span style="font-size:1.1em;">→</span>
-      </a>
+    </div>
+    <div class="sb-mobile-menu" id="sb-mobile-menu">
+      <a href="#tour">Live workspace</a>
+      <a href="#features">Features</a>
+      <a href="#roles">Roles</a>
+      <a href="#faq">FAQ</a>
+      <a href="/app" class="sb-btn sb-btn-primary">Launch</a>
     </div>
   </header>
 
-  <!-- MAIN LANDING CONTENT -->
   <main>
 
-    <!-- 1. HERO SECTION -->
-    <section class="landing-hero">
-      <h1 class="landing-hero-title">
-        The connected workspace for modern schools.
-      </h1>
+    <!-- ============================================================
+         HERO
+         ============================================================ -->
+    <section class="sb-hero">
+      <div class="sb-container sb-hero-inner">
+        <h1 class="sb-display" data-reveal>
+          The calm operating system<br>for your&nbsp;school.
+        </h1>
 
-      <p class="landing-hero-sub">
-        Empower teachers, engage students, and simplify campus leadership. SchoolBook brings certified student portals,
-        traffic-light academic identification, teacher circulars, and visual telemetry into one calm, beautifully
-        organized system.
-      </p>
+        <p class="sb-lede" data-reveal>
+          Attendance, student records, tuition, and family communication — held together in one workspace
+          that teachers, students, and guardians actually use.
+        </p>
 
-      <div class="landing-hero-actions">
-        <a href="/app" class="notion-btn-cta btn-hero-primary" id="btn-hero-launch">
-          Launch SchoolBook App <span>→</span>
-        </a>
-        <a href="#interactive-demo" class="btn-hero-secondary">
-          <span>🖥️</span> Explore Live Demo
-        </a>
+        <div class="sb-hero-actions" data-reveal>
+          <a href="/app" class="sb-btn sb-btn-primary sb-btn-lg">
+            Launch SchoolBook <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+          </a>
+          <a href="#tour" class="sb-btn sb-btn-ghost sb-btn-lg">
+            <svg class="sb-icon"><use href="/icons.svg#i-play" /></svg>
+            See it in action
+          </a>
+        </div>
+
+        <ul class="sb-hero-roles" data-reveal>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg> Principal</li>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg> Teacher</li>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-shield" /></svg> Counselor</li>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-portal" /></svg> Student</li>
+        </ul>
       </div>
 
-      <!-- Campus Trust Logos -->
-      <div class="landing-trust-bar">
-        <div class="trust-title">Trusted by prestigious academic institutions</div>
-        <div class="trust-logos">
-          <div class="trust-logo-item">
-            <span class="trust-icon">🏛️</span> Oakridge International Academy
+      <!-- Live product canvas -->
+      <div class="sb-canvas-wrap" id="tour">
+        <div class="sb-aura" aria-hidden="true"></div>
+
+        <div class="sb-canvas-stage">
+        <div class="sb-canvas sb-shadow-lg" data-reveal>
+          <div class="sb-canvas-bar">
+            <div class="sb-canvas-dots"><i></i><i></i><i></i></div>
+            <div class="sb-canvas-crumb">
+              <svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg>
+              <span id="sb-campus-name">Oakridge International Academy</span>
+              <span class="sb-crumb-sep">/</span>
+              <span class="sb-crumb-muted">Campus overview</span>
+            </div>
+            <div class="sb-canvas-switch" role="group" aria-label="Switch campus">
+              <button class="is-active" data-campus="oakridge">Oakridge</button>
+              <button data-campus="maplewood">Maplewood</button>
+            </div>
           </div>
-          <div class="trust-logo-item">
-            <span class="trust-icon">🌲</span> Maplewood Preparatory School
+
+          <div class="sb-canvas-body">
+            <!-- Sidebar -->
+            <aside class="sb-canvas-side">
+              <div class="sb-side-workspace">
+                <span class="sb-side-mark">OA</span>
+                <div>
+                  <strong id="sb-side-name">Oakridge Academy</strong>
+                  <span>Institutional workspace</span>
+                </div>
+              </div>
+
+              <p class="sb-side-title">Campus</p>
+              <ul class="sb-side-nav">
+                <li class="is-active"><svg class="sb-icon"><use href="/icons.svg#i-overview" /></svg> Overview</li>
+                <li><svg class="sb-icon"><use href="/icons.svg#i-portal" /></svg> Student portal</li>
+                <li><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg> Students &amp; staff</li>
+              </ul>
+
+              <p class="sb-side-title">Operations</p>
+              <ul class="sb-side-nav">
+                <li><svg class="sb-icon"><use href="/icons.svg#i-attendance" /></svg> Attendance</li>
+                <li><svg class="sb-icon"><use href="/icons.svg#i-assets" /></svg> Campus assets</li>
+                <li><svg class="sb-icon"><use href="/icons.svg#i-fees" /></svg> Tuition &amp; fees</li>
+                <li><svg class="sb-icon"><use href="/icons.svg#i-broadcast" /></svg> Circulars</li>
+              </ul>
+            </aside>
+
+            <!-- Main -->
+            <div class="sb-canvas-main">
+              <div class="sb-main-head">
+                <div>
+                  <h3>Campus overview</h3>
+                  <p>Live figures for the current term</p>
+                </div>
+                <div class="sb-main-actions">
+                  <span class="sb-avatar">EV</span>
+                </div>
+              </div>
+
+              <div class="sb-kpis">
+                <div class="sb-kpi">
+                  <span class="sb-kpi-label">Total enrollment</span>
+                  <strong class="sb-kpi-value" data-kpi="enrolled">128</strong>
+                  <span class="sb-kpi-trend up">▲ 6 this term</span>
+                </div>
+                <div class="sb-kpi">
+                  <span class="sb-kpi-label">Avg. attendance</span>
+                  <strong class="sb-kpi-value" data-kpi="attendance">95.4%</strong>
+                  <span class="sb-kpi-trend up">▲ 2.4%</span>
+                </div>
+                <div class="sb-kpi">
+                  <span class="sb-kpi-label">Fee collected</span>
+                  <strong class="sb-kpi-value" data-kpi="fees">$48,250</strong>
+                  <span class="sb-kpi-trend">of $56,000</span>
+                </div>
+                <div class="sb-kpi">
+                  <span class="sb-kpi-label">Standing</span>
+                  <strong class="sb-kpi-value" data-kpi="standing">72%</strong>
+                  <span class="sb-kpi-trend">honors tier</span>
+                </div>
+              </div>
+
+              <div class="sb-main-grid">
+                <div class="sb-panel">
+                  <div class="sb-panel-head">
+                    <h4>Attendance trend</h4>
+                    <span class="sb-panel-tag">This week</span>
+                  </div>
+                  <div class="sb-bars">
+                    <div class="sb-bar"><span class="sb-bar-track"><i style="height:78%"></i></span><span>Mon</span></div>
+                    <div class="sb-bar"><span class="sb-bar-track"><i style="height:66%"></i></span><span>Tue</span></div>
+                    <div class="sb-bar"><span class="sb-bar-track"><i style="height:88%"></i></span><span>Wed</span></div>
+                    <div class="sb-bar"><span class="sb-bar-track"><i style="height:72%"></i></span><span>Thu</span></div>
+                    <div class="sb-bar is-peak"><span class="sb-bar-track"><i style="height:96%"></i></span><span>Fri</span></div>
+                  </div>
+                </div>
+
+                <div class="sb-panel">
+                  <div class="sb-panel-head">
+                    <h4>Recent sessions</h4>
+                    <span class="sb-panel-tag">4 closed</span>
+                  </div>
+                  <ul class="sb-session-list">
+                    <li>
+                      <span class="sb-session-dot ok"></span>
+                      <div><strong>Morning roll call</strong><span>Grade 10 · 126 present</span></div>
+                    </li>
+                    <li>
+                      <span class="sb-session-dot warn"></span>
+                      <div><strong>Homeroom advisory</strong><span>Grade 9 · 118 present</span></div>
+                    </li>
+                    <li>
+                      <span class="sb-session-dot ok"></span>
+                      <div><strong>Period 1 · STEM</strong><span>Grade 11 · 64 present</span></div>
+                    </li>
+                    <li>
+                      <span class="sb-session-dot ok"></span>
+                      <div><strong>Faculty meeting</strong><span>All staff · 14 present</span></div>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="trust-logo-item">
-            <span class="trust-icon">🔬</span> Horizon STEM Institute
+
+        </div>
+
+        <!-- Floating state cards (positioned against the stage, not the clipped canvas) -->
+        <div class="sb-float sb-float-tl">
+          <span class="sb-float-icon ok"><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg></span>
+          <div>
+            <strong>Roll call closed</strong>
+            <span>128 of 128 students marked</span>
           </div>
-          <div class="trust-logo-item">
-            <span class="trust-icon">⚖️</span> St. Jude Collegiate
+        </div>
+        <div class="sb-float sb-float-br">
+          <span class="sb-float-icon pay"><svg class="sb-icon"><use href="/icons.svg#i-fees" /></svg></span>
+          <div>
+            <strong>Tuition received</strong>
+            <span>$2,400 · Sophia Chen</span>
           </div>
-          <div class="trust-logo-item">
-            <span class="trust-icon">🎓</span> Westbridge Preparatory
-          </div>
+        </div>
         </div>
       </div>
-
-      <!-- 2. INTERACTIVE HERO APP SHOWCASE WINDOW -->
-      <div class="hero-showcase-window" id="interactive-demo">
-        <!-- Titlebar -->
-        <div class="window-titlebar">
-          <div class="window-dots">
-            <div class="window-dot dot-red"></div>
-            <div class="window-dot dot-yellow"></div>
-            <div class="window-dot dot-green"></div>
-          </div>
-
-          <div class="window-breadcrumbs">
-            <span>SchoolBook</span>
-            <span>/</span>
-            <span class="window-campus-tag">Oakridge International Academy</span>
-            <span>/</span>
-            <span id="window-crumb-view">📊 Campus Dashboard</span>
-          </div>
-
-          <!-- Showcase Navigation Tabs -->
-          <div class="showcase-tab-pills">
-            <button class="showcase-tab-btn active" data-view="dashboard">Dashboard</button>
-            <button class="showcase-tab-btn" data-view="portal">Student Portal</button>
-            <button class="showcase-tab-btn" data-view="broadcast">Broadcast Channel</button>
-            <button class="showcase-tab-btn" data-view="telemetry">Telemetry</button>
-          </div>
-        </div>
-
-        <!-- Window Canvas -->
-        <div class="window-body">
-          <!-- Mock Sidebar -->
-          <aside class="window-mock-sidebar">
-            <div class="mock-sidebar-header">
-              <span>🏫</span>
-              <span>Oakridge Academy</span>
-            </div>
-
-            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--notion-text-muted); font-weight:700; margin-top:8px;">
-              CAMPUS WORKSPACE
-            </div>
-            <div class="mock-nav-item active" id="mock-nav-dash" data-view="dashboard" style="cursor:pointer;">
-              <span>📊</span> Overview
-            </div>
-
-            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--notion-text-muted); font-weight:700; margin-top:8px;">
-              ACADEMIC RECORDS
-            </div>
-            <div class="mock-nav-item" id="mock-nav-portal" data-view="portal" style="cursor:pointer;">
-              <span>🎓</span> Student Portal
-            </div>
-            <div class="mock-nav-item" id="mock-nav-telemetry" data-view="telemetry" style="cursor:pointer;">
-              <span>📈</span> Telemetry & Register
-            </div>
-
-            <div style="font-size:0.75rem; text-transform:uppercase; color:var(--notion-text-muted); font-weight:700; margin-top:8px;">
-              OPERATIONS & FINANCE
-            </div>
-            <div class="mock-nav-item" id="mock-nav-broadcast" data-view="broadcast" style="cursor:pointer;">
-              <span>📢</span> Circulars & Hub
-            </div>
-          </aside>
-
-          <!-- Mock Content Canvas (Dynamic Switcher) -->
-          <div class="window-content-canvas" id="showcase-canvas-body">
-            <!-- View 1: Dashboard (Default) -->
-            <div id="view-dashboard-mock">
-              <!-- Mini KPI Row -->
-              <div class="kpi-grid notion-kpi-grid">
-                <div class="kpi-card info-emerald notion-card">
-                  <div class="kpi-icon">🎓</div>
-                  <div class="kpi-data">
-                    <span class="kpi-num">128</span>
-                    <span class="kpi-label">Enrolled Students</span>
-                  </div>
-                </div>
-                <div class="kpi-card info-sapphire notion-card">
-                  <div class="kpi-icon">⚡</div>
-                  <div class="kpi-data">
-                    <span class="kpi-num">98%</span>
-                    <span class="kpi-label">Active Retention</span>
-                  </div>
-                </div>
-                <div class="kpi-card info-amethyst notion-card">
-                  <div class="kpi-icon">📅</div>
-                  <div class="kpi-data">
-                    <span class="kpi-num">94.8%</span>
-                    <span class="kpi-label">Avg. Attendance</span>
-                  </div>
-                </div>
-                <div class="kpi-card info-gold notion-card">
-                  <div class="kpi-icon">💵</div>
-                  <div class="kpi-data">
-                    <span class="kpi-num">$48,250</span>
-                    <span class="kpi-label">Tuition Inflow</span>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Mini Roster Table: Student Academic Standing -->
-              <div class="table-container notion-table-container mt-2">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                  <strong style="font-size: 0.9rem; color: var(--notion-text);">Cohort Academic Performance · Grade 10</strong>
-                  <span class="notion-tag tag-blue" style="font-size: 0.75rem;">Oakridge Term 1</span>
-                </div>
-                <table class="notion-table">
-                  <thead>
-                    <tr>
-                      <th>Student</th>
-                      <th>Class Cohort</th>
-                      <th>Attendance</th>
-                      <th>Academic Standing</th>
-                      <th>Status</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td><strong>Sophia Chen</strong></td>
-                      <td>Grade 10 - Class A</td>
-                      <td>98.5%</td>
-                      <td><span class="perf-circle perf-green"></span> <strong>88% (Honors Standing)</strong></td>
-                      <td><span class="notion-tag tag-green">Enrolled</span></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Marcus Vance</strong></td>
-                      <td>Grade 10 - Class B</td>
-                      <td>95.2%</td>
-                      <td><span class="perf-circle perf-green"></span> <strong>76% (Honors Standing)</strong></td>
-                      <td><span class="notion-tag tag-green">Enrolled</span></td>
-                    </tr>
-                    <tr>
-                      <td><strong>Elena Rostova</strong></td>
-                      <td>Grade 10 - Class A</td>
-                      <td>91.0%</td>
-                      <td><span class="perf-circle perf-yellow"></span> <strong>64% (Satisfactory)</strong></td>
-                      <td><span class="notion-tag tag-yellow">Active</span></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            <!-- View 2: Student Portal Mock -->
-            <div id="view-portal-mock" style="display:none;">
-                <div class="portal-hero-card" style="margin-top:0;">
-                  <div class="portal-hero-left">
-                    <div class="portal-student-avatar">🎓</div>
-                    <div class="portal-hero-info">
-                      <h3>Sophia Chen</h3>
-                      <div class="user-meta-row mt-1">
-                        <span class="notion-tag tag-purple">Grade 10 - Class A</span>
-                        <span class="notion-tag tag-blue">Fall Term 2026</span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="portal-hero-right">
-                    <div class="perf-circle-hero perf-green"></div>
-                    <div class="perf-hero-meta">
-                      <span class="perf-score-text">88%</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="table-container notion-table-container mt-2">
-                  <table class="notion-table">
-                    <thead>
-                      <tr>
-                        <th>Subject / Course</th>
-                        <th>Instructor</th>
-                        <th>Score</th>
-                        <th>Remarks</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td><strong>AP Physics & Mechanics</strong></td>
-                        <td>Ms. Clara Higgins</td>
-                        <td><span class="perf-circle perf-green"></span> <strong>89%</strong></td>
-                        <td class="text-secondary">Superb laboratory kinematics problem sets.</td>
-                      </tr>
-                      <tr>
-                        <td><strong>Honors Calculus BC</strong></td>
-                        <td>Ms. Clara Higgins</td>
-                        <td><span class="perf-circle perf-green"></span> <strong>92%</strong></td>
-                        <td class="text-secondary">Exemplary grasp of derivatives & optimization.</td>
-                      </tr>
-                      <tr>
-                        <td><strong>World Literature & Rhetoric</strong></td>
-                        <td>Mr. Aaron Wright</td>
-                        <td><span class="perf-circle perf-green"></span> <strong>85%</strong></td>
-                        <td class="text-secondary">Insightful debate seminar contributions.</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-
-                <div class="syllabus-item-pill mt-2">
-                  <div class="syllabus-item-info">
-                    <span class="syllabus-icon">📄</span>
-                    <div class="syllabus-text">
-                      <strong>STEM_Physics_Comprehensive_Syllabus_2026.pdf</strong>
-                      <span class="syllabus-sub">Uploaded by Ms. Clara Higgins · Fall & Spring Curriculum</span>
-                    </div>
-                  </div>
-                  <button class="btn btn-secondary btn-sm" onclick="alert('Downloading syllabus document...')">⬇
-                    Download</button>
-                </div>
-              </div>
-
-              <!-- View 3: Broadcast Channel Mock -->
-              <div id="view-broadcast-mock" style="display:none;">
-                <div class="showcase-broadcast-wrap">
-                  <!-- Channel Header Bar -->
-                  <div class="broadcast-channel-header">
-                    <div class="bc-header-info">
-                      <div class="bc-channel-title">
-                        <span>📢</span> #campus-circulars-hub
-                      </div>
-                      <span class="bc-live-pill">
-                        <span class="bc-pulse-dot"></span> 128 Families Connected
-                      </span>
-                    </div>
-
-                    <div class="bc-filter-chips">
-                      <button type="button" class="bc-filter-chip active">All Circulars</button>
-                      <button type="button" class="bc-filter-chip">📌 Announcements</button>
-                      <button type="button" class="bc-filter-chip">📝 Assignments</button>
-                      <button type="button" class="bc-filter-chip">📚 Syllabi</button>
-                    </div>
-                  </div>
-
-                  <!-- Quick Composer Bar Mock -->
-                  <div class="broadcast-compose-bar">
-                    <div class="bc-compose-avatar">CH</div>
-                    <span class="bc-compose-placeholder">Post an advisory, exam notice, or circular to Grade 10...</span>
-                    <div class="bc-compose-actions">
-                      <span class="bc-compose-pill">📎 Attach Syllabus</span>
-                      <span class="bc-compose-pill" style="color:var(--notion-blue); border-color:var(--notion-blue-subtle);">✉️ Email Blast: ON</span>
-                    </div>
-                  </div>
-
-                  <!-- Broadcast Card 1: Exam / Due Date Advisory -->
-                  <div class="premium-bc-card">
-                    <div class="pbc-header">
-                      <div class="pbc-author-lockup">
-                        <div class="pbc-avatar avatar-indigo">CH</div>
-                        <div class="pbc-author-meta">
-                          <div class="pbc-name-row">
-                            <span>Ms. Clara Higgins</span>
-                            <span class="pbc-verified" title="Certified Faculty">✓</span>
-                          </div>
-                          <span class="pbc-sub">Lead Teacher · Mathematics & Sciences · Today at 9:15 AM</span>
-                        </div>
-                      </div>
-                      <span class="notion-tag tag-orange">📝 Assignment Due</span>
-                    </div>
-
-                    <h4 class="pbc-title">Calculus Problem Set #4: Optimization & Derivatives</h4>
-                    <p class="pbc-body">
-                      Reminder for Grade 10 Sophomores: Exercise 4.2 through 4.6 solutions must be uploaded to your certified student portal. Late submissions will automatically trigger a yellow standing advisory.
-                    </p>
-
-                    <div class="pbc-highlight-box">
-                      <span>📅</span>
-                      <div><strong>Submission Deadline:</strong> Friday, 5:00 PM · Student Academic Portal & Dropbox</div>
-                    </div>
-
-                    <div class="pbc-footer-bar">
-                      <div class="pbc-stats-row">
-                        <span>📬 <strong>100% Delivered</strong> (128 Guardians & Students)</span>
-                        <span>·</span>
-                        <span>✉️ Instant SMTP Relay Dispatched</span>
-                      </div>
-                      <div class="pbc-reactions-row">
-                        <span class="pbc-reaction-pill">👍 34</span>
-                        <span class="pbc-reaction-pill">🙌 18</span>
-                        <span class="pbc-reaction-pill">✅ 124 Acknowledged</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Broadcast Card 2: Syllabus & Curriculum Upload -->
-                  <div class="premium-bc-card">
-                    <div class="pbc-header">
-                      <div class="pbc-author-lockup">
-                        <div class="pbc-avatar avatar-emerald">MB</div>
-                        <div class="pbc-author-meta">
-                          <div class="pbc-name-row">
-                            <span>Prof. Marcus Brody</span>
-                            <span class="pbc-verified" title="Certified Faculty">✓</span>
-                          </div>
-                          <span class="pbc-sub">Dean of STEM Faculty · Yesterday at 3:40 PM</span>
-                        </div>
-                      </div>
-                      <span class="notion-tag tag-green">📚 Syllabus & Curriculum</span>
-                    </div>
-
-                    <h4 class="pbc-title">Academic Curriculum & Laboratory Syllabus 2026-2027 Published</h4>
-                    <p class="pbc-body">
-                      The departmental curriculum schedule, lab safety protocols, and term evaluation criteria have been synchronized with student accounts. Please verify your course track before laboratory sessions commence.
-                    </p>
-
-                    <div class="pbc-attachment-card">
-                      <div class="pbc-att-left">
-                        <span class="pbc-pdf-badge">PDF</span>
-                        <div>
-                          <div class="pbc-att-title">Oakridge_STEM_Curriculum_2026.pdf</div>
-                          <div class="pbc-att-meta">2.4 MB · Faculty Certified Document · Instant Offline Sync</div>
-                        </div>
-                      </div>
-                      <button type="button" class="btn btn-secondary btn-sm" onclick="alert('Downloading verified curriculum syllabus PDF...')">
-                        ⬇ Download PDF
-                      </button>
-                    </div>
-
-                    <div class="pbc-footer-bar">
-                      <div class="pbc-stats-row">
-                        <span>📬 Synced to 64 Student Portals</span>
-                        <span>·</span>
-                        <span>🛡️ Certified by Academic Senate</span>
-                      </div>
-                      <div class="pbc-reactions-row">
-                        <span class="pbc-reaction-pill">❤️ 42</span>
-                        <span class="pbc-reaction-pill">📑 64 Downloaded</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- View 4: Telemetry Mock -->
-              <div id="view-telemetry-mock" style="display:none;">
-                <div class="showcase-telemetry-wrap">
-                  <!-- Live Telemetry Status Ribbon -->
-                  <div class="telemetry-ribbon-bar">
-                    <div class="tel-ribbon-left">
-                      <span class="bc-pulse-dot"></span>
-                      <span>Live Academic Telemetry Engine</span>
-                    </div>
-                    <div class="tel-ribbon-metrics">
-                      <div class="tel-metric-badge">
-                        <span>Weekly Attendance:</span>
-                        <strong>95.4%</strong>
-                      </div>
-                      <div class="tel-metric-badge">
-                        <span>Fee Inflow Pace:</span>
-                        <strong>+14% YoY</strong>
-                      </div>
-                      <div class="tel-metric-badge">
-                        <span>Honors Standing:</span>
-                        <strong>72%</strong>
-                      </div>
-                      <div class="tel-metric-badge">
-                        <span>Audit Status:</span>
-                        <strong style="color:#15803d;">Active Multi-Tenant</strong>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- 3 Telemetry Cards Grid -->
-                  <div class="telemetry-grid-3">
-                    <!-- Card 1: Attendance Consistency -->
-                    <div class="tel-card">
-                      <div class="tel-card-header">
-                        <div class="tel-title-group">
-                          <h4>Roll Call Attendance</h4>
-                          <span>5-day class consistency</span>
-                        </div>
-                        <span class="tel-badge-green">▲ 95.4% Avg</span>
-                      </div>
-
-                      <div class="tel-bars-row">
-                        <div class="tel-bar-col">
-                          <span class="tel-bar-num">96%</span>
-                          <div class="tel-bar-pillar" style="height: 96%;" title="Mon: 96%"></div>
-                          <span class="tel-bar-day">Mon</span>
-                        </div>
-                        <div class="tel-bar-col">
-                          <span class="tel-bar-num">92%</span>
-                          <div class="tel-bar-pillar" style="height: 92%;" title="Tue: 92%"></div>
-                          <span class="tel-bar-day">Tue</span>
-                        </div>
-                        <div class="tel-bar-col">
-                          <span class="tel-bar-num">98%</span>
-                          <div class="tel-bar-pillar accent" style="height: 98%;" title="Wed: 98% Peak"></div>
-                          <span class="tel-bar-day">Wed</span>
-                        </div>
-                        <div class="tel-bar-col">
-                          <span class="tel-bar-num">94%</span>
-                          <div class="tel-bar-pillar" style="height: 94%;" title="Thu: 94%"></div>
-                          <span class="tel-bar-day">Thu</span>
-                        </div>
-                        <div class="tel-bar-col">
-                          <span class="tel-bar-num">97%</span>
-                          <div class="tel-bar-pillar" style="height: 97%;" title="Fri: 97%"></div>
-                          <span class="tel-bar-day">Fri</span>
-                        </div>
-                      </div>
-
-                      <div class="tel-footer-note">
-                        <span>✓</span> Certified by daily faculty roll-calls
-                      </div>
-                    </div>
-
-                    <!-- Card 2: Tuition & Fee Ledger Flow -->
-                    <div class="tel-card">
-                      <div class="tel-card-header">
-                        <div class="tel-title-group">
-                          <h4>Campus Fee Flow</h4>
-                          <span>Tuition & apparatus targets</span>
-                        </div>
-                        <span class="tel-badge-blue">86.5% On Pace</span>
-                      </div>
-
-                      <div class="tel-progress-list">
-                        <div class="tel-progress-item">
-                          <div class="tel-progress-meta">
-                            <span>Tuition & Fees</span>
-                            <strong>88% ($36.8k / $42k)</strong>
-                          </div>
-                          <div class="tel-track">
-                            <div class="tel-fill blue" style="width: 88%;"></div>
-                          </div>
-                        </div>
-
-                        <div class="tel-progress-item">
-                          <div class="tel-progress-meta">
-                            <span>Lab & Science Apparatus</span>
-                            <strong>83% ($6.2k / $7.5k)</strong>
-                          </div>
-                          <div class="tel-track">
-                            <div class="tel-fill green" style="width: 83%;"></div>
-                          </div>
-                        </div>
-
-                        <div class="tel-progress-item">
-                          <div class="tel-progress-meta">
-                            <span>Athletics & Library</span>
-                            <strong>81% ($2.4k / $3.0k)</strong>
-                          </div>
-                          <div class="tel-track">
-                            <div class="tel-fill amber" style="width: 81%;"></div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="tel-footer-note">
-                        <span>📈</span> +$4,150 projected this week
-                      </div>
-                    </div>
-
-                    <!-- Card 3: Traffic-Light Cohort Standing -->
-                    <div class="tel-card">
-                      <div class="tel-card-header">
-                        <div class="tel-title-group">
-                          <h4>Cohort Standing</h4>
-                          <span>Traffic-light identification</span>
-                        </div>
-                        <span class="tel-badge-purple">128 Students</span>
-                      </div>
-
-                      <div class="stat-stacked-bar mt-1" style="height: 10px; border-radius: 9999px; overflow: hidden; display: flex;">
-                        <div style="width: 72%; background: #10b981;" title="Honors: 72%"></div>
-                        <div style="width: 20%; background: #f59e0b;" title="Satisfactory: 20%"></div>
-                        <div style="width: 8%; background: #ef4444;" title="Support: 8%"></div>
-                      </div>
-
-                      <div class="tel-breakdown-list">
-                        <div class="tel-breakdown-row">
-                          <div class="tel-row-left">
-                            <div class="tel-circle green"></div>
-                            <span>Honors Tier (&gt;70%)</span>
-                          </div>
-                          <strong>92 (72%)</strong>
-                        </div>
-
-                        <div class="tel-breakdown-row">
-                          <div class="tel-row-left">
-                            <div class="tel-circle yellow"></div>
-                            <span>Satisfactory (50–69%)</span>
-                          </div>
-                          <strong>26 (20%)</strong>
-                        </div>
-
-                        <div class="tel-breakdown-row">
-                          <div class="tel-row-left">
-                            <div class="tel-circle red"></div>
-                            <span>Support Required (&lt;50%)</span>
-                          </div>
-                          <strong>10 (8%)</strong>
-                        </div>
-                      </div>
-
-                      <div class="tel-footer-note">
-                        <span>🛡️</span> Continuous gradebook synchronization
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
     </section>
 
-    <!-- 3. BENTO GRID FEATURES SECTION -->
-    <section class="landing-section" id="features">
-      <div class="section-header">
-        <div class="section-tag">Core Architecture</div>
-        <h2 class="section-title">Designed for how schools actually operate.</h2>
-        <p class="section-desc">
-          Replace fragmented spreadsheets and cluttered systems with Notion-inspired clarity. Every student, educator,
-          and administrator works in seamless alignment.
-        </p>
-      </div>
-
-      <div class="bento-grid">
-        <!-- Bento Card 1: Traffic Light Academic Identification -->
-        <div class="bento-card span-2">
-          <div class="bento-icon">🟢 🟡 🔴</div>
-          <h3 class="bento-title">Traffic-Light Academic Identification</h3>
-          <p class="bento-desc">
-            Instantly distinguish student standing across directories, class rosters, and gradebooks using calibrated
-            visual thresholds: <strong>Green for &gt;70%</strong> (Dean’s Honors), <strong>Yellow for 50–69%</strong>
-            (Satisfactory), and <strong>Red for &lt;50%</strong> (Academic Intervention Required).
+    <!-- ============================================================
+         PILLAR 1 — STUDENT STANDING
+         ============================================================ -->
+    <section class="sb-section">
+      <div class="sb-container sb-split">
+        <div class="sb-split-copy" data-reveal="left">
+          <span class="sb-chip">Student portal</span>
+          <h2 class="sb-h2">Every student, at a glance.</h2>
+          <p class="sb-body">
+            Grades, attendance, and standing arrive in one place. Each score is color-coded so a teacher
+            spots who needs support, and a guardian sees exactly the same picture.
           </p>
+          <ul class="sb-checks">
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Subject-level scores with comments</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Live attendance and standing indicators</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Course documents students can download</li>
+          </ul>
+          <a href="/app" class="sb-textlink">
+            Open the student portal <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+          </a>
+        </div>
 
-          <!-- Interactive Score Simulator -->
-          <div class="bento-preview-box">
-            <div class="perf-simulator-box">
-              <span
-                style="font-size:0.8rem; font-weight:700; color:var(--notion-text-secondary); text-transform:uppercase;">
-                Interactive Indicator Simulator: Type a Score %
+        <div class="sb-split-visual" data-reveal="right">
+          <div class="sb-portal-card">
+            <div class="sb-portal-head">
+              <span class="sb-avatar lg">SC</span>
+              <div class="sb-portal-id">
+                <strong>Sophia Chen</strong>
+                <span>Grade 10 · Class A · Fall term</span>
+              </div>
+              <span class="sb-standing green">
+                <i></i>88% · Honors
               </span>
-              <div class="perf-sim-input-row">
-                <input type="number" id="sim-score-input" class="sim-input" value="88" min="0" max="100">
-                <span>%</span>
-                <div id="sim-result-pill" class="sim-indicator-pill">
-                  <span class="perf-circle perf-green"></span>
-                  <strong id="sim-score-text">88%</strong>
-                  <span id="sim-badge-label" class="notion-tag tag-green">Honors (>70%)</span>
-                </div>
-              </div>
             </div>
-          </div>
-        </div>
 
-        <!-- Bento Card 2: Student Portals -->
-        <div class="bento-card">
-          <div class="bento-icon">🎓</div>
-          <h3 class="bento-title">Role-Enforced Student Portals</h3>
-          <p class="bento-desc">
-            Created and edited by teachers and management; strictly read-only for students and guardians. Transparent
-            academic accountability certified by faculty.
-          </p>
-          <div class="bento-preview-box">
-            <div class="flex-row align-center gap-1">
-              <span class="notion-tag tag-purple">🔒 Student View</span>
-              <span class="notion-tag tag-blue">✏️ Faculty Edit</span>
-            </div>
-          </div>
-        </div>
+            <ul class="sb-subject-list">
+              <li>
+                <span>AP Physics &amp; Mechanics</span>
+                <i class="sb-meter"><b style="width:89%"></b></i>
+                <em>89%</em>
+              </li>
+              <li>
+                <span>Honors Calculus BC</span>
+                <i class="sb-meter"><b style="width:92%"></b></i>
+                <em>92%</em>
+              </li>
+              <li>
+                <span>World Literature</span>
+                <i class="sb-meter amber"><b style="width:64%"></b></i>
+                <em>64%</em>
+              </li>
+            </ul>
 
-        <!-- Bento Card 3: Broadcast Channel & Bulk Mailing -->
-        <div class="bento-card">
-          <div class="bento-icon">📢</div>
-          <h3 class="bento-title">Circulars & Bulk Mailing</h3>
-          <p class="bento-desc">
-            Dispatch assignment reminders, exam notices, and impromptu advisories. One-click bulk mailing simultaneously
-            alerts all registered parent and guardian emails.
-          </p>
-          <div class="bento-preview-box">
-            <div class="bento-broadcast-mini">
-              <div class="bbm-header">
-                <div class="bbm-avatar">CH</div>
-                <div class="bbm-meta">
-                  <div class="bbm-title">Midterm Advisory #3</div>
-                  <div class="bbm-sub">Ms. Higgins · 128 Guardians</div>
-                </div>
-                <span class="notion-tag tag-green">Sent 100%</span>
-              </div>
-              <div class="bbm-progress-bar">
-                <div class="bbm-progress-fill" style="width: 100%;"></div>
-              </div>
-              <div class="bbm-footer">
-                <span>✉️ Instant SMTP Relay</span>
-                <span>📬 0 Bounces</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 4: Syllabus & Curriculum Uploads -->
-        <div class="bento-card">
-          <div class="bento-icon">📚</div>
-          <h3 class="bento-title">Curriculum Document Hub</h3>
-          <p class="bento-desc">
-            Teachers upload course syllabi and term outlines directly to the broadcast channel, instantly synchronizing
-            verified downloads with enrolled student portals.
-          </p>
-          <div class="bento-preview-box">
-            <div style="display:flex; align-items:center; justify-content:space-between; width:100%; gap:8px;">
-              <div style="display:flex; align-items:center; gap:8px;">
-                <span style="background:#ef4444; color:#fff; font-size:0.65rem; font-weight:800; padding:2px 5px; border-radius:3px;">PDF</span>
-                <span style="font-size:0.75rem; font-weight:600; color:var(--notion-text);">STEM_Curriculum_2026.pdf</span>
-              </div>
-              <span class="notion-tag tag-green">Synced</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 5: Visual Telemetry (Graphs, Charts, Bars) -->
-        <div class="bento-card">
-          <div class="bento-icon">📊</div>
-          <h3 class="bento-title">Graphs, Charts & Bars</h3>
-          <p class="bento-desc">
-            Live attendance trend bars, fee collection targets, and performance distribution graphs. Crisp,
-            offline-proof visual data without bulky external libraries.
-          </p>
-          <div class="bento-preview-box">
-            <div class="bento-telemetry-mini">
-              <div class="btm-header">
-                <span class="btm-stat-num">95.8%</span>
-                <span class="btm-badge">▲ +2.4%</span>
-              </div>
-              <div class="btm-spark-bars">
-                <div class="btm-bar" style="height: 60%;" title="Mon: 91%"></div>
-                <div class="btm-bar" style="height: 75%;" title="Tue: 93%"></div>
-                <div class="btm-bar" style="height: 90%;" title="Wed: 97%"></div>
-                <div class="btm-bar" style="height: 85%;" title="Thu: 95%"></div>
-                <div class="btm-bar btm-bar-active" style="height: 98%;" title="Fri: 98%"></div>
-              </div>
-              <div class="btm-footer">
-                <span>5-Day Roll Call Trend</span>
-                <span class="live-dot-pulse">● Live Sync</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 6: Campus Assets & Financial Records -->
-        <div class="bento-card span-2">
-          <div class="bento-icon">🔬 💳</div>
-          <h3 class="bento-title">Campus Apparatus & Tuition Ledger</h3>
-          <p class="bento-desc">
-            Track laboratory equipment, classroom technology, and sports facilities across departments. Direct tuition
-            processing gateway verified by 256-bit encryption with automated ledger forecasting.
-          </p>
-          <div class="bento-preview-box">
-            <div class="flex-row gap-1 flex-wrap">
-              <span class="notion-tag tag-green">Active Lab Kits</span>
-              <span class="notion-tag tag-yellow">Maintenance Tracking</span>
-              <span class="notion-tag tag-blue">Ledger Audit Vault</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Bento Card 7: Core Admin & Faculty Profiles -->
-        <div class="bento-card">
-          <div class="bento-icon">👤 🏛️</div>
-          <h3 class="bento-title">Core Admin & Faculty Profiles</h3>
-          <p class="bento-desc">
-            Verified institutional identities for school leadership, department heads, and teaching faculty with
-            granular role permissions, academic qualifications, and class oversight.
-          </p>
-          <div class="bento-preview-box">
-            <div class="flex-row align-center gap-1">
-              <span class="notion-tag tag-gray">🏛️ Leadership</span>
-              <span class="notion-tag tag-blue">👩‍🏫 Faculty Staff</span>
+            <div class="sb-portal-foot">
+              <svg class="sb-icon"><use href="/icons.svg#i-file" /></svg>
+              <span>STEM Physics Syllabus 2026.pdf</span>
+              <em>2.4 MB</em>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 4. ROLE-BASED SOLUTIONS TABS -->
-    <section class="landing-section" id="solutions">
-      <div class="section-header">
-        <div class="section-tag">Role Tailored</div>
-        <h2 class="section-title">Built for every persona across campus.</h2>
-        <p class="section-desc">
-          Tailored interfaces and strict permission boundaries ensure educators teach, students learn, and
-          administrators govern without friction.
-        </p>
-      </div>
-
-      <!-- Role Tabs Switcher -->
-      <div class="roles-tabs-nav">
-        <button class="role-tab-btn active" data-role="leaders">🏛️ Principals & Deans</button>
-        <button class="role-tab-btn" data-role="teachers">👩‍🏫 Teachers & Instructors</button>
-        <button class="role-tab-btn" data-role="students">🎓 Students & Guardians</button>
-      </div>
-
-      <!-- Role 1: Principals & Deans -->
-      <div class="role-tab-pane active" id="role-pane-leaders">
-        <div class="role-content">
-          <h3>Executive Institutional Oversight</h3>
-          <p>
-            Principals and Deans maintain complete governance over multi-campus directories, financial vaults, and
-            faculty performance logs.
+    <!-- ============================================================
+         PILLAR 2 — ATTENDANCE
+         ============================================================ -->
+    <section class="sb-section sb-section-tint">
+      <div class="sb-container sb-split sb-split-flip">
+        <div class="sb-split-copy" data-reveal="right">
+          <span class="sb-chip">Attendance register</span>
+          <h2 class="sb-h2">Take the register in one pass.</h2>
+          <p class="sb-body">
+            Open the session, mark the class, close it. Anyone you missed is logged as absent and the
+            session lands in the record — no paper register, no double entry.
           </p>
-          <ul class="role-feature-bullets">
-            <li><span class="bullet-icon">✓</span> <strong>School-Wide Circular Broadcasts:</strong> Instant bulletins
-              dispatched campus-wide.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Bursar Vault Access:</strong> Real-time tuition forecasting,
-              fee projections, and ledger audit.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Faculty Directory Clearance:</strong> Rich Core Admin
-              profiles detailing governance scope and executive office hours.</li>
+          <ul class="sb-checks">
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Present or absent in a single tap</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Named sessions per class and term</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Consistency trends for staff and students</li>
           </ul>
-        </div>
-        <div class="role-mockup-card">
-          <div class="notion-callout">
-            <span class="callout-emoji">🏛️</span>
-            <div class="callout-text">
-              <strong>Dr. Evelyn Vance · Head of School</strong><br>
-              <span class="text-secondary">Level 1 Executive Clearance · Office 101, Quadrangle</span>
-            </div>
-          </div>
-          <div class="details-list notion-property-list mt-2">
-            <div class="detail-row"><span class="prop-name">Campus Status</span><strong
-                class="notion-tag tag-green">Active Multi-Tenant</strong></div>
-            <div class="detail-row"><span class="prop-name">Fee Collections</span><strong
-                class="notion-tag tag-blue">$48,250 YTD</strong></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Role 2: Teachers & Instructors -->
-      <div class="role-tab-pane" id="role-pane-teachers">
-        <div class="role-content">
-          <h3>Effortless Classroom Registry & Grading</h3>
-          <p>
-            Educators manage daily roll calls, certified student portals, and term reminders with intuitive single-click
-            operations.
-          </p>
-          <ul class="role-feature-bullets">
-            <li><span class="bullet-icon">✓</span> <strong>Certified Student Portals:</strong> Input grades, track
-              traffic-light performance, and record advisory feedback.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Assignment & Test Reminders:</strong> Set due dates with
-              simultaneous bulk email alerts.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Direct Curriculum Upload:</strong> Attach course syllabi for
-              immediate student and parent download.</li>
-          </ul>
-        </div>
-        <div class="role-mockup-card">
-          <div class="notion-callout">
-            <span class="callout-emoji">👩‍🏫</span>
-            <div class="callout-text">
-              <strong>Ms. Clara Higgins · Lead Teacher</strong><br>
-              <span class="text-secondary">Grade 10 Registrar · AP Calculus & STEM Educator</span>
-            </div>
-          </div>
-          <div class="details-list notion-property-list mt-2">
-            <div class="detail-row"><span class="prop-name">Active Session</span><strong>Morning Roll Call</strong>
-            </div>
-            <div class="detail-row"><span class="prop-name">Portal Status</span><strong
-                class="notion-tag tag-green">Faculty Certified</strong></div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Role 3: Students & Guardians -->
-      <div class="role-tab-pane" id="role-pane-students">
-        <div class="role-content">
-          <h3>Calm, Transparent Academic Progress</h3>
-          <p>
-            Students and guardians access certified continuous grades, attendance consistency, and course syllabi in a
-            clean, distraction-free portal.
-          </p>
-          <ul class="role-feature-bullets">
-            <li><span class="bullet-icon">✓</span> <strong>Traffic-Light Honors Standing:</strong> Clear green, yellow,
-              or red indicators of academic performance.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Verified Course Documents:</strong> One-click download of
-              official syllabi and term outlines.</li>
-            <li><span class="bullet-icon">✓</span> <strong>Guardian Notifications:</strong> Instant email alerts on
-              homework due dates, exam schedules, and term reports.</li>
-          </ul>
-        </div>
-        <div class="role-mockup-card">
-          <div class="notion-callout">
-            <span class="callout-emoji">🎓</span>
-            <div class="callout-text">
-              <strong>Sophia Chen · Grade 10 Student</strong><br>
-              <span class="text-secondary">Guardian: Mrs. Wei Chen · wei.chen@family.com</span>
-            </div>
-          </div>
-          <div class="details-list notion-property-list mt-2">
-            <div class="detail-row"><span class="prop-name">Honors Standing</span><strong
-                class="notion-tag tag-green"><span class="perf-circle perf-green"></span> 88% Honors</strong></div>
-            <div class="detail-row"><span class="prop-name">Attendance</span><strong class="notion-tag tag-blue">100%
-                Present</strong></div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- 5. TESTIMONIALS & EDUCATOR QUOTES -->
-    <section class="landing-section" id="testimonials">
-      <div class="section-header">
-        <div class="section-tag">Educator Voices</div>
-        <h2 class="section-title">Loved by school leaders and educators.</h2>
-        <p class="section-desc">
-          Hear how academic institutions transformed their administrative workflow with SchoolBook.
-        </p>
-      </div>
-
-      <div class="quotes-grid">
-        <div class="notion-quote-card">
-          <p class="quote-body">
-            “The traffic-light academic identification eliminated all ambiguity during grade review conferences. Parents
-            love the read-only portal transparency, and our faculty saves hours every week on circulars.”
-          </p>
-          <div class="quote-author">
-            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=120&h=120&fit=crop"
-              alt="Dr. Evelyn Vance" class="quote-avatar">
-            <div class="quote-meta">
-              <strong>Dr. Evelyn Vance</strong>
-              <span>Head of School · Oakridge International Academy</span>
-            </div>
-          </div>
+          <a href="/app" class="sb-textlink">
+            See the attendance register <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+          </a>
         </div>
 
-        <div class="notion-quote-card">
-          <p class="quote-body">
-            “Having assignment reminders, exam schedules, and syllabus uploads synced directly with automated bulk
-            emailing to guardians is a game-changer. The Notion aesthetic brings genuine calm to daily teaching.”
-          </p>
-          <div class="quote-author">
-            <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=120&h=120&fit=crop"
-              alt="Ms. Clara Higgins" class="quote-avatar">
-            <div class="quote-meta">
-              <strong>Ms. Clara Higgins</strong>
-              <span>Lead Teacher & Registrar · Grade 10 Faculty</span>
+        <div class="sb-split-visual" data-reveal="left">
+          <div class="sb-rollcall-card">
+            <div class="sb-rc-head">
+              <div>
+                <strong>Morning roll call</strong>
+                <span>Grade 10 · Class A</span>
+              </div>
+              <span class="sb-tag green">128 marked</span>
+            </div>
+
+            <ul class="sb-rc-list">
+              <li>
+                <span class="sb-rc-dot ok"></span>
+                <span class="sb-rc-name">Sophia Chen</span>
+                <span class="sb-rc-state present">Present</span>
+              </li>
+              <li>
+                <span class="sb-rc-dot ok"></span>
+                <span class="sb-rc-name">Marcus Vance</span>
+                <span class="sb-rc-state present">Present</span>
+              </li>
+              <li>
+                <span class="sb-rc-dot late"></span>
+                <span class="sb-rc-name">Elena Rostova</span>
+                <span class="sb-rc-state absent">Absent</span>
+              </li>
+              <li>
+                <span class="sb-rc-dot ok"></span>
+                <span class="sb-rc-name">Daniel Okafor</span>
+                <span class="sb-rc-state present">Present</span>
+              </li>
+            </ul>
+
+            <div class="sb-rc-foot">
+              <svg class="sb-icon"><use href="/icons.svg#i-clock" /></svg>
+              Session closed · 126 present, 2 absent
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 6. NOTION-STYLE PRICING MATRIX -->
-    <section class="landing-section" id="pricing">
-      <div class="section-header">
-        <div class="section-tag">Transparent Plans</div>
-        <h2 class="section-title">Predictable plans for every campus.</h2>
-        <p class="section-desc">
-          Simple pricing designed for educational budgets. No hidden setup fees or surprise add-ons.
-        </p>
-      </div>
-
-      <div class="pricing-grid">
-        <!-- Tier 1: Starter -->
-        <div class="pricing-card">
-          <h3 class="pricing-tier-name">Campus Starter</h3>
-          <p class="pricing-tier-desc">Ideal for small academies or individual pilot departments.</p>
-          <div class="pricing-price">$0 <span>/ campus / month</span></div>
-          <ul class="pricing-features">
-            <li><span>✓</span> Up to 250 enrolled students</li>
-            <li><span>✓</span> Traffic-light academic circles</li>
-            <li><span>✓</span> Daily roll-call attendance register</li>
-            <li><span>✓</span> Basic circular messaging</li>
-            <li class="disabled"><span>✕</span> Automated bulk email dispatch</li>
-            <li class="disabled"><span>✕</span> Multi-tenant district governance</li>
+    <!-- ============================================================
+         PILLAR 3 — COMMUNICATION
+         ============================================================ -->
+    <section class="sb-section">
+      <div class="sb-container sb-split">
+        <div class="sb-split-copy" data-reveal="left">
+          <span class="sb-chip">Circulars &amp; hub</span>
+          <h2 class="sb-h2">Reach every guardian with one send.</h2>
+          <p class="sb-body">
+            Write the notice once and choose who receives it — the whole campus, a single department, or one
+            cohort. Guardians get it by email, and the delivery is tracked.
+          </p>
+          <ul class="sb-checks">
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Campus-wide, department, or cohort targeting</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Attach syllabi and term documents</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Delivery and acknowledgment counts</li>
           </ul>
-          <a href="/app" class="btn-hero-secondary" style="justify-content:center;">Get Started Free</a>
+          <a href="/app" class="sb-textlink">
+            Open the circulars hub <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+          </a>
         </div>
 
-        <!-- Tier 2: Institutional Pro -->
-        <div class="pricing-card featured">
-          <div class="pricing-badge">MOST POPULAR</div>
-          <h3 class="pricing-tier-name">Institutional Pro</h3>
-          <p class="pricing-tier-desc">Complete workspace for established primary & secondary schools.</p>
-          <div class="pricing-price">$149 <span>/ campus / month</span></div>
-          <ul class="pricing-features">
-            <li><span>✓</span> Unlimited students & faculty staff</li>
-            <li><span>✓</span> Full Student Portals & teacher edit suite</li>
-            <li><span>✓</span> Broadcast channel with syllabus upload</li>
-            <li><span>✓</span> Automated parent bulk email dispatch</li>
-            <li><span>✓</span> Visual analytics (attendance & finance bars)</li>
-            <li><span>✓</span> Campus apparatus & lab inventory</li>
-          </ul>
-          <a href="/app" class="notion-btn-cta" style="justify-content:center; padding:12px;">Launch Institutional Pro
-            →</a>
-        </div>
+        <div class="sb-split-visual" data-reveal="right">
+          <div class="sb-broadcast-card">
+            <div class="sb-bc-head">
+              <span class="sb-avatar"><img src="/avatar-clara.svg" alt="" width="44" height="44"></span>
+              <div>
+                <strong>Ms. Clara Higgins</strong>
+                <span>Grade 10 Registrar · Today, 9:15 AM</span>
+              </div>
+            </div>
 
-        <!-- Tier 3: Global District -->
-        <div class="pricing-card">
-          <h3 class="pricing-tier-name">Global District</h3>
-          <p class="pricing-tier-desc">For multi-campus school districts and international education networks.</p>
-          <div class="pricing-price">$399 <span>/ district / month</span></div>
-          <ul class="pricing-features">
-            <li><span>✓</span> Unlimited campuses & multi-tenant isolation</li>
-            <li><span>✓</span> Custom institutional domain & branding</li>
-            <li><span>✓</span> Executive district telemetry & bursar vault</li>
-            <li><span>✓</span> 24/7 dedicated implementation engineer</li>
-            <li><span>✓</span> Custom SIS & LMS data migration</li>
-          </ul>
-          <a href="/app" class="btn-hero-secondary" style="justify-content:center;">Contact Academic Sales</a>
+            <h4>Midterm advisory &amp; exam notice</h4>
+            <p>
+              Solutions for exercises 4.2 through 4.6 are due Friday at 5:00 PM. Late work moves the student
+              into the review tier.
+            </p>
+
+            <div class="sb-bc-reach">
+              <svg class="sb-icon"><use href="/icons.svg#i-mail" /></svg>
+              Delivered to 128 guardians
+            </div>
+
+            <div class="sb-bc-tags">
+              <span class="sb-tag">Grade 10</span>
+              <span class="sb-tag">Guardians</span>
+              <span class="sb-tag blue">Email</span>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- 7. FINAL CALL TO ACTION BANNER -->
-    <div class="landing-final-cta">
-      <h2 class="final-cta-title">Start your modern campus workspace.</h2>
-      <p class="final-cta-sub">
-        Join hundreds of educators and students experiencing the calm, organized power of Notion-inspired school
-        management.
-      </p>
-      <div class="flex-row justify-center gap-1">
-        <a href="/app" class="notion-btn-cta btn-hero-primary">
-          Launch SchoolBook Now →
-        </a>
+    <!-- ============================================================
+         FEATURE GRID
+         ============================================================ -->
+    <section class="sb-section sb-section-tint" id="features">
+      <div class="sb-container">
+        <div class="sb-section-head" data-reveal="left">
+          <span class="sb-chip">Everything in one workspace</span>
+          <h2 class="sb-h2">The rest of the school day, covered.</h2>
+          <p class="sb-lede-sm">
+            Six modules share one directory, one ledger, and one set of permissions.
+          </p>
+        </div>
+
+        <div class="sb-feature-grid">
+          <article class="sb-feature" data-reveal="left">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-overview" /></svg></span>
+            <h3>Executive overview</h3>
+            <p>Enrollment, attendance, faculty, and collections on a single screen.</p>
+          </article>
+
+          <article class="sb-feature" data-reveal="left">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg></span>
+            <h3>Students &amp; staff</h3>
+            <p>One directory for the whole school, filterable by role, cohort, or status.</p>
+          </article>
+
+          <article class="sb-feature" data-reveal="left">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-assets" /></svg></span>
+            <h3>Campus assets</h3>
+            <p>Lab equipment and shared gear tracked by department and condition.</p>
+          </article>
+
+          <article class="sb-feature" data-reveal="right">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-fees" /></svg></span>
+            <h3>Tuition &amp; fees</h3>
+            <p>Term fees, lab charges, and donations in one ledger with projections.</p>
+          </article>
+
+          <article class="sb-feature" data-reveal="right">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg></span>
+            <h3>Multiple campuses</h3>
+            <p>Several schools, fully separate records and billing, one sign-in.</p>
+          </article>
+
+          <article class="sb-feature" data-reveal="right">
+            <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-lock" /></svg></span>
+            <h3>Role-based access</h3>
+            <p>Four roles, each seeing exactly what their job requires.</p>
+          </article>
+        </div>
       </div>
-    </div>
+    </section>
+
+    <!-- ============================================================
+         STANDING INTERACTIVE
+         ============================================================ -->
+    <section class="sb-section">
+      <div class="sb-container sb-standing-wrap">
+        <div class="sb-standing-copy" data-reveal="left">
+          <span class="sb-chip">Academic standing</span>
+          <h2 class="sb-h2">Standing, without the spreadsheet.</h2>
+          <p class="sb-body">
+            Scores become a color, and the color becomes a signal. Students, teachers, and families all
+            read the same indicator, so nobody has to interpret a raw grade.
+          </p>
+
+          <div class="sb-legend">
+            <div class="sb-legend-row">
+              <span class="sb-swatch green"></span>
+              <div><strong>Honors</strong><span>Above 70%</span></div>
+            </div>
+            <div class="sb-legend-row">
+              <span class="sb-swatch amber"></span>
+              <div><strong>Satisfactory</strong><span>50% to 69%</span></div>
+            </div>
+            <div class="sb-legend-row">
+              <span class="sb-swatch red"></span>
+              <div><strong>Review</strong><span>Below 50%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sb-standing-demo" data-reveal="right">
+          <div class="sb-spec-card">
+            <div class="sb-spec" role="img" aria-label="Class standing split across review, satisfactory, and honors.">
+              <div class="sb-spec-track">
+                <span class="sb-zone red"></span>
+                <span class="sb-zone amber"></span>
+                <span class="sb-zone green"></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         ROLES
+         ============================================================ -->
+    <section class="sb-section sb-section-tint" id="roles">
+      <div class="sb-container">
+        <div class="sb-section-head" data-reveal="left">
+          <span class="sb-chip">Built for every role</span>
+          <h2 class="sb-h2">One workspace, four points of view.</h2>
+          <p class="sb-lede-sm">
+            Everyone reads the same records. What changes is what they are allowed to change.
+          </p>
+        </div>
+
+        <div class="sb-role-grid">
+          <article class="sb-role" data-reveal="left">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-shield" /></svg></span>
+            <h3>Principal</h3>
+            <p>Full oversight of the directory, ledgers, and campus-wide circulars.</p>
+          </article>
+          <article class="sb-role" data-reveal="left">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg></span>
+            <h3>Teacher</h3>
+            <p>Roll calls, grades, portal updates, and reminders to guardians.</p>
+          </article>
+          <article class="sb-role" data-reveal="right">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-attendance" /></svg></span>
+            <h3>Counselor</h3>
+            <p>Attendance trends, student welfare, and targeted cohort advisories.</p>
+          </article>
+          <article class="sb-role" data-reveal="right">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-portal" /></svg></span>
+            <h3>Student</h3>
+            <p>Own grades, attendance, documents, and outstanding fees.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FAQ
+         ============================================================ -->
+    <section class="sb-section" id="faq">
+      <div class="sb-container sb-faq-wrap">
+        <div class="sb-section-head" data-reveal="left">
+          <span class="sb-chip">Questions</span>
+          <h2 class="sb-h2">Good to know.</h2>
+        </div>
+
+        <div class="sb-faq" data-reveal="right">
+          <details class="sb-faq-item" open>
+            <summary>
+              Who is SchoolBook built for?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                Four roles: principal, teacher, counselor, and student. Each one signs in to the same
+                workspace and sees the slice of it that matches their responsibilities.
+              </p>
+            </div>
+          </details>
+
+          <details class="sb-faq-item">
+            <summary>
+              Can more than one school use it?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                Yes. Oakridge International Academy and Maplewood Preparatory School run side by side with
+                separate rosters, separate ledgers, and separate asset registers. Switching campuses takes one
+                click from the top bar.
+              </p>
+            </div>
+          </details>
+
+          <details class="sb-faq-item">
+            <summary>
+              What does the student portal show?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                Subject-level scores with teacher comments, attendance history, the current standing
+                indicator, official course documents, and any fees still outstanding.
+              </p>
+            </div>
+          </details>
+
+          <details class="sb-faq-item">
+            <summary>
+              How do guardians receive notices?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                A circular is written once and targeted to the campus, a department, or a single cohort. It
+                reaches every registered guardian email, and delivery and acknowledgments are counted in the
+                feed.
+              </p>
+            </div>
+          </details>
+
+          <details class="sb-faq-item">
+            <summary>
+              How are fees tracked?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                Tuition, lab and library fees, extracurricular charges, and donations share one ledger. The
+                dashboard projects weekly collection pace so a term can be forecast before it ends.
+              </p>
+            </div>
+          </details>
+
+          <details class="sb-faq-item">
+            <summary>
+              Does anything need to be installed?
+              <svg class="sb-icon sb-chev"><use href="/icons.svg#i-chevron" /></svg>
+            </summary>
+            <div class="sb-faq-body">
+              <p>
+                No. SchoolBook runs in the browser. The demo workspace ships with two seeded campuses and
+                one-click personas, so you can walk every role in under a minute.
+              </p>
+            </div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FINAL CTA
+         ============================================================ -->
+    <section class="sb-cta-section">
+      <div class="sb-container">
+        <div class="sb-cta" data-reveal="fade">
+          <div class="sb-cta-glow" aria-hidden="true"></div>
+          <img class="sb-cta-visual" src="/cta-illustration.svg" width="560" height="320" loading="lazy"
+            decoding="async" aria-hidden="true" data-reveal="right"
+            alt="">
+          <h2 class="sb-h2" data-reveal="left">Open your school's workspace.</h2>
+          <p class="sb-lede-sm" data-reveal="left">
+            Two campuses, every role, and a full term of records are already loaded and ready to explore.
+          </p>
+          <div class="sb-cta-actions" data-reveal="left">
+            <a href="/app" class="sb-btn sb-btn-primary sb-btn-lg">
+              Launch SchoolBook <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+            </a>
+            <a href="/app" class="sb-btn sb-btn-ghost sb-btn-lg">Use the demo personas</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
   </main>
 
-  <!-- 8. NOTION-STYLE FOOTER -->
-  <footer class="landing-footer">
-    <div class="footer-inner">
-      <div class="footer-brand-col">
-        <a href="/" class="landing-brand">
-          <img src="logo.png" alt="SchoolBook Logo">
-          <span>SchoolBook</span>
-        </a>
-        <p>
-          The connected workspace for schools, teachers, and students. Built with Notion-style clarity and institutional
-          simplicity.
-        </p>
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="sb-footer">
+    <div class="sb-container">
+      <div class="sb-footer-grid">
+        <div class="sb-footer-brand">
+          <a href="#" class="sb-logo">
+            <img src="logo.png" alt="" width="24" height="24">
+            <span>SchoolBook</span>
+          </a>
+          <p>
+            One workspace for attendance, records, fees, and family communication.
+          </p>
+          <div class="sb-socials">
+            <a href="#" aria-label="SchoolBook on X"><svg class="sb-icon"><use href="/icons.svg#i-x" /></svg></a>
+            <a href="#" aria-label="SchoolBook on LinkedIn"><svg class="sb-icon"><use href="/icons.svg#i-in" /></svg></a>
+            <a href="#" aria-label="SchoolBook on YouTube"><svg class="sb-icon"><use href="/icons.svg#i-play" /></svg></a>
+          </div>
+        </div>
+
+        <div class="sb-footer-col">
+          <h4>Product</h4>
+          <a href="#tour">Live workspace</a>
+          <a href="#features">Features</a>
+          <a href="#roles">Roles</a>
+          <a href="#faq">FAQ</a>
+        </div>
+
+        <div class="sb-footer-col">
+          <h4>Modules</h4>
+          <a href="/app">Campus overview</a>
+          <a href="/app">Student portal</a>
+          <a href="/app">Attendance register</a>
+          <a href="/app">Tuition &amp; fees</a>
+        </div>
+
+        <div class="sb-footer-col">
+          <h4>Resources</h4>
+          <a href="/app">Documentation</a>
+          <a href="/app">Getting started</a>
+          <a href="/app">Support</a>
+        </div>
       </div>
 
-      <div class="footer-col">
-        <h4>Product</h4>
-        <ul class="footer-links">
-          <li><a href="/app">Launch Workspace</a></li>
-          <li><a href="#interactive-demo">Student Portals</a></li>
-          <li><a href="#features">Traffic-Light Circles</a></li>
-          <li><a href="#features">Broadcast Channel</a></li>
-          <li><a href="#features">Campus Telemetry</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Solutions</h4>
-        <ul class="footer-links">
-          <li><a href="#solutions">For Principals & Deans</a></li>
-          <li><a href="#solutions">For Teaching Faculty</a></li>
-          <li><a href="#solutions">For Students & Parents</a></li>
-          <li><a href="#pricing">Institutional Plans</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-col">
-        <h4>Framework</h4>
-        <ul class="footer-links">
-          <li><a href="https://notion.so" target="_blank" rel="noopener">Notion Design System</a></li>
-          <li><a href="/app">Campus Demo</a></li>
-          <li><a href="#pricing">Security & Vault</a></li>
-          <li><a href="/app">Documentation</a></li>
-        </ul>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <span>© 2026 SchoolBook Framework. Notion Edition · Multi-Tenant SIS. All rights reserved.</span>
-      <div class="flex-row align-center gap-2">
-        <span style="font-size:0.85rem; color:var(--notion-text-muted);">Calm, organized school management</span>
+      <div class="sb-footer-bottom">
+        <span>© 2026 SchoolBook. All rights reserved.</span>
+        <span class="sb-footer-note">A calm workspace for schools.</span>
       </div>
     </div>
   </footer>
 
-  <!-- CLIENT CONTROLLER SCRIPT FOR LANDING PAGE INTERACTIVITY -->
   <script>
-    // 1. Theme Toggle (Notion Light / Dark Theme)
-    const themeToggleBtn = document.getElementById('landing-theme-toggle');
-    const htmlEl = document.documentElement;
-
-    function applyLandingTheme(theme) {
-      htmlEl.setAttribute('data-theme', theme);
-      try {
-        localStorage.setItem('schoolbook-theme', theme);
-      } catch (e) { }
-      if (themeToggleBtn) {
-        themeToggleBtn.textContent = theme === 'dark' ? '☀️' : '🌙';
-        themeToggleBtn.setAttribute('title', theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode');
+    // ---- Campus switcher on the hero canvas -------------------------------
+    const CAMPUSES = {
+      oakridge: {
+        name: 'Oakridge International Academy',
+        short: 'Oakridge Academy',
+        mark: 'OA',
+        enrolled: '128',
+        attendance: '95.4%',
+        fees: '$48,250',
+        standing: '72%',
+        floatA: '128 of 128 students marked',
+        floatB: '$2,400 · Sophia Chen'
+      },
+      maplewood: {
+        name: 'Maplewood Preparatory School',
+        short: 'Maplewood Prep',
+        mark: 'MP',
+        enrolled: '96',
+        attendance: '93.8%',
+        fees: '$31,900',
+        standing: '64%',
+        floatA: '96 of 96 students marked',
+        floatB: '$1,850 · Daniel Okafor'
       }
-    }
-
-    const savedTheme = (function () {
-      try {
-        return localStorage.getItem('schoolbook-theme') ||
-          (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-      } catch (e) {
-        return 'light';
-      }
-    })();
-    applyLandingTheme(savedTheme);
-
-    if (themeToggleBtn) {
-      themeToggleBtn.addEventListener('click', () => {
-        const curTheme = htmlEl.getAttribute('data-theme') || 'light';
-        applyLandingTheme(curTheme === 'dark' ? 'light' : 'dark');
-      });
-    }
-
-    window.addEventListener('storage', (e) => {
-      if (e.key === 'schoolbook-theme' && (e.newValue === 'dark' || e.newValue === 'light')) {
-        applyLandingTheme(e.newValue);
-      }
-    });
-
-    // 2. Interactive Showcase View Tabs
-    const showcaseBtns = document.querySelectorAll('.showcase-tab-btn');
-    const mockNavItems = document.querySelectorAll('.mock-nav-item[data-view]');
-    const crumbView = document.getElementById('window-crumb-view');
-    const views = {
-      dashboard: { id: 'view-dashboard-mock', title: '📊 Campus Dashboard', navId: 'mock-nav-dash' },
-      portal: { id: 'view-portal-mock', title: '🎓 Sophia Chen · Student Portal', navId: 'mock-nav-portal' },
-      broadcast: { id: 'view-broadcast-mock', title: '📢 School Circulars & Reminders Hub', navId: 'mock-nav-broadcast' },
-      telemetry: { id: 'view-telemetry-mock', title: '📈 Visual Telemetry & Attendance Register', navId: 'mock-nav-telemetry' }
     };
 
-    function switchShowcaseView(viewKey) {
-      const viewConfig = views[viewKey];
-      if (!viewConfig) return;
+    const campusName = document.getElementById('sb-campus-name');
+    const campusSide = document.getElementById('sb-side-name');
+    const campusMark = document.querySelector('.sb-side-mark');
+    const floatTexts = document.querySelectorAll('.sb-float div span');
 
-      // Update tab buttons
-      showcaseBtns.forEach(btn => {
-        btn.classList.toggle('active', btn.getAttribute('data-view') === viewKey);
-      });
-
-      // Hide all views
-      Object.values(views).forEach(v => {
-        const el = document.getElementById(v.id);
-        if (el) el.style.display = 'none';
-      });
-
-      // Show target view
-      const targetEl = document.getElementById(viewConfig.id);
-      if (targetEl) targetEl.style.display = 'block';
-
-      if (crumbView) crumbView.textContent = viewConfig.title;
-
-      // Update mock nav active class
-      document.querySelectorAll('.mock-nav-item').forEach(m => m.classList.remove('active'));
-      const activeNav = document.getElementById(viewConfig.navId);
-      if (activeNav) activeNav.classList.add('active');
-    }
-
-    showcaseBtns.forEach(btn => {
+    document.querySelectorAll('.sb-canvas-switch button').forEach(btn => {
       btn.addEventListener('click', () => {
-        const viewKey = btn.getAttribute('data-view');
-        switchShowcaseView(viewKey);
+        const data = CAMPUSES[btn.dataset.campus];
+        if (!data) return;
+
+        document.querySelectorAll('.sb-canvas-switch button').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+
+        if (campusName) campusName.textContent = data.name;
+        if (campusSide) campusSide.textContent = data.short;
+        if (campusMark) campusMark.textContent = data.mark;
+
+        document.querySelectorAll('[data-kpi]').forEach(el => {
+          const key = el.dataset.kpi;
+          if (data[key]) el.textContent = data[key];
+        });
+
+        if (floatTexts.length >= 2) {
+          floatTexts[0].textContent = data.floatA;
+          floatTexts[1].textContent = data.floatB;
+        }
       });
     });
 
-    mockNavItems.forEach(item => {
-      item.addEventListener('click', () => {
-        const viewKey = item.getAttribute('data-view');
-        switchShowcaseView(viewKey);
+    // ---- Mobile navigation ------------------------------------------------
+    const burger = document.getElementById('sb-burger');
+    const mobileMenu = document.getElementById('sb-mobile-menu');
+
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(open));
       });
-    });
-
-    // Broadcast filter chip toggle interactivity
-    document.querySelectorAll('.bc-filter-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        document.querySelectorAll('.bc-filter-chip').forEach(c => c.classList.remove('active'));
-        chip.classList.add('active');
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
       });
-    });
-
-    // 3. Interactive Traffic-Light Score Simulator
-    const simInput = document.getElementById('sim-score-input');
-    const simResultPill = document.getElementById('sim-result-pill');
-    const simScoreText = document.getElementById('sim-score-text');
-    const simBadgeLabel = document.getElementById('sim-badge-label');
-
-    function updateSimulator() {
-      if (!simInput || !simResultPill || !simScoreText || !simBadgeLabel) return;
-      let val = Number(simInput.value);
-      if (isNaN(val)) val = 0;
-      val = Math.max(0, Math.min(100, val));
-
-      simScoreText.textContent = `${val}%`;
-
-      if (val > 70) {
-        simResultPill.innerHTML = `
-          <span class="perf-circle perf-green"></span>
-          <strong>${val}%</strong>
-          <span class="notion-tag tag-green">Honors (>70%)</span>
-        `;
-      } else if (val >= 50) {
-        simResultPill.innerHTML = `
-          <span class="perf-circle perf-yellow"></span>
-          <strong>${val}%</strong>
-          <span class="notion-tag tag-yellow">Satisfactory (50-69%)</span>
-        `;
-      } else {
-        simResultPill.innerHTML = `
-          <span class="perf-circle perf-red"></span>
-          <strong>${val}%</strong>
-          <span class="notion-tag tag-red">Intervention Required (&lt;50%)</span>
-        `;
-      }
     }
 
-    if (simInput) {
-      simInput.addEventListener('input', updateSimulator);
+    // ---- Scroll-linked reveal ---------------------------------------------
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // Hero stays a one-shot fade-up (it is already on screen at load).
+    const heroTargets = [...document.querySelectorAll('[data-reveal]')]
+      .filter(el => el.getAttribute('data-reveal') === '');
+
+    if (heroTargets.length && 'IntersectionObserver' in window && !reduceMotion) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+      heroTargets.forEach(el => observer.observe(el));
+    } else {
+      heroTargets.forEach(el => el.classList.add('is-visible'));
     }
 
-    // 4. Role-Based Solutions Tabs
-    const roleBtns = document.querySelectorAll('.role-tab-btn');
-    roleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        roleBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    // Sections: position is scrubbed by scroll, so they track every scroll
+    // in both directions instead of firing once.
+    const scrubTargets = [...document.querySelectorAll(
+      '[data-reveal="left"], [data-reveal="right"], [data-reveal="fade"]'
+    )];
 
-        const roleKey = btn.getAttribute('data-role');
-        document.querySelectorAll('.role-tab-pane').forEach(p => p.classList.remove('active'));
-        const targetPane = document.getElementById(`role-pane-${roleKey}`);
-        if (targetPane) targetPane.classList.add('active');
+    if (scrubTargets.length && !reduceMotion) {
+      const travel = () => (window.innerWidth <= 720 ? 44 : 96);
+      let frame = 0;
+
+      const render = () => {
+        frame = 0;
+        const vh = window.innerHeight;
+        const span = Math.max(260, vh * 0.62);
+        const dist = travel();
+
+        // read all positions first, then write (no layout thrash)
+        const items = scrubTargets.map(el => {
+          const top = el.getBoundingClientRect().top;
+          const p = Math.min(1, Math.max(0, (vh - top) / span));
+          return { el, kind: el.getAttribute('data-reveal'), p };
+        });
+
+        for (const { el, kind, p } of items) {
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.style.opacity = Math.min(1, eased * 1.4).toFixed(3);
+
+          if (kind === 'fade') {
+            el.style.transform = 'none';
+          } else {
+            const x = (kind === 'left' ? -1 : 1) * dist * (1 - eased);
+            el.style.transform = `translate3d(${x.toFixed(1)}px, 0, 0)`;
+          }
+        }
+      };
+
+      const request = () => {
+        if (!frame) frame = requestAnimationFrame(render);
+      };
+
+      window.addEventListener('scroll', request, { passive: true });
+      window.addEventListener('resize', request);
+      window.addEventListener('load', request);
+      render();
+    } else {
+      scrubTargets.forEach(el => {
+        el.style.opacity = '1';
+        el.style.transform = 'none';
       });
-    });
+    }
   </script>
 </body>
 

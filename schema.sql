@@ -14,7 +14,7 @@ CREATE TABLE units (
     id VARCHAR(50) PRIMARY KEY,
     tenant_id VARCHAR(50) NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
     name VARCHAR(100) NOT NULL,
-    parent_unit_id VARCHAR(50) REFERENCES units(id) ON DELETE SET NULL, -- Deans can create sub-departments
+    parent_unit_id VARCHAR(50) REFERENCES units(id) ON DELETE SET NULL, -- Supports nested sub-departments
     description TEXT,
     created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT unique_unit_per_tenant UNIQUE (tenant_id, name)
@@ -31,8 +31,8 @@ CREATE TABLE members (
     profile_picture_url VARCHAR(255),
     dob_month INT CHECK (dob_month BETWEEN 1 AND 12), -- Year excluded from student profile requirements
     dob_day INT CHECK (dob_day BETWEEN 1 AND 31),
-    role VARCHAR(50) NOT NULL CHECK (role IN ('Principal', 'Dean', 'Teacher', 'Counselor', 'Student')),
-    position VARCHAR(100), -- e.g., "Principal", "Dean of Science", "Senior STEM Instructor"
+    role VARCHAR(50) NOT NULL CHECK (role IN ('Principal', 'Teacher', 'Counselor', 'Student')),
+    position VARCHAR(100), -- e.g., "Principal", "Faculty Lead", "Senior STEM Instructor"
     unit_id VARCHAR(50) REFERENCES units(id) ON DELETE SET NULL,
     status VARCHAR(20) NOT NULL DEFAULT 'Active' CHECK (status IN ('Active', 'Inactive')),
     joined_date TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,

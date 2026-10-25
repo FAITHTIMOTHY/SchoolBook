@@ -112,7 +112,7 @@ export async function loadWorkersPerformance(): Promise<void> {
   const tbody = document.getElementById('workers-performance-tbody');
   const elRate = document.getElementById('workers-activeness-rate');
 
-  const isStatsLeader = ['Principal', 'Dean', 'Counselor'].includes(state.activeUser?.role || '');
+  const isStatsLeader = ['Principal', 'Counselor'].includes(state.activeUser?.role || '');
 
   if (!isStatsLeader) {
     if (tbody) {

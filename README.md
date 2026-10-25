@@ -14,7 +14,7 @@
 ## 🚀 Key Architectural Highlights
 
 * 🏢 **Logical Multi-Tenancy**: Host multiple independent schools or campus branches (e.g., *Oakridge International Academy* and *Maplewood Preparatory School*) on a single infrastructure instance with strict header-enforced tenant isolation (`x-tenant-id`).
-* 🔐 **Role-Based Access Control (RBAC)**: Fine-grained security matrix catering to five distinct academic personas: **Principal**, **Dean**, **Teacher**, **Counselor**, and **Student**.
+* 🔐 **Role-Based Access Control (RBAC)**: Fine-grained security matrix catering to four distinct academic personas: **Principal**, **Teacher**, **Counselor**, and **Student**.
 * ⏱️ **Automated Student Lifecycle & Inactivity Engine**: Built-in 30-day absence algorithm that automatically transitions chronically absent students to `Inactive` status while protecting administrative faculty.
 * 📈 **Predictive Financial Projections**: Built-in algorithmic forecasting that models rolling weekly collection velocity and projects upcoming term revenue across tuition categories.
 * ⚡ **Zero-Dependency Modern Frontend**: Powered by modular TypeScript, esbuild bundling (sub-20ms builds), and a bespoke, responsive CSS design system featuring curated typography, glassmorphism, and micro-interactions.
@@ -29,7 +29,7 @@ SchoolBook comes pre-seeded with two full academic campuses and interactive demo
 | Persona | Name | Role | Position | Access Rights |
 | :--- | :--- | :--- | :--- | :--- |
 | **Executive** | **Dr. Evelyn Vance** | `Principal` | Head of School | Super-admin access across all campus modules, ledgers, & circulars |
-| **Faculty Lead** | **Prof. Marcus Brody** | `Dean` | Dean of Science & STEM | Departmental roster management, student enrollment, faculty circulars |
+| **Instructor** | **Prof. Marcus Brody** | `Teacher` | Senior STEM Instructor | STEM curriculum delivery, laboratory mentorship, faculty circulars |
 | **Instructor** | **Ms. Clara Higgins** | `Teacher` | Lead Teacher & Registrar | Class roll call marking, session closing, attendance sheets |
 | **Student Welfare**| **Mr. David Miller** | `Counselor` | Guidance Counselor | Full student directory, attendance trends, freshmen support |
 | **Scholar (Active)**| **Sophia Chen** | `Student` | Grade 10 - Class A | Self-service tuition payment portal, campus circulars |
@@ -60,7 +60,7 @@ SchoolBook comes pre-seeded with two full academic campuses and interactive demo
 ### 4. 🔬 Campus Asset & Lab Inventory
 * Asset health register across specialized departments (*STEM Science Labs*, *Athletics*, *Humanities*, *Music & Arts*).
 * Real-time status toggling (`Active`, `Faulty`, `Unavailable`) with instant visual badge updates.
-* Restricted asset decommissioning and additions limited to department heads and the Principal.
+* Restricted asset decommissioning and additions limited to the Principal.
 
 ### 5. 💳 Tuition & Fees Gateway
 * Multi-category billing ledger supporting:
@@ -75,29 +75,29 @@ SchoolBook comes pre-seeded with two full academic campuses and interactive demo
 * Multicast institutional notification engine.
 * Audience targeting:
   * **Campus-Wide**: Dispatched to all students and faculty (restricted to Principal).
-  * **Faculty / Cohort**: Dispatched to specific academic departments (Deans & Department Leads).
+  * **Faculty / Cohort**: Dispatched to specific academic departments (Department Leads & Faculty).
   * **Freshmen & Student Welfare**: Targeted advisories (Guidance Counselors).
 
 ---
 
 ## 🔒 Role-Based Access Control (RBAC) Matrix
 
-| Feature / Action | Principal | Dean | Teacher | Counselor | Student |
-| :--- | :---: | :---: | :---: | :---: | :---: |
-| **Switch Active Campus / Tenant** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **View Dashboard KPIs** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **View Full Student Directory** | ✅ | ✅ | Limited | ✅ | Self Only |
-| **Enroll New Students / Staff** | ✅ | ✅ | ❌ | ✅ | ❌ |
-| **Mark Daily Attendance Roll Call** | ✅ | ❌ | ✅ | ❌ | ❌ |
-| **Close Attendance Sessions** | ✅ | ❌ | ✅ | ❌ | ❌ |
-| **View Attendance Statistics** | ✅ | ✅ | ❌ | ✅ | ❌ |
-| **Update Campus Asset Status** | ✅ | ✅ (Faculty) | ❌ | ❌ | ❌ |
-| **Decommission / Delete Asset** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **View Full Financial Ledger** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **View Financial Projections** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Pay Tuition / Make Payments** | ✅ | ✅ | ✅ | ✅ | ✅ |
-| **Dispatch School-Wide Circulars** | ✅ | ❌ | ❌ | ❌ | ❌ |
-| **Dispatch Departmental Notices** | ✅ | ✅ | ❌ | ❌ | ❌ |
+| Feature / Action | Principal | Teacher | Counselor | Student |
+| :--- | :---: | :---: | :---: | :---: |
+| **Switch Active Campus / Tenant** | ✅ | ✅ | ✅ | ✅ |
+| **View Dashboard KPIs** | ✅ | ✅ | ✅ | ✅ |
+| **View Full Student Directory** | ✅ | Limited | ✅ | Self Only |
+| **Enroll New Students / Staff** | ✅ | ❌ | ✅ | ❌ |
+| **Mark Daily Attendance Roll Call** | ✅ | ✅ | ❌ | ❌ |
+| **Close Attendance Sessions** | ✅ | ✅ | ❌ | ❌ |
+| **View Attendance Statistics** | ✅ | ❌ | ✅ | ❌ |
+| **Update Campus Asset Status** | ✅ | ❌ | ❌ | ❌ |
+| **Decommission / Delete Asset** | ✅ | ❌ | ❌ | ❌ |
+| **View Full Financial Ledger** | ✅ | ❌ | ❌ | ❌ |
+| **View Financial Projections** | ✅ | ❌ | ❌ | ❌ |
+| **Pay Tuition / Make Payments** | ✅ | ✅ | ✅ | ✅ |
+| **Dispatch School-Wide Circulars** | ✅ | ❌ | ❌ | ❌ |
+| **Dispatch Departmental Notices** | ✅ | ❌ | ❌ | ❌ |
 
 ---
 
@@ -182,7 +182,7 @@ All protected endpoints require tenant and user context passed via HTTP headers:
 | Header Name | Type | Description | Example |
 | :--- | :--- | :--- | :--- |
 | `x-tenant-id` | `string` | Target campus tenant identifier | `tenant_oakridge` |
-| `x-user-role` | `string` | Role of active user (`Principal`, `Dean`, `Teacher`, `Counselor`, `Student`) | `Principal` |
+| `x-user-role` | `string` | Role of active user (`Principal`, `Teacher`, `Counselor`, `Student`) | `Principal` |
 | `x-user-id` | `string` | Member profile ID of active user | `m_oak_principal` |
 
 ### Core Endpoints
