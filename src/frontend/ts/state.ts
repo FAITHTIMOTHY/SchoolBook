@@ -2,7 +2,7 @@
  * SchoolBook SMS - Reactive Application State
  */
 
-import { Tenant, MemberProfileSummary, ActiveTab } from './types.js';
+import { Tenant, MemberProfileSummary, Unit, ActiveTab } from './types.js';
 
 export const UNIT_LABELS: Record<string, string> = {
   'unit_oak_admin': "Principal's Office & Administration",
@@ -25,11 +25,21 @@ class ApplicationState {
   public activeTab: ActiveTab = 'overview';
 
   public tenantsList: Tenant[] = [];
-  public profilesList: MemberProfileSummary[] = [];
+  public unitsList: Unit[] = [];
+  public unitLabels: Record<string, string> = {};
+
+  public setUnits(units: Unit[]): void {
+    this.unitsList = units;
+    this.unitLabels = {};
+
+    for (const unit of units) {
+      this.unitLabels[unit.id] = unit.name;
+    }
+  }
 
   public getUnitLabel(unitId: string | null | undefined): string {
     if (!unitId) return 'No Class / Faculty Assigned';
-    return UNIT_LABELS[unitId] || 'Department / Faculty';
+    return this.unitLabels[unitId] || UNIT_LABELS[unitId] || 'Department / Faculty';
   }
 
   public isPrincipal(): boolean {
@@ -40,30 +50,61 @@ class ApplicationState {
     return this.isPrincipal();
   }
 
+  public isFinanceStaff(): boolean {
+    const position = (this.activeUser?.position || '').toLowerCase();
+    const unit = this.getUnitLabel(this.activeUser?.unit_id).toLowerCase();
+
+    return (
+      position.includes('account') ||
+      position.includes('bursar') ||
+      position.includes('finance') ||
+      unit.includes('finance') ||
+      unit.includes('bursar') ||
+      unit.includes('account')
+    );
+  }
+
+  public isLibrarian(): boolean {
+    const position = (this.activeUser?.position || '').toLowerCase();
+    const unit = this.getUnitLabel(this.activeUser?.unit_id).toLowerCase();
+
+    return (
+      position.includes('librarian') ||
+      position.includes('library') ||
+      unit.includes('library') ||
+      unit.includes('librarian')
+    );
+  }
+
   public isTeacherOrPrincipal(): boolean {
+    if (this.isFinanceStaff() || this.isLibrarian()) return false;
     const role = this.activeUser?.role;
-    return role === 'Teacher' || role === 'Principal';
+    return role === 'Teacher' || role === 'Principal' || role === 'Counselor';
+  }
+
+  public canViewPortal(): boolean {
+    return !this.isFinanceStaff();
   }
 
   public canRegisterMembers(): boolean {
-    const role = this.activeUser?.role;
-    return role === 'Principal' || role === 'Counselor';
+    // The API allows only administrators to create members.
+    return this.isPrincipal();
   }
 
   public canAccessFinance(): boolean {
-    if (this.isPrincipal()) return true;
-    const unitId = this.activeUser?.unit_id || '';
-    return unitId.includes('finance') || unitId.includes('bursar');
+    return this.isPrincipal() || this.isFinanceStaff();
   }
 
   public canEditPortal(): boolean {
-    const role = this.activeUser?.role;
-    return role === 'Teacher' || role === 'Principal';
+    return this.isTeacherOrPrincipal();
+  }
+
+  public canBrowsePortals(): boolean {
+    return this.canEditPortal() || this.isLibrarian();
   }
 
   public canBroadcast(): boolean {
-    const role = this.activeUser?.role;
-    return role === 'Teacher' || role === 'Principal' || role === 'Counselor';
+    return this.isTeacherOrPrincipal();
   }
 
   public isStudent(): boolean {
@@ -71,15 +112,8 @@ class ApplicationState {
   }
 
   public isAuthorizedToEditInventory(): boolean {
-    if (this.isPrincipal()) return true;
-    const unitId = this.activeUser?.unit_id || '';
-    const isLabOrStaff = unitId.includes('science') || 
-                         unitId.includes('stem') || 
-                         unitId.includes('tech') || 
-                         unitId.includes('athletic') || 
-                         unitId.includes('library') ||
-                         unitId.includes('humanities');
-    return isLabOrStaff;
+    if (this.isFinanceStaff()) return false;
+    return this.isTeacherOrPrincipal() || this.isLibrarian();
   }
 }
 

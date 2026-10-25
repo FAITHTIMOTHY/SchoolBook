@@ -17,9 +17,10 @@ import { Public } from '../common/decorators/public.decorator.js';
 import { GoogleAuthGuard } from './guards/google-auth.guard.js';
 import { RefreshTokensService } from './refresh-tokens/refresh-tokens.service.js';
 import { LocalAuthService } from './local-auth.service.js';
-import { LoginDto, RegisterDto } from './dto/login.dto.js';
+import { LoginDto } from './dto/login.dto.js';
 import { ForgotPasswordDto, ResetPasswordDto, VerifyEmailDto } from './dto/password.dto.js';
 import { PasswordService } from './password.service.js';
+import { EmailService } from '../common/email/email.service.js';
 import { UseGuards } from '@nestjs/common';
 
 @Controller('auth')
@@ -30,7 +31,20 @@ export class AuthController {
     private readonly refreshTokensService: RefreshTokensService,
     private readonly localAuthService: LocalAuthService,
     private readonly passwordService: PasswordService,
+    private readonly emailService: EmailService,
   ) {}
+
+  @Public()
+  @Get('providers')
+  providers() {
+    return {
+      google: Boolean(
+        this.configService.get<string>('GOOGLE_CLIENT_ID') &&
+          this.configService.get<string>('GOOGLE_CLIENT_SECRET'),
+      ),
+      passwordReset: this.emailService.isConfigured(),
+    };
+  }
 
   @Public()
   @Throttle({ default: { limit: 10, ttl: 60_000 } })
@@ -101,29 +115,16 @@ export class AuthController {
       tenantId: rotated.tenantId,
       email: rotated.email,
       role: rotated.role,
-      tenantSlug: '',
-      firstName: '',
-      lastName: '',
-      avatarUrl: null,
+      tenantSlug: rotated.tenantSlug,
+      firstName: rotated.firstName,
+      lastName: rotated.lastName,
+      avatarUrl: rotated.avatarUrl,
     } as AuthenticatedUser);
 
     response.cookie(AUTH_COOKIE_NAME, accessToken, this.authService.cookieOptions());
     response.cookie(REFRESH_TOKEN_COOKIE_NAME, rotated.newRefreshToken, this.authService.refreshCookieOptions());
 
     return { success: true };
-  }
-
-  @Public()
-  @Throttle({ default: { limit: 20, ttl: 60_000 } })
-  @Post('register')
-  async register(
-    @Body() dto: RegisterDto,
-    @Res({ passthrough: true }) response: Response,
-  ) {
-    const result = await this.localAuthService.register(dto);
-    response.cookie(AUTH_COOKIE_NAME, result.accessToken, this.authService.cookieOptions());
-    response.cookie(REFRESH_TOKEN_COOKIE_NAME, result.refreshToken, this.authService.refreshCookieOptions());
-    return { user: result.user };
   }
 
   @Public()

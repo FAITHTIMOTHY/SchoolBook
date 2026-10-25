@@ -319,6 +319,32 @@ label,
   gap: 8px;
 }
 
+.notion-workspace-chip {
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 10px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  border-radius: var(--glass-pill);
+  background: var(--notion-hover);
+  color: var(--notion-text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.notion-signout-btn {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--notion-text-secondary);
+  white-space: nowrap;
+}
+
 .notion-select-group {
   display: flex;
   align-items: center;
@@ -1261,6 +1287,12 @@ label,
   font-size: 12px;
   font-weight: 500;
   color: var(--notion-text-secondary);
+}
+
+.form-help {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--notion-text-muted);
 }
 
 .form-group input,

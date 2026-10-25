@@ -1,279 +1,158 @@
-# SchoolBook SMS (School Management System)
+# SchoolBook SMS
 
-> **Next-Generation Cloud-Ready School Management & Student Information System (SMS / SIS)**  
-> *Engineered for Modern Academies, K-12 Institutions, Colleges, and Multi-Campus Educational Networks.*
+SchoolBook is a multi-tenant school management and student information system. The production build is a single NestJS service that serves the API and the compiled frontend, backed by PostgreSQL (Supabase in the reference deployment).
 
----
+## What is in this build
 
-## 🌟 Executive Summary
+- **Seven workspaces**: overview, student portal, members, attendance, inventory, finance, and broadcast.
+- **Real authentication**: HttpOnly cookie sessions, rotating refresh tokens, login throttling, role-based route guards, and optional Google OAuth.
+- **Admin onboarding**: principals and vice principals can create staff, student, and guardian logins from a member profile. Temporary passwords are shown once and are never emailed automatically.
+- **Tenant isolation**: every query is scoped to the signed-in user's school.
+- **Honest integration states**: Google sign-in, password-reset email, broadcast email, and payment-gateway verification are disabled until their credentials are configured. The UI does not pretend they are live.
+- **Production hardening**: fail-fast environment validation, CSP, request IDs, structured request logs, health checks, soft-delete for members, self-archive protection, and last-administrator protection.
 
-**SchoolBook SMS** is an enterprise-grade, multi-tenant academic management platform designed to eliminate paper-based administrative friction and modernize institutional operations. Built with a high-performance TypeScript/Node.js backend and a reactive, zero-framework Vanilla TypeScript frontend, SchoolBook unifies student record-keeping, live roll-call attendance, departmental asset tracking, tuition billing, and institutional circular dispatching under a single pane of glass.
+## Architecture
 
----
+| Layer | Technology |
+| --- | --- |
+| API | NestJS 12, TypeScript, Prisma 7 |
+| Database | PostgreSQL 17 (Supabase) |
+| Frontend | Vanilla TypeScript, esbuild, HTML/CSS |
+| Auth | Cookie JWT access token + rotating refresh token; Google OAuth optional |
+| Deployment | Single Node web service (Render/Railway/Fly/VPS); Supabase for Postgres |
 
-## 🚀 Key Architectural Highlights
+The NestJS compatibility layer keeps the original frontend response shapes stable while all persistence goes through Prisma. There is no JSON-file database in the production path.
 
-* 🏢 **Logical Multi-Tenancy**: Host multiple independent schools or campus branches (e.g., *Oakridge International Academy* and *Maplewood Preparatory School*) on a single infrastructure instance with strict header-enforced tenant isolation (`x-tenant-id`).
-* 🔐 **Role-Based Access Control (RBAC)**: Fine-grained security matrix catering to four distinct academic personas: **Principal**, **Teacher**, **Counselor**, and **Student**.
-* ⏱️ **Automated Student Lifecycle & Inactivity Engine**: Built-in 30-day absence algorithm that automatically transitions chronically absent students to `Inactive` status while protecting administrative faculty.
-* 📈 **Predictive Financial Projections**: Built-in algorithmic forecasting that models rolling weekly collection velocity and projects upcoming term revenue across tuition categories.
-* ⚡ **Zero-Dependency Modern Frontend**: Powered by modular TypeScript, esbuild bundling (sub-20ms builds), and a bespoke, responsive CSS design system featuring curated typography, glassmorphism, and micro-interactions.
+## Quick start
 
----
+Prerequisites: Node.js 22+, npm, and a PostgreSQL database (local or Supabase).
 
-## 👥 Demo Personas & Pre-Seeded Campuses
+```bash
+# 1. Install dependencies
+npm install
+npm ci --prefix backend
 
-SchoolBook comes pre-seeded with two full academic campuses and interactive demo profiles:
+# 2. Configure the backend
+cp backend/.env.example backend/.env
+# Edit backend/.env: DATABASE_URL, DIRECT_URL, JWT_SECRET, FRONTEND_URL
 
-### 1. Oakridge International Academy (`tenant_oakridge`)
-| Persona | Name | Role | Position | Access Rights |
-| :--- | :--- | :--- | :--- | :--- |
-| **Executive** | **Dr. Evelyn Vance** | `Principal` | Head of School | Super-admin access across all campus modules, ledgers, & circulars |
-| **Instructor** | **Prof. Marcus Brody** | `Teacher` | Senior STEM Instructor | STEM curriculum delivery, laboratory mentorship, faculty circulars |
-| **Instructor** | **Ms. Clara Higgins** | `Teacher` | Lead Teacher & Registrar | Class roll call marking, session closing, attendance sheets |
-| **Student Welfare**| **Mr. David Miller** | `Counselor` | Guidance Counselor | Full student directory, attendance trends, freshmen support |
-| **Scholar (Active)**| **Sophia Chen** | `Student` | Grade 10 - Class A | Self-service tuition payment portal, campus circulars |
-| **Scholar (Defaulter)**| **Thomas Vance** | `Student` | Grade 10 - Class A | Demonstrates automatic `Inactive` tag due to 30+ days without attendance |
+# 3. Apply migrations and generate the Prisma client
+npm run prisma:migrate --prefix backend
+npm run prisma:generate --prefix backend
 
-### 2. Maplewood Preparatory School (`tenant_maplewood`)
-* Complete independent campus partition demonstrating isolated departmental rosters, distinct tuition ledgers, and independent asset registers.
+# 4. Build the frontend and backend
+npm run build
 
----
-
-## 🧩 Functional Modules
-
-### 1. 📊 Executive Overview & KPI Dashboard
-* Real-time metrics tracking total student body count, active faculty count, campus roll call attendance averages, active campus physical assets, and total collected term tuition.
-* Historical attendance consistency charts and weekly collection volume analytics.
-
-### 2. 🎓 Student & Faculty Directory
-* Centralized directory supporting multi-attribute filtering (Active/Inactive, Faculty, Grade Cohort, Search Query).
-* Comprehensive student profiles including Student ID, email, contact telephone, residential address, date of birth (month/day), faculty assignment, and enrollment timestamp.
-* Role-protected **Enroll Student / Faculty Member** modal dialog.
-
-### 3. 📋 Live Roll Call Attendance Register
-* Class-specific roll call sheets with session filters (*Morning Roll Call*, *Period 1 - STEM Lecture*, *Homeroom Advisory*).
-* Single-click **Present / Absent** toggle with visual status badges.
-* **Close Roll Call Session**: Automatically marks all unmarked enrolled students as Absent and commits session metrics to the database.
-* **Faculty Attendance Analytics**: Tracks attendance consistency across academic personnel.
-
-### 4. 🔬 Campus Asset & Lab Inventory
-* Asset health register across specialized departments (*STEM Science Labs*, *Athletics*, *Humanities*, *Music & Arts*).
-* Real-time status toggling (`Active`, `Faulty`, `Unavailable`) with instant visual badge updates.
-* Restricted asset decommissioning and additions limited to the Principal.
-
-### 5. 💳 Tuition & Fees Gateway
-* Multi-category billing ledger supporting:
-  * **Tuition** (Term installments)
-  * **Lab & Library Fees** (Science apparatus & digital access)
-  * **PTA & Extracurricular** (Athletic gear, clubs, student council)
-  * **Donations** (Alumni scholarships & endowment funds)
-* End-to-end simulated payment gateway with credit card format validation, CVV verification, and transaction receipt generation.
-* Automated 4-week collection trend analysis and predictive growth modeling.
-
-### 6. 📢 School Circulars & Broadcast System
-* Multicast institutional notification engine.
-* Audience targeting:
-  * **Campus-Wide**: Dispatched to all students and faculty (restricted to Principal).
-  * **Faculty / Cohort**: Dispatched to specific academic departments (Department Leads & Faculty).
-  * **Freshmen & Student Welfare**: Targeted advisories (Guidance Counselors).
-
----
-
-## 🔒 Role-Based Access Control (RBAC) Matrix
-
-| Feature / Action | Principal | Teacher | Counselor | Student |
-| :--- | :---: | :---: | :---: | :---: |
-| **Switch Active Campus / Tenant** | ✅ | ✅ | ✅ | ✅ |
-| **View Dashboard KPIs** | ✅ | ✅ | ✅ | ✅ |
-| **View Full Student Directory** | ✅ | Limited | ✅ | Self Only |
-| **Enroll New Students / Staff** | ✅ | ❌ | ✅ | ❌ |
-| **Mark Daily Attendance Roll Call** | ✅ | ✅ | ❌ | ❌ |
-| **Close Attendance Sessions** | ✅ | ✅ | ❌ | ❌ |
-| **View Attendance Statistics** | ✅ | ❌ | ✅ | ❌ |
-| **Update Campus Asset Status** | ✅ | ❌ | ❌ | ❌ |
-| **Decommission / Delete Asset** | ✅ | ❌ | ❌ | ❌ |
-| **View Full Financial Ledger** | ✅ | ❌ | ❌ | ❌ |
-| **View Financial Projections** | ✅ | ❌ | ❌ | ❌ |
-| **Pay Tuition / Make Payments** | ✅ | ✅ | ✅ | ✅ |
-| **Dispatch School-Wide Circulars** | ✅ | ❌ | ❌ | ❌ |
-| **Dispatch Departmental Notices** | ✅ | ❌ | ❌ | ❌ |
-
----
-
-## 🛠️ Technology Stack
-
-```
-SchoolBook SMS Framework
-├── Backend
-│   ├── Runtime: Node.js (v18+ / v20+)
-│   ├── Language: TypeScript 5.4+ (Strict Mode)
-│   ├── Server: Express 4.19
-│   ├── Dev Server: tsx (watch mode with zero-restart transpile)
-│   └── Persistence: Atomic JSON Local Ledger + PostgreSQL Schema (schema.sql)
-├── Frontend
-│   ├── Architecture: Modular TypeScript Single-Page Application (SPA)
-│   ├── Bundler: esbuild (Target: ES2022)
-│   ├── Styling: Vanilla Modern CSS3 (Variables, Flexbox/Grid, Glassmorphism)
-│   └── Assets: Google Fonts (Inter, Outfit), FontAwesome Pro 6 Icons
-└── Contracts
-    └── Shared Interfaces: src/shared/types.ts (100% typed contracts)
+# 5. Start the production server
+npm start
 ```
 
----
+Open `http://localhost:3000`. The API is served under `/api`; health checks are at `/health` and `/health/live`.
 
-## 📁 Repository Directory Structure
+For development:
 
-```plaintext
-c:\Users\Administrator\Desktop\Churchbook\
-├── database.json              # Atomic local JSON database (auto-seeded on first launch)
-├── package.json               # Node package configuration & NPM scripts
-├── schema.sql                 # Production-ready PostgreSQL relational schema
-├── tsconfig.json              # TypeScript root compiler configuration
-├── README.md                  # Project documentation & reference manual
-│
-├── src/
-│   ├── shared/                # Strongly-typed contracts shared across full stack
-│   │   └── types.ts           # Roles, Tenant, Member, Attendance, Financials, Inventory
-│   │
-│   ├── backend/               # Modular Express API Server
-│   │   ├── server.ts          # Express application entrypoint, middlewares & router mounts
-│   │   ├── db/
-│   │   │   └── db.ts          # Database repository, seed logic & 30-day attendance engine
-│   │   ├── middleware/
-│   │   │   ├── tenant.ts      # Multi-tenant context extraction & verification
-│   │   │   └── auth.ts        # RBAC verification & role authorization middlewares
-│   │   └── routes/
-│   │       ├── members.ts     # Student & faculty directory, profiles, enrollment
-│   │       ├── attendance.ts  # Roll call sheets, session closing & stats
-│   │       ├── inventory.ts   # Campus assets & lab equipment tracking
-│   │       ├── financials.ts  # Payment gateway, tuition ledger & linear forecasting
-│   │       ├── messaging.ts   # Institutional circulars & broadcast engine
-│   │       └── units.ts       # Academic faculties, departments & class cohorts
-│   │
-│   └── frontend/              # Client-Side Dashboard Application
-│       ├── index.html         # Main application markup & modal dialog containers
-│       ├── app.js             # Compiled production bundle (generated via esbuild)
-│       ├── app.js.map         # Source map for in-browser debugging
-│       ├── css/
-│       │   └── index.css      # Design system, CSS custom properties & component styles
-│       └── ts/                # Modular TypeScript Frontend Source
-│           ├── main.ts        # Client controller entry point & tab lifecycle router
-│           ├── state.ts       # Reactive client-side state store & RBAC helper methods
-│           ├── types.ts       # Frontend-specific UI view contracts
-│           ├── api.ts         # Type-safe Fetch wrapper with tenant header injection
-│           ├── rbac.ts        # Dynamic DOM permission gating & UI element visibility
-│           ├── modals.ts      # Modal dialog event listeners & form handlers
-│           └── tabs/
-│               ├── overviewTab.ts    # KPI metric cards & recent session summaries
-│               ├── membersTab.ts     # Student & faculty directory table & profile cards
-│               ├── attendanceTab.ts  # Roll call sheet & performance analytics
-│               ├── inventoryTab.ts   # Campus inventory register & status toggles
-│               ├── financialsTab.ts  # Payment gateway submission & tuition ledger
-│               └── broadcastTab.ts   # School circular composer & notice feed
+```bash
+npm run watch:fe   # rebuild the browser bundle on change
+npm run dev        # NestJS watch mode
 ```
 
----
+## Environment variables
 
-## 🔌 REST API Specification
+See `backend/.env.example` for the full list. The required values are:
 
-All protected endpoints require tenant and user context passed via HTTP headers:
+| Variable | Purpose |
+| --- | --- |
+| `DATABASE_URL` | Pooled PostgreSQL connection used by the app |
+| `DIRECT_URL` | Direct PostgreSQL connection used by Prisma migrations |
+| `JWT_SECRET` | At least 32 random characters; rotate before launch |
+| `FRONTEND_URL` | Public origin allowed by CORS and used in auth links |
+| `NODE_ENV` | `production` on the deployed service |
+| `PORT` | HTTP port (the platform usually injects this) |
+| `TRUST_PROXY` | Set to `1` behind a reverse proxy or load balancer |
 
-| Header Name | Type | Description | Example |
-| :--- | :--- | :--- | :--- |
-| `x-tenant-id` | `string` | Target campus tenant identifier | `tenant_oakridge` |
-| `x-user-role` | `string` | Role of active user (`Principal`, `Teacher`, `Counselor`, `Student`) | `Principal` |
-| `x-user-id` | `string` | Member profile ID of active user | `m_oak_principal` |
+Optional integrations:
 
-### Core Endpoints
+- `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `GOOGLE_CALLBACK_URL`
+- `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `MAIL_FROM`
+- `SEED_DEMO_DATA=true` and `SEED_DEMO_PASSWORD` only for a disposable demo database
 
-#### 1. Tenants & Auth Profiles
-* `GET /api/tenants` — List all registered academic campuses.
-* `GET /api/auth/profiles?tenantId=:id` — Fetch member personas for profile switching.
+Without SMTP, password reset and broadcast email remain disabled. Without Google credentials, the Google button stays hidden. Without a payment-gateway integration, card payments require an operator-supplied gateway reference and are not verified by SchoolBook.
 
-#### 2. Student & Staff Directory
-* `GET /api/members` — Fetch directory of enrolled students and faculty (role-pruned).
-* `POST /api/members` — Enroll a new student or faculty member.
-* `GET /api/members/:id` — View complete profile (full contact info restricted to Principal/Counselor).
-* `DELETE /api/members/:id` — Withdraw / remove student or faculty profile (Principal only).
+## Demo data
 
-#### 3. Roll Call Attendance
-* `GET /api/attendance/sheet?date=YYYY-MM-DD&serviceName=Name` — Fetch roll call sheet for a session.
-* `POST /api/attendance/mark` — Toggle student attendance status (`Present` / `Absent`).
-* `POST /api/attendance/close-service` — Finalize roll call session; marks unrecorded students as Absent.
-* `GET /api/attendance/stats?type=faculty` — Fetch attendance consistency percentages.
+Demo seeding is opt-in and refuses to run in production without an explicit `SEED_DEMO_PASSWORD`.
 
-#### 4. Campus Inventory & Labs
-* `GET /api/inventory` — List campus physical equipment and laboratory apparatus.
-* `POST /api/inventory` — Register new campus asset (Department leads & Principal).
-* `PATCH /api/inventory/:id/status` — Update asset status (`Active`, `Faulty`, `Unavailable`).
-* `DELETE /api/inventory/:id` — Decommission asset from register (Principal only).
+```bash
+# backend/.env
+SEED_DEMO_DATA=true
+SEED_DEMO_PASSWORD=choose-a-demo-password
 
-#### 5. Financials & Tuition
-* `GET /api/financials` — Fetch ledger of tuition payments (Principal & Bursar only).
-* `POST /api/financials/pay` — Submit payment through secure mock gateway.
-* `GET /api/financials/projections` — Calculate rolling revenue totals and predictive growth.
+npm run seed:demo
+```
 
-#### 6. Circulars & Notifications
-* `GET /api/messaging/broadcasts` — List published circulars for the campus.
-* `POST /api/messaging/broadcast` — Dispatch an official institutional circular.
+Do not seed demo data into a database that will hold real school records.
 
----
+## Roles
 
-## 💻 Getting Started
+| Role | Access |
+| --- | --- |
+| Principal / Vice Principal | All seven workspaces, finance, member administration, login onboarding, inventory deletion |
+| Teacher / Counselor | Overview, portal editing, members, attendance, inventory, broadcast; no finance vault |
+| Librarian | Overview, read-only portal, members, inventory editing, broadcast feed; no attendance or finance |
+| Accountant / Bursar | Overview, members, read-only inventory, finance, broadcast feed; no portal or attendance editing |
+| Student / Guardian | Overview, their own read-only portal, broadcast feed |
 
-### Prerequisites
-* **Node.js**: v18.0.0 or higher
-* **NPM**: v9.0.0 or higher
-* **PowerShell** (Windows) or **Bash** (macOS / Linux)
+Role checks are enforced in the API, not only in the UI.
 
-### Installation
+## API and health checks
 
-1. **Clone or navigate to the repository directory**:
-   ```powershell
-   cd c:\Users\Administrator\Desktop\Churchbook
-   ```
+- `GET /health` — liveness plus database ping
+- `GET /health/live` — process liveness
+- `POST /api/auth/login`, `POST /api/auth/refresh`, `POST /api/auth/logout`
+- `GET /api/auth/providers` — which optional auth providers are configured
+- `GET /api/members/me` — signed-in member; guardians resolve to their first linked student
+- `POST /api/users` — principal/admin-only account provisioning
+- Compatibility endpoints: `/api/members`, `/api/units`, `/api/attendance/*`, `/api/inventory`, `/api/financials`, `/api/messaging`, `/api/portal`, `/api/tenants`
 
-2. **Install project dependencies**:
-   ```powershell
-   npm install
-   ```
+## Testing
 
-3. **Compile the frontend TypeScript bundle**:
-   ```powershell
-   npm run build:fe
-   ```
+```bash
+# Backend unit tests
+npm test --prefix backend
 
-4. **Launch the development server**:
-   ```powershell
-   npm run dev
-   ```
+# Backend end-to-end tests (requires a test database)
+npm run test:e2e --prefix backend
 
-5. **Open in browser**:
-   Navigate to [http://localhost:3000](http://localhost:3000).
+# Local smoke checks
+backend/smoke.ps1
+backend/auth-smoke.ps1
+backend/refresh-smoke.ps1
+node backend/ui-smoke.mjs
+```
 
----
+The UI smoke test uses headless Chrome and writes screenshots to `backend/ui-screenshots/`.
 
-## 📜 NPM Scripts Reference
+## Deployment
 
-| Script | Command | Purpose |
-| :--- | :--- | :--- |
-| `npm run dev` | `tsx watch src/backend/server.ts` | Starts live backend server with hot auto-reload on file edits |
-| `npm run build:fe`| `esbuild src/frontend/ts/main.ts ...` | Compiles TypeScript frontend into `src/frontend/app.js` with sourcemaps |
-| `npm run watch:fe`| `esbuild ... --watch` | Watches frontend TypeScript files and automatically rebundles on save |
-| `npm run build:be`| `tsc` | Compiles backend TypeScript files into `dist/` |
-| `npm run build` | `npm run build:fe && npm run build:be` | Complete end-to-end production build |
-| `npm run typecheck`| `tsc --noEmit` | Strict full-codebase TypeScript static type check |
-| `npm start` | `node dist/backend/server.js` | Runs compiled production server |
+See [`docs/DEPLOYMENT.md`](docs/DEPLOYMENT.md) for the Render, Docker, and VPS paths, migration commands, health checks, backups, and post-deploy checklist.
 
----
+**Vercel note:** Vercel is a good host for static assets, but this build expects one long-running Node process. The in-process broadcast email queue, Prisma connection pooling, and same-origin cookie sessions do not fit a serverless function cleanly. Deploy the single NestJS service to Render/Railway/Fly/VPS. If the frontend is split onto Vercel later, the API must move to a persistent host and cookies must be configured for cross-site use.
 
-## 🗄️ Database Architecture
+## Repository layout
 
-* **Development & Local Execution**: Stored in [`database.json`](file:///c:/Users/Administrator/Desktop/Churchbook/database.json). If this file is deleted, the server automatically regenerates full seed data on startup.
-* **Production Deployment**: A complete relational PostgreSQL schema is provided in [`schema.sql`](file:///c:/Users/Administrator/Desktop/Churchbook/schema.sql), featuring foreign key cascades, unique compound constraints, and multi-tenant performance indexes (`tenant_id`).
+```text
+backend/                 NestJS API, Prisma schema, migrations, seeds
+src/frontend/            HTML, CSS, TypeScript source, compiled browser bundles
+src/shared/              Shared API types
+docs/                    Merge plan and deployment runbook
+scripts/                 Legacy migration/import helpers
+```
 
----
+## Before launch
 
-## 📄 License
-This project is proprietary software developed for academic management operations. All rights reserved.
+1. Rotate the database password and `JWT_SECRET` that were used during development.
+2. Create a fresh production database; do not reuse the demo database.
+3. Run `prisma migrate deploy` against the production direct URL.
+4. Bootstrap one school and one principal account using the deployment runbook.
+5. Configure HTTPS, backups, monitoring, and a restore drill.
+6. Add Google OAuth, SMTP, and payment-gateway credentials only when the school is ready to use them.

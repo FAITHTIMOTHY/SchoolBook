@@ -4,6 +4,7 @@
 
 import { apiFetch } from '../api.js';
 import { state } from '../state.js';
+import { escapeAttribute, escapeHtml } from '../html.js';
 import { InventoryItem, InventoryStatus } from '../types.js';
 
 export async function loadInventoryData(): Promise<void> {
@@ -26,24 +27,24 @@ export async function loadInventoryData(): Promise<void> {
       return `
         <div class="inventory-card">
           <div>
-            <h3>${item.item_name}</h3>
-            <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">${item.description || 'No description provided.'}</p>
+            <h3>${escapeHtml(item.item_name)}</h3>
+            <p style="font-size:0.85rem; color:var(--text-secondary); margin-top:4px;">${escapeHtml(item.description || 'No description provided.')}</p>
           </div>
           
           <div class="inv-meta">
-            <span class="inv-dept">${state.getUnitLabel(item.unit_id)}</span>
-            <span class="badge ${badgeClass}">${item.status}</span>
+            <span class="inv-dept">${escapeHtml(state.getUnitLabel(item.unit_id))}</span>
+            <span class="badge ${badgeClass}">${escapeHtml(item.status)}</span>
           </div>
 
           ${isAuthorizedToEdit ? `
             <div class="inv-controls">
-              <select onchange="window.updateInventoryStatus('${item.id}', this.value)" class="form-input select-input btn-sm flex-1">
+              <select onchange="window.updateInventoryStatus('${escapeAttribute(item.id)}', this.value)" class="form-input select-input btn-sm flex-1">
                 <option value="Active" ${isSelected('Active')}>Active</option>
                 <option value="Faulty" ${isSelected('Faulty')}>Faulty</option>
                 <option value="Unavailable" ${isSelected('Unavailable')}>Unavailable</option>
               </select>
               ${state.isPrincipal() ? `
-                <button class="btn btn-danger btn-sm" onclick="window.deleteInventoryItem('${item.id}')">✖ Delete</button>
+                <button class="btn btn-danger btn-sm" onclick="window.deleteInventoryItem('${escapeAttribute(item.id)}')">✖ Delete</button>
               ` : ''}
             </div>
           ` : ''}

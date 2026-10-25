@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: schoolbook
+    runtime: node
+    plan: starter
+    region: oregon
+    branch: main
+    buildCommand: npm ci && npm ci --prefix backend && npm run prisma:generate --prefix backend && npm run build
+    preDeployCommand: npm run prisma:migrate --prefix backend
+    startCommand: npm start
+    healthCheckPath: /health
+    autoDeploy: true
+    maxShutdownDelaySeconds: 30
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: NODE_VERSION
+        value: 22.14.0
+      - key: TRUST_PROXY
+        value: "1"
+      - key: SEED_DEMO_DATA
+        value: "false"
+      - key: DATABASE_URL
+        sync: false
+      - key: DIRECT_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        sync: false
+      # Optional: add GOOGLE_*, SMTP_*, and payment-gateway values in the
+      # Render dashboard when the school is ready to use them.

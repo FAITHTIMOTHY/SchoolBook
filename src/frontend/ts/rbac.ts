@@ -8,6 +8,24 @@ export function applyRBACStyling(): void {
   if (!state.activeUser) return;
   const role = state.activeUser.role;
 
+  // 0. Hide workspaces the signed-in account cannot use. This prevents a
+  // finance officer or student from landing on a tab that only returns 403s.
+  const setTabVisible = (tab: string, visible: boolean): void => {
+    const button = document.querySelector<HTMLElement>(
+      `.nav-btn[data-tab="${tab}"]`,
+    );
+    if (button) button.style.display = visible ? '' : 'none';
+  };
+
+  const studentView = state.isStudent();
+
+  setTabVisible('portal', state.canViewPortal());
+  setTabVisible('members', !studentView);
+  setTabVisible('attendance', state.isTeacherOrPrincipal());
+  setTabVisible('inventory', !studentView);
+  setTabVisible('financials', !studentView);
+  setTabVisible('broadcast', true);
+
   // 1. Members/Students Tab: Register button visibility (Principal, Counselor)
   const btnOpenMemberModal = document.getElementById('btn-open-member-modal');
   if (btnOpenMemberModal) {
@@ -26,16 +44,19 @@ export function applyRBACStyling(): void {
     attCloseBtn.style.display = isTeacherOrPrincipal ? 'inline-flex' : 'none';
   }
 
-  // 3. Inventory Tab: Adding items restricted to the Principal
+  // 3. Inventory Tab: Adding items is limited to staff with edit rights.
   const btnOpenInventoryModal = document.getElementById('btn-open-inventory-modal');
   if (btnOpenInventoryModal) {
-    btnOpenInventoryModal.style.display = state.isLeader() ? 'block' : 'none';
+    btnOpenInventoryModal.style.display = state.isAuthorizedToEditInventory()
+      ? 'block'
+      : 'none';
   }
 
   const invBanner = document.getElementById('inventory-restricted-banner');
   if (invBanner) {
-    const isRestrictedRole = role === 'Student';
-    invBanner.style.display = isRestrictedRole ? 'block' : 'none';
+    invBanner.style.display = state.isAuthorizedToEditInventory()
+      ? 'none'
+      : 'block';
   }
 
   // 4. Financial Tab: Audit panel vs Denied panel visibility (Principal & Bursar)
@@ -87,7 +108,7 @@ export function applyRBACStyling(): void {
     portalEditBar.style.display = canEditPortal ? 'flex' : 'none';
   }
   if (portalReadOnlyBanner) {
-    portalReadOnlyBanner.style.display = state.isStudent() ? 'flex' : 'none';
+    portalReadOnlyBanner.style.display = canEditPortal ? 'none' : 'flex';
   }
   if (portalStudentSelector) {
     // Teachers & Management can select which student portal to edit; Students see only their own

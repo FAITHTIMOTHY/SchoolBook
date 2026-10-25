@@ -4,12 +4,10 @@
 
 export * from '../../shared/types.js';
 
+import type { RecentServiceSummary } from '../../shared/types.js';
+
 export type ActiveTab = 'overview' | 'portal' | 'members' | 'attendance' | 'inventory' | 'financials' | 'broadcast';
 
-export interface RecentService {
-  name: string;
-  date: string;
-  status: 'Closed' | 'Open';
-}
+export type RecentService = RecentServiceSummary;
 
 export type RecentSession = RecentService;

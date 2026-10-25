@@ -29,15 +29,15 @@
       </a>
 
       <nav class="sb-nav-links" aria-label="Primary">
-        <a href="#tour">Live workspace</a>
+        <a href="#tour">Product tour</a>
         <a href="#features">Features</a>
         <a href="#roles">Roles</a>
         <a href="#faq">FAQ</a>
       </nav>
 
       <div class="sb-nav-actions">
-        <a href="/app" class="sb-link">Log in</a>
-        <a href="/app" class="sb-btn sb-btn-primary sb-btn-sm">Launch</a>
+        <a href="/login" class="sb-link">Sign in</a>
+        <a href="/login" class="sb-btn sb-btn-primary sb-btn-sm">Open workspace</a>
       </div>
 
       <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
@@ -45,11 +45,11 @@
       </button>
     </div>
     <div class="sb-mobile-menu" id="sb-mobile-menu">
-      <a href="#tour">Live workspace</a>
+      <a href="#tour">Product tour</a>
       <a href="#features">Features</a>
       <a href="#roles">Roles</a>
       <a href="#faq">FAQ</a>
-      <a href="/app" class="sb-btn sb-btn-primary">Launch</a>
+      <a href="/login" class="sb-btn sb-btn-primary">Open workspace</a>
     </div>
   </header>
 
@@ -70,12 +70,12 @@
         </p>
 
         <div class="sb-hero-actions" data-reveal>
-          <a href="/app" class="sb-btn sb-btn-primary sb-btn-lg">
-            Launch SchoolBook <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+          <a href="/login" class="sb-btn sb-btn-primary sb-btn-lg">
+            Sign in to your workspace <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
           </a>
           <a href="#tour" class="sb-btn sb-btn-ghost sb-btn-lg">
             <svg class="sb-icon"><use href="/icons.svg#i-play" /></svg>
-            See it in action
+            Take the product tour
           </a>
         </div>
 
@@ -83,7 +83,9 @@
           <li><svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg> Principal</li>
           <li><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg> Teacher</li>
           <li><svg class="sb-icon"><use href="/icons.svg#i-shield" /></svg> Counselor</li>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-fees" /></svg> Bursar</li>
           <li><svg class="sb-icon"><use href="/icons.svg#i-portal" /></svg> Student</li>
+          <li><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg> Guardian</li>
         </ul>
       </div>
 
@@ -97,23 +99,20 @@
             <div class="sb-canvas-dots"><i></i><i></i><i></i></div>
             <div class="sb-canvas-crumb">
               <svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg>
-              <span id="sb-campus-name">Oakridge International Academy</span>
+              <span id="sb-campus-name">SchoolBook Academy</span>
               <span class="sb-crumb-sep">/</span>
               <span class="sb-crumb-muted">Campus overview</span>
             </div>
-            <div class="sb-canvas-switch" role="group" aria-label="Switch campus">
-              <button class="is-active" data-campus="oakridge">Oakridge</button>
-              <button data-campus="maplewood">Maplewood</button>
-            </div>
+            <span class="sb-chip" style="font-size:0.68rem;">Product preview</span>
           </div>
 
           <div class="sb-canvas-body">
             <!-- Sidebar -->
             <aside class="sb-canvas-side">
               <div class="sb-side-workspace">
-                <span class="sb-side-mark">OA</span>
+                <span class="sb-side-mark">SB</span>
                 <div>
-                  <strong id="sb-side-name">Oakridge Academy</strong>
+                  <strong id="sb-side-name">SchoolBook Academy</strong>
                   <span>Institutional workspace</span>
                 </div>
               </div>
@@ -248,9 +247,9 @@
           <ul class="sb-checks">
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Subject-level scores with comments</li>
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Live attendance and standing indicators</li>
-            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Course documents students can download</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Course documents attached by the school</li>
           </ul>
-          <a href="/app" class="sb-textlink">
+          <a href="/login" class="sb-textlink">
             Open the student portal <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
           </a>
         </div>
@@ -313,7 +312,7 @@
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Named sessions per class and term</li>
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Consistency trends for staff and students</li>
           </ul>
-          <a href="/app" class="sb-textlink">
+          <a href="/login" class="sb-textlink">
             See the attendance register <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
           </a>
         </div>
@@ -370,14 +369,14 @@
           <h2 class="sb-h2">Reach every guardian with one send.</h2>
           <p class="sb-body">
             Write the notice once and choose who receives it — the whole campus, a single department, or one
-            cohort. Guardians get it by email, and the delivery is tracked.
+            cohort. When an email provider is configured, guardian delivery is queued from the same record.
           </p>
           <ul class="sb-checks">
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Campus-wide, department, or cohort targeting</li>
             <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Attach syllabi and term documents</li>
-            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Delivery and acknowledgment counts</li>
+            <li><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg> Recipient counts recorded on each circular</li>
           </ul>
-          <a href="/app" class="sb-textlink">
+          <a href="/login" class="sb-textlink">
             Open the circulars hub <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
           </a>
         </div>
@@ -453,14 +452,14 @@
 
           <article class="sb-feature" data-reveal="right">
             <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-campus" /></svg></span>
-            <h3>Multiple campuses</h3>
-            <p>Several schools, fully separate records and billing, one sign-in.</p>
+            <h3>School-level separation</h3>
+            <p>Each school has its own roster, ledger, and billing records. Accounts never cross school boundaries.</p>
           </article>
 
           <article class="sb-feature" data-reveal="right">
             <span class="sb-feature-icon"><svg class="sb-icon"><use href="/icons.svg#i-lock" /></svg></span>
             <h3>Role-based access</h3>
-            <p>Four roles, each seeing exactly what their job requires.</p>
+            <p>Every role sees exactly what their job requires, from the principal's office to the family portal.</p>
           </article>
         </div>
       </div>
@@ -516,7 +515,7 @@
       <div class="sb-container">
         <div class="sb-section-head" data-reveal="left">
           <span class="sb-chip">Built for every role</span>
-          <h2 class="sb-h2">One workspace, four points of view.</h2>
+          <h2 class="sb-h2">One workspace, every point of view.</h2>
           <p class="sb-lede-sm">
             Everyone reads the same records. What changes is what they are allowed to change.
           </p>
@@ -530,8 +529,8 @@
           </article>
           <article class="sb-role" data-reveal="left">
             <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-check" /></svg></span>
-            <h3>Teacher</h3>
-            <p>Roll calls, grades, portal updates, and reminders to guardians.</p>
+            <h3>Teacher &amp; Librarian</h3>
+            <p>Roll calls, grades, portal updates, reminders, and read-only library oversight.</p>
           </article>
           <article class="sb-role" data-reveal="right">
             <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-attendance" /></svg></span>
@@ -539,9 +538,19 @@
             <p>Attendance trends, student welfare, and targeted cohort advisories.</p>
           </article>
           <article class="sb-role" data-reveal="right">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-fees" /></svg></span>
+            <h3>Bursar &amp; Finance</h3>
+            <p>Fee ledger, gateway references, collection pace, and financial projections.</p>
+          </article>
+          <article class="sb-role" data-reveal="right">
             <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-portal" /></svg></span>
             <h3>Student</h3>
             <p>Own grades, attendance, documents, and outstanding fees.</p>
+          </article>
+          <article class="sb-role" data-reveal="right">
+            <span class="sb-role-mark"><svg class="sb-icon"><use href="/icons.svg#i-users" /></svg></span>
+            <h3>Parent &amp; Guardian</h3>
+            <p>The same student record, viewed read-only from the family's account.</p>
           </article>
         </div>
       </div>
@@ -565,8 +574,8 @@
             </summary>
             <div class="sb-faq-body">
               <p>
-                Four roles: principal, teacher, counselor, and student. Each one signs in to the same
-                workspace and sees the slice of it that matches their responsibilities.
+                Principal, teacher, counselor, bursar, librarian, student, and guardian accounts. Each one
+                signs in to the same workspace and sees the slice of it that matches their responsibilities.
               </p>
             </div>
           </details>
@@ -578,9 +587,8 @@
             </summary>
             <div class="sb-faq-body">
               <p>
-                Yes. Oakridge International Academy and Maplewood Preparatory School run side by side with
-                separate rosters, separate ledgers, and separate asset registers. Switching campuses takes one
-                click from the top bar.
+                Yes. Each school is a separate tenant with its own roster, ledger, and asset register. A
+                signed-in account only sees the school it belongs to; there is no cross-school data sharing.
               </p>
             </div>
           </details>
@@ -605,9 +613,9 @@
             </summary>
             <div class="sb-faq-body">
               <p>
-                A circular is written once and targeted to the campus, a department, or a single cohort. It
-                reaches every registered guardian email, and delivery and acknowledgments are counted in the
-                feed.
+                A circular is written once and targeted to the campus, a department, or a single cohort. When
+                the deployment has an email provider configured, guardian email delivery is queued from the
+                same record; the feed shows the intended recipient count.
               </p>
             </div>
           </details>
@@ -632,8 +640,8 @@
             </summary>
             <div class="sb-faq-body">
               <p>
-                No. SchoolBook runs in the browser. The demo workspace ships with two seeded campuses and
-                one-click personas, so you can walk every role in under a minute.
+                No. SchoolBook runs in the browser. Sign in with the account your school administrator
+                created. There is nothing to install on staff, student, or family devices.
               </p>
             </div>
           </details>
@@ -653,13 +661,13 @@
             alt="">
           <h2 class="sb-h2" data-reveal="left">Open your school's workspace.</h2>
           <p class="sb-lede-sm" data-reveal="left">
-            Two campuses, every role, and a full term of records are already loaded and ready to explore.
+            Attendance, student records, tuition, and family communication in one calm place.
           </p>
           <div class="sb-cta-actions" data-reveal="left">
-            <a href="/app" class="sb-btn sb-btn-primary sb-btn-lg">
-              Launch SchoolBook <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
+            <a href="/login" class="sb-btn sb-btn-primary sb-btn-lg">
+              Sign in <svg class="sb-icon"><use href="/icons.svg#i-arrow" /></svg>
             </a>
-            <a href="/app" class="sb-btn sb-btn-ghost sb-btn-lg">Use the demo personas</a>
+            <a href="#roles" class="sb-btn sb-btn-ghost sb-btn-lg">See the roles</a>
           </div>
         </div>
       </div>
@@ -690,7 +698,7 @@
 
         <div class="sb-footer-col">
           <h4>Product</h4>
-          <a href="#tour">Live workspace</a>
+          <a href="#tour">Product tour</a>
           <a href="#features">Features</a>
           <a href="#roles">Roles</a>
           <a href="#faq">FAQ</a>
@@ -698,17 +706,17 @@
 
         <div class="sb-footer-col">
           <h4>Modules</h4>
-          <a href="/app">Campus overview</a>
-          <a href="/app">Student portal</a>
-          <a href="/app">Attendance register</a>
-          <a href="/app">Tuition &amp; fees</a>
+          <a href="/login">Campus overview</a>
+          <a href="/login">Student portal</a>
+          <a href="/login">Attendance register</a>
+          <a href="/login">Tuition &amp; fees</a>
         </div>
 
         <div class="sb-footer-col">
           <h4>Resources</h4>
-          <a href="/app">Documentation</a>
-          <a href="/app">Getting started</a>
-          <a href="/app">Support</a>
+          <a href="#tour">Product tour</a>
+          <a href="#features">Feature overview</a>
+          <a href="#faq">FAQ</a>
         </div>
       </div>
 
@@ -720,61 +728,6 @@
   </footer>
 
   <script>
-    // ---- Campus switcher on the hero canvas -------------------------------
-    const CAMPUSES = {
-      oakridge: {
-        name: 'Oakridge International Academy',
-        short: 'Oakridge Academy',
-        mark: 'OA',
-        enrolled: '128',
-        attendance: '95.4%',
-        fees: '$48,250',
-        standing: '72%',
-        floatA: '128 of 128 students marked',
-        floatB: '$2,400 · Sophia Chen'
-      },
-      maplewood: {
-        name: 'Maplewood Preparatory School',
-        short: 'Maplewood Prep',
-        mark: 'MP',
-        enrolled: '96',
-        attendance: '93.8%',
-        fees: '$31,900',
-        standing: '64%',
-        floatA: '96 of 96 students marked',
-        floatB: '$1,850 · Daniel Okafor'
-      }
-    };
-
-    const campusName = document.getElementById('sb-campus-name');
-    const campusSide = document.getElementById('sb-side-name');
-    const campusMark = document.querySelector('.sb-side-mark');
-    const floatTexts = document.querySelectorAll('.sb-float div span');
-
-    document.querySelectorAll('.sb-canvas-switch button').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const data = CAMPUSES[btn.dataset.campus];
-        if (!data) return;
-
-        document.querySelectorAll('.sb-canvas-switch button').forEach(b => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-
-        if (campusName) campusName.textContent = data.name;
-        if (campusSide) campusSide.textContent = data.short;
-        if (campusMark) campusMark.textContent = data.mark;
-
-        document.querySelectorAll('[data-kpi]').forEach(el => {
-          const key = el.dataset.kpi;
-          if (data[key]) el.textContent = data[key];
-        });
-
-        if (floatTexts.length >= 2) {
-          floatTexts[0].textContent = data.floatA;
-          floatTexts[1].textContent = data.floatB;
-        }
-      });
-    });
-
     // ---- Mobile navigation ------------------------------------------------
     const burger = document.getElementById('sb-burger');
     const mobileMenu = document.getElementById('sb-mobile-menu');

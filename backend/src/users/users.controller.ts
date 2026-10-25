@@ -30,6 +30,7 @@ const USER_MANAGERS = [
   UserRole.SUPER_ADMIN,
   UserRole.ADMIN,
   UserRole.PRINCIPAL,
+  UserRole.VICE_PRINCIPAL,
 ];
 
 const USER_ADMINS = [UserRole.SUPER_ADMIN, UserRole.ADMIN];

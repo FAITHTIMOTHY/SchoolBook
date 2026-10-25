@@ -3,6 +3,7 @@
  */
 
 import { apiFetch } from './api.js';
+import { escapeAttribute, escapeHtml } from './html.js';
 import { Unit } from './types.js';
 import { loadMembersData } from './tabs/membersTab.js';
 import { loadInventoryData } from './tabs/inventoryTab.js';
@@ -21,7 +22,7 @@ export function setupModalListeners(): void {
         const select = document.getElementById('reg-unit') as HTMLSelectElement | null;
         if (select) {
           select.innerHTML = '<option value="">No Class / Faculty Assigned</option>' + 
-            units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            units.map(u => `<option value="${escapeAttribute(u.id)}">${escapeHtml(u.name)}</option>`).join('');
         }
       } catch (err) {
         console.error('Failed to load classes/faculties for registration modal:', err);
@@ -50,7 +51,7 @@ export function setupModalListeners(): void {
         const select = document.getElementById('inv-unit') as HTMLSelectElement | null;
         if (select) {
           select.innerHTML = '<option value="">No Specific Faculty / Dept</option>' +
-            units.map(u => `<option value="${u.id}">${u.name}</option>`).join('');
+            units.map(u => `<option value="${escapeAttribute(u.id)}">${escapeHtml(u.name)}</option>`).join('');
         }
       } catch (err) {
         console.error('Failed to load faculties for inventory modal:', err);

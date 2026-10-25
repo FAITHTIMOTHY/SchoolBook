@@ -5,13 +5,22 @@
   "main": "dist/backend/server.js",
   "type": "module",
   "scripts": {
-    "build:fe": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022",
-    "watch:fe": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022 --watch",
-    "build:be": "tsc",
+    "build:app": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022",
+    "build:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022",
+    "build:fe": "npm run build:app && npm run build:auth",
+    "watch:app": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022 --watch",
+    "watch:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022 --watch",
+    "watch:fe": "npm run watch:app",
+    "build:be": "cd backend && npm run build",
     "build": "npm run build:fe && npm run build:be",
     "typecheck": "tsc --noEmit",
-    "start": "node dist/backend/server.js",
-    "dev": "tsx watch src/backend/server.ts"
+    "start": "cd backend && npm run start:prod",
+    "dev": "cd backend && npm run start:dev",
+    "seed:demo": "cd backend && node prisma/seed-demo.mjs",
+    "bootstrap:school": "cd backend && node prisma/bootstrap-school.mjs"
+  },
+  "engines": {
+    "node": ">=22.12"
   },
   "dependencies": {
     "cors": "^2.8.5",

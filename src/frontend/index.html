@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description"
-    content="SchoolBook SMS - A modern, intuitive multi-campus School Management & Student Information System designed with Notion-inspired clarity and typography.">
+    content="SchoolBook SMS - A modern School Management & Student Information System designed with Notion-inspired clarity and typography.">
   <title>SchoolBook | Notion-Style School Management System</title>
 
   <!-- Typography: Inter for authentic, ultra-clean Notion typography -->
@@ -46,28 +46,17 @@
 
       <div class="notion-breadcrumbs">
         <span class="crumb-separator">/</span>
-        <span class="crumb-campus" id="notion-breadcrumb-campus">Oakridge International Academy</span>
+        <span class="crumb-campus" id="notion-breadcrumb-campus">SchoolBook Academy</span>
         <span class="crumb-separator">/</span>
         <span class="crumb-page" id="notion-breadcrumb-page">📊 Campus Dashboard</span>
       </div>
     </div>
 
     <div class="sim-controls notion-topbar-right">
-      <!-- Campus Workspace Switcher -->
-      <div class="control-group notion-select-group">
-        <span class="notion-control-icon">🏫</span>
-        <select id="tenant-selector" aria-label="Active Campus">
-          <!-- Populated dynamically -->
-        </select>
-      </div>
-
-      <!-- User Role Context Switcher -->
-      <div class="control-group notion-select-group">
-        <span class="notion-control-icon">👤</span>
-        <select id="profile-selector" aria-label="Logged-in User Role Context">
-          <!-- Populated dynamically -->
-        </select>
-      </div>
+      <!-- Active campus (bound to the signed-in account) -->
+      <span class="notion-workspace-chip" id="topbar-tenant-name" title="Active campus">
+        SchoolBook Academy
+      </span>
 
       <!-- Public Landing Page Link -->
       <a href="/" class="notion-icon-btn" title="Visit Public Landing Page"
@@ -79,6 +68,12 @@
       <button class="notion-icon-btn" id="theme-toggle-btn" title="Toggle Notion Dark/Light theme"
         aria-label="Toggle theme">
         🌙
+      </button>
+
+      <!-- Session control -->
+      <button class="notion-icon-btn notion-signout-btn" id="btn-logout" type="button"
+        title="Sign out of SchoolBook" aria-label="Sign out">
+        Sign out
       </button>
     </div>
   </header>
@@ -107,7 +102,7 @@
         <div class="notion-workspace-header">
           <div class="workspace-avatar">🏫</div>
           <div class="workspace-meta">
-            <span class="workspace-name" id="workspace-sidebar-name">Oakridge Academy</span>
+            <span class="workspace-name" id="workspace-sidebar-name">SchoolBook Academy</span>
             <span class="workspace-type">Institutional Workspace</span>
           </div>
         </div>
@@ -165,7 +160,7 @@
 
         <!-- Bottom User Profile Pill -->
         <div class="active-profile-card notion-user-card" id="user-profile-summary">
-          <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop"
+          <img src="/avatar-default.svg"
             alt="User Profile" class="user-avatar" id="current-user-avatar">
           <div class="user-info">
             <h3 id="current-user-name">Loading Profile...</h3>
@@ -202,7 +197,7 @@
         <div class="notion-callout">
           <span class="callout-emoji">💡</span>
           <div class="callout-text">
-            <strong>Campus Status:</strong> Multi-campus attendance tracking is active. Student attendance
+            <strong>Campus Status:</strong> Attendance tracking is active. Student attendance
             is monitored over a 30-day window to keep enrolled statuses up to date.
           </div>
         </div>
@@ -256,6 +251,7 @@
                   <tr>
                     <th><span class="prop-icon">Aa</span> Session / Class Name</th>
                     <th><span class="prop-icon">📅</span> Date</th>
+                    <th><span class="prop-icon">👥</span> Attendance</th>
                     <th><span class="prop-icon">⚡</span> Roll Call Status</th>
                   </tr>
                 </thead>
@@ -377,8 +373,8 @@
               <div class="flex-row align-center gap-1">
                 <span class="stat-card-icon">💳</span>
                 <div>
-                  <h4>Fee Collection & Targets</h4>
-                  <span class="text-secondary" style="font-size:0.75rem">Budget Inflow Progress Bars</span>
+                  <h4>Fee Collection Mix</h4>
+                  <span class="text-secondary" style="font-size:0.75rem">Collected by category</span>
                 </div>
               </div>
             </div>
@@ -398,7 +394,7 @@
           <div class="view-header flex-header">
             <div>
               <h2>Academic Student Portal</h2>
-              <p>Official student record certified by faculty, course syllabus repository, and continuous gradebook.</p>
+              <p>Official student record certified by faculty, with course syllabus records and a continuous gradebook.</p>
             </div>
 
             <!-- Student Picker for Teachers and Management -->
@@ -416,9 +412,8 @@
         <div class="alert alert-info notion-callout" id="portal-readonly-banner" style="display:none;">
           <span class="callout-emoji">🔒</span>
           <div class="callout-text">
-            <strong>Student & Guardian Certified View:</strong> This academic portal is created and certified by your
-            teachers and school leadership. Official grades, term comments, and syllabus downloads are available below
-            in read-only mode.
+            <strong>Read-only academic view:</strong> This academic portal is created and certified by teachers and
+            school leadership. Official grades, term comments, and syllabus records are shown below in read-only mode.
           </div>
         </div>
 
@@ -463,8 +458,8 @@
               ＋ Add Subject Grade
             </button>
             <button class="btn btn-secondary notion-btn-secondary" id="btn-bulk-email-guardian"
-              title="Dispatch email report to guardian">
-              ✉️ Email Guardian Report
+              title="Open your email app with a prefilled academic report">
+              ✉️ Email Guardian
             </button>
             <button class="btn btn-primary notion-btn-primary" id="btn-save-portal">
               💾 Save Portal Changes
@@ -558,14 +553,14 @@
           </div>
         </div>
 
-        <!-- Official Syllabus & Curriculum Downloads Section -->
+        <!-- Official Syllabus & Curriculum Records Section -->
         <div class="glass-panel notion-panel mt-2">
           <div class="notion-db-header">
             <div class="db-title">
               <span class="db-icon">📑</span>
-              <h3>Course Syllabi & Curriculum Downloads</h3>
+              <h3>Course Syllabi & Curriculum on File</h3>
             </div>
-            <div class="notion-view-badge">Official PDF Documents</div>
+            <div class="notion-view-badge">Official records</div>
           </div>
           <div class="syllabus-grid mt-1" id="portal-syllabus-list">
             <!-- Populated dynamically -->
@@ -649,8 +644,8 @@
           style="display:none;">
           <span class="callout-emoji">🔒</span>
           <div class="callout-text">
-            <strong>Access Limited:</strong> Attendance registers are managed by Teachers and Class Registrars. Switch
-            to a Teacher or Principal persona in the top bar to mark roll calls.
+            <strong>Access limited:</strong> Attendance registers are managed by teachers and campus administrators.
+            Your account has read-only access to this register.
           </div>
         </div>
 
@@ -776,8 +771,8 @@
         <div class="notion-page-header">
           <div class="notion-page-icon">💳</div>
           <div class="view-header">
-            <h2>Tuition & Student Fees Gateway</h2>
-            <p>Direct payment processing gateway for tuition fees, lab charges, and campus contributions.</p>
+            <h2>Tuition & Student Fees Ledger</h2>
+            <p>Record payments completed in your payment gateway and keep tuition, lab charges, and campus contributions in sync.</p>
           </div>
         </div>
 
@@ -787,10 +782,10 @@
             <div class="notion-db-header">
               <div class="db-title">
                 <span class="db-icon">🔒</span>
-                <h3>Secure Tuition Gateway</h3>
+                <h3>Tuition Payment Ledger</h3>
               </div>
             </div>
-            <p class="subtitle">Direct bank card transfer verified by 256-bit encryption.</p>
+            <p class="subtitle">Record a payment that was completed in your payment gateway. SchoolBook stores the gateway reference for reconciliation and never accepts or stores raw card numbers.</p>
 
             <form id="payment-gateway-form" class="mt-2">
               <div class="form-group">
@@ -815,6 +810,8 @@
                   <select id="pay-method" class="form-input notion-select">
                     <option value="Card">Credit/Debit Card</option>
                     <option value="Bank Transfer">Direct Bank Transfer</option>
+                    <option value="Cash">Cash</option>
+                    <option value="Mobile Money">Mobile Money</option>
                   </select>
                 </div>
                 <div class="form-group flex-row align-center justify-center mt-2 px-1">
@@ -823,27 +820,17 @@
                 </div>
               </div>
 
-              <!-- Card Subform -->
+              <!-- Gateway reference (card payments only) -->
               <div id="card-fields">
                 <div class="form-group">
-                  <label for="pay-card-number">Card Number:</label>
-                  <input type="text" id="pay-card-number" placeholder="4111 2222 3333 4444"
-                    class="form-input notion-input">
-                </div>
-                <div class="form-row notion-form-row">
-                  <div class="form-group flex-1">
-                    <label for="pay-card-expiry">Expiry Date:</label>
-                    <input type="text" id="pay-card-expiry" placeholder="MM/YY" class="form-input notion-input">
-                  </div>
-                  <div class="form-group flex-1">
-                    <label for="pay-card-cvv">CVV Code:</label>
-                    <input type="text" id="pay-card-cvv" placeholder="123" class="form-input notion-input">
-                  </div>
+                  <label for="pay-reference">Gateway reference:</label>
+                  <input type="text" id="pay-reference" placeholder="e.g. pay_3Nx8K..."
+                    class="form-input notion-input" autocomplete="off">
+                  <small class="form-help">Required for card payments. Copy the reference supplied by your payment gateway after a successful charge.</small>
                 </div>
               </div>
 
-              <button type="submit" class="btn btn-primary btn-full mt-2 notion-btn-primary">Submit Payment
-                Securely</button>
+              <button type="submit" class="btn btn-primary btn-full mt-2 notion-btn-primary">Record Payment</button>
             </form>
           </div>
 
@@ -859,11 +846,11 @@
             <div class="ledger-metrics mt-1 notion-callout-panel">
               <div class="detail-row">
                 <span class="prop-name"><span class="prop-icon">📈</span> Expected Weekly Inflow Rate</span>
-                <strong id="finance-growth-rate" class="notion-tag tag-green">0.0%</strong>
+                <strong id="finance-growth-rate" class="notion-tag tag-green">—</strong>
               </div>
               <div class="detail-row">
                 <span class="prop-name"><span class="prop-icon">💵</span> Calculated Next Week Projection</span>
-                <strong id="finance-next-projection" class="notion-tag tag-blue">$0.00</strong>
+                <strong id="finance-next-projection" class="notion-tag tag-blue">—</strong>
               </div>
             </div>
 
@@ -907,8 +894,8 @@
           <div class="notion-page-icon">📢</div>
           <div class="view-header">
             <h2>School Circulars & Broadcast Hub</h2>
-            <p>Publish instant push notifications, circulars, or term announcements to the student body or specific
-              faculty departments.</p>
+            <p>Publish circulars, reminders, or term announcements to the student body or specific faculty
+              departments.</p>
           </div>
         </div>
 
@@ -939,7 +926,7 @@
                     <option value="assignment">📝 Assignment Reminder</option>
                     <option value="test">🎯 Test / Exam Notice</option>
                     <option value="impromptu" selected>⚡ Impromptu Information</option>
-                    <option value="curriculum">📚 Upload Syllabus & Curriculum</option>
+                    <option value="curriculum">📚 Syllabus & Curriculum Notice</option>
                   </select>
                 </div>
                 <div class="form-group flex-1">
@@ -973,19 +960,13 @@
                 <input type="date" id="bc-event-date" class="form-input notion-input">
               </div>
 
-              <!-- Dynamic Attachment Field (for curriculum upload) -->
+              <!-- Document reference for curriculum notices -->
               <div class="form-group" id="bc-attachment-group" style="display:none;">
                 <label for="bc-attachment-title">📑 Syllabus / Curriculum Document Name:</label>
-                <div class="flex-row gap-1 align-center">
-                  <input type="text" id="bc-attachment-title"
-                    placeholder="e.g. Grade10_STEM_Physics_Curriculum_2026.pdf" class="form-input notion-input flex-1">
-                  <button type="button" class="btn btn-secondary notion-btn-secondary"
-                    onclick="alert('Curriculum document verified for academic upload: ' + (document.getElementById('bc-attachment-title').value || 'Academic_Curriculum.pdf'))">
-                    📎 Choose File
-                  </button>
-                </div>
-                <span class="text-secondary" style="font-size:0.75rem">Attaches PDF/DOCX course syllabus directly to
-                  broadcast and student portals.</span>
+                <input type="text" id="bc-attachment-title"
+                  placeholder="e.g. Grade10_STEM_Physics_Curriculum_2026.pdf" class="form-input notion-input">
+                <span class="text-secondary" style="font-size:0.75rem">Records the document name on the circular and
+                  student portal. The school office manages the actual file.</span>
               </div>
 
               <div class="form-group">
@@ -999,12 +980,12 @@
               <div class="form-group flex-row align-center gap-1 mt-1 p-1 notion-callout-panel">
                 <input type="checkbox" id="bc-bulk-mail" class="notion-checkbox" checked>
                 <label for="bc-bulk-mail" class="checkbox-label" style="font-weight:600; cursor:pointer;">
-                  ✉️ Enable Bulk Email Dispatch (Send instant notification emails to registered students & guardians)
+                  ✉️ Queue email notifications to registered students &amp; guardians (requires SMTP configuration)
                 </label>
               </div>
 
               <button type="submit" class="btn btn-primary btn-full mt-2 notion-btn-primary">
-                📢 Dispatch Announcement & Bulk Mail
+                📢 Publish Announcement
               </button>
             </form>
           </div>
@@ -1031,7 +1012,7 @@
               </div>
             </div>
             <div class="terminal-log mt-1 notion-log-panel" id="broadcast-logs-container">
-              <div class="log-entry system">[Messaging & Bulk Email Subsystem Initialized]</div>
+              <div class="log-entry system">[Messaging channel ready]</div>
             </div>
           </div>
         </div>
@@ -1239,6 +1220,60 @@
         <!-- Custom Attributes: Rich Core Admin, Academic Staff & Student Profiles -->
         <div id="det-custom-attributes"></div>
       </div>
+    </div>
+  </div>
+
+  <!-- MODAL: CREATE WORKSPACE LOGIN (PRINCIPAL / ADMIN) -->
+  <div class="modal-backdrop notion-modal-backdrop" id="access-modal">
+    <div class="modal-card notion-modal-card" style="max-width:560px;">
+      <div class="modal-header notion-modal-header">
+        <div class="notion-modal-title-group">
+          <span class="notion-modal-icon">🔑</span>
+          <h3>Create workspace login</h3>
+        </div>
+        <button type="button" class="btn-close-modal" id="btn-close-access-modal" aria-label="Close modal">✕</button>
+      </div>
+      <form id="access-form" class="modal-body notion-modal-body">
+        <input type="hidden" id="access-link-id">
+        <input type="hidden" id="access-return-id">
+        <input type="hidden" id="access-profile-kind">
+        <input type="hidden" id="access-first-name">
+        <input type="hidden" id="access-last-name">
+
+        <div class="notion-callout mb-2">
+          <span class="callout-emoji">ℹ️</span>
+          <div class="callout-text">
+            <strong id="access-profile-name">Profile</strong><br>
+            <span class="text-secondary" id="access-profile-note">Create a login and share the temporary password privately.</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="access-email">Login email *</label>
+          <input type="email" id="access-email" class="form-input notion-input" autocomplete="off" required>
+        </div>
+
+        <div class="form-row notion-form-row">
+          <div class="form-group flex-1">
+            <label for="access-role">Workspace role *</label>
+            <select id="access-role" class="form-input notion-select" required></select>
+          </div>
+          <div class="form-group flex-1">
+            <label for="access-password">Temporary password *</label>
+            <div class="flex-row gap-1">
+              <input type="text" id="access-password" class="form-input notion-input" minlength="8" autocomplete="new-password" required>
+              <button type="button" class="btn btn-secondary btn-sm" id="btn-generate-password">Generate</button>
+            </div>
+          </div>
+        </div>
+
+        <p class="form-help">The person can change this password after signing in. It is shown only once; share it privately.</p>
+
+        <div class="modal-footer mt-2 notion-modal-footer">
+          <button type="button" class="btn btn-secondary notion-btn-secondary" id="btn-cancel-access-modal">Cancel</button>
+          <button type="submit" class="btn btn-primary notion-btn-primary">Create login</button>
+        </div>
+      </form>
     </div>
   </div>
 

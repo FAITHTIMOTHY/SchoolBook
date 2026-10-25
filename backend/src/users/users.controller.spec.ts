@@ -54,6 +54,7 @@ describe('UsersController', () => {
       UserRole.SUPER_ADMIN,
       UserRole.ADMIN,
       UserRole.PRINCIPAL,
+      UserRole.VICE_PRINCIPAL,
     ]);
     expect(readHandlerRoles('update')).toEqual(readHandlerRoles('create'));
   });

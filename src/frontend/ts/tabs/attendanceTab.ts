@@ -4,6 +4,7 @@
 
 import { apiFetch } from '../api.js';
 import { state } from '../state.js';
+import { escapeAttribute, escapeHtml } from '../html.js';
 import { AttendanceSheetResponse, AttendanceStatsResponse } from '../types.js';
 
 export async function loadAttendanceSheet(): Promise<void> {
@@ -44,13 +45,13 @@ export async function loadAttendanceSheet(): Promise<void> {
 
     tbody.innerHTML = data.sheet.map(m => `
       <tr>
-        <td><strong>${m.memberName}</strong></td>
-        <td><span class="badge badge-role">${m.role}</span> (${m.position || (m.role === 'Student' ? 'Student' : 'Staff')})</td>
+        <td><strong>${escapeHtml(m.memberName)}</strong></td>
+        <td><span class="badge badge-role">${escapeHtml(m.role)}</span> (${escapeHtml(m.position || (m.role === 'Student' ? 'Student' : 'Staff'))})</td>
         <td>
           <div class="flex-row gap-2 align-center">
-            <input type="checkbox" id="check-${m.memberId}" ${m.status === 'Present' ? 'checked' : ''} 
-              onchange="window.markMemberAttendance('${m.memberId}', '${data.serviceDate}', '${data.serviceName}', this.checked ? 'Present' : 'Absent')">
-            <label for="check-${m.memberId}">${m.status}</label>
+            <input type="checkbox" id="check-${escapeAttribute(m.memberId)}" ${m.status === 'Present' ? 'checked' : ''}
+              onchange="window.markMemberAttendance('${escapeAttribute(m.memberId)}', '${escapeAttribute(data.serviceDate)}', '${escapeAttribute(data.serviceName)}', this.checked ? 'Present' : 'Absent')">
+            <label for="check-${escapeAttribute(m.memberId)}">${escapeHtml(m.status)}</label>
           </div>
         </td>
       </tr>
@@ -135,8 +136,8 @@ export async function loadWorkersPerformance(): Promise<void> {
 
     tbody.innerHTML = data.memberPerformance.map(w => `
       <tr>
-        <td><strong>${w.name}</strong></td>
-        <td><span class="badge badge-role">${w.role}</span></td>
+        <td><strong>${escapeHtml(w.name)}</strong></td>
+        <td><span class="badge badge-role">${escapeHtml(w.role)}</span></td>
         <td>${w.presentCount}/${w.totalServices}</td>
         <td><strong>${w.attendanceRate}%</strong></td>
       </tr>

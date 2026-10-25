@@ -11,6 +11,9 @@ import { StudentsModule } from './students/students.module.js';
 import { SupabaseModule } from './supabase/supabase.module.js';
 import { TenantModule } from './tenant/tenant.module.js';
 import { UsersModule } from './users/users.module.js';
+import { HealthModule } from './health/health.module.js';
+import { CompatModule } from './compat/compat.module.js';
+import { validateEnv } from './common/config/env.validation.js';
 import { JwtAuthGuard } from './auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from './auth/guards/roles.guard.js';
 import { TenantGuard } from './auth/guards/tenant.guard.js';
@@ -20,6 +23,7 @@ import { CustomThrottlerGuard } from './common/throttler/custom-throttler.guard.
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
+      validate: validateEnv,
     }),
     ThrottlerModule.forRoot([
       {
@@ -34,6 +38,8 @@ import { CustomThrottlerGuard } from './common/throttler/custom-throttler.guard.
     UsersModule,
     StudentsModule,
     AttendanceModule,
+    HealthModule,
+    CompatModule,
   ],
   controllers: [AppController],
   providers: [

@@ -21,6 +21,11 @@ lerna-debug.log*
 # Tests
 /coverage
 /.nyc_output
+/ui-screenshots
+/onboarding-*.json
+
+# Local secret bootstrap helper
+/write-env.ps1
 
 # IDEs and editors
 /.idea

@@ -34,6 +34,10 @@ export class EmailService {
     }
   }
 
+  isConfigured(): boolean {
+    return this.transporter !== null;
+  }
+
   private maskEmail(email: string): string {
     const [local, domain] = email.split('@');
     if (!domain) return '***';
@@ -71,6 +75,17 @@ export class EmailService {
       this.logger.error(`Failed to send email. To: ${masked}, Subject: ${subject}`);
       throw error;
     }
+  }
+
+  async sendBroadcastEmail(
+    email: string,
+    title: string,
+    message: string,
+    schoolName: string,
+  ): Promise<void> {
+    const subject = `[${schoolName}] ${title}`;
+    const text = `${message}\n\n— ${schoolName}\n\nYou are receiving this because your school uses SchoolBook for family communication.`;
+    await this.sendMail(email, subject, text);
   }
 
   async sendPasswordResetEmail(email: string, tenantSlug: string, token: string): Promise<void> {

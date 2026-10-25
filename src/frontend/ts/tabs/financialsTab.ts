@@ -4,44 +4,67 @@
 
 import { apiFetch } from '../api.js';
 import { state } from '../state.js';
+import { escapeHtml } from '../html.js';
 import { FinancialLedgerItem, FinancialProjections } from '../types.js';
 
 export async function loadFinancialsData(): Promise<void> {
   if (!state.canAccessFinance()) return;
 
-  try {
-    // 1. Load Ledger History
-    const ledger = await apiFetch<FinancialLedgerItem[]>('/api/financials');
-    const tbody = document.getElementById('finance-ledger-tbody');
+  const [ledgerResult, projectionResult] = await Promise.allSettled([
+    apiFetch<FinancialLedgerItem[]>('/api/financials'),
+    apiFetch<FinancialProjections>('/api/financials/projections'),
+  ]);
+
+  const tbody = document.getElementById('finance-ledger-tbody');
+
+  if (ledgerResult.status === 'fulfilled') {
+    const ledger = ledgerResult.value;
 
     if (tbody) {
       if (ledger.length === 0) {
         tbody.innerHTML = `<tr><td colspan="5" class="text-center">No tuition or fee transactions logged under active campus.</td></tr>`;
       } else {
-        tbody.innerHTML = ledger.map(l => `
-          <tr>
-            <td>${new Date(l.transaction_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
-            <td><strong>${l.contributorName}</strong></td>
-            <td><span class="badge badge-role">${l.category}</span></td>
-            <td>${l.payment_method}</td>
-            <td><strong>$${l.amount.toFixed(2)}</strong></td>
-          </tr>
-        `).join('');
+        tbody.innerHTML = ledger
+          .map(
+            (entry) => `
+              <tr>
+                <td>${new Date(entry.transaction_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</td>
+                <td><strong>${escapeHtml(entry.contributorName)}</strong></td>
+                <td><span class="badge badge-role">${escapeHtml(entry.category)}</span></td>
+                <td>${escapeHtml(entry.payment_method)}</td>
+                <td><strong>$${entry.amount.toFixed(2)}</strong></td>
+              </tr>
+            `,
+          )
+          .join('');
       }
     }
+  } else {
+    console.error('Failed loading financial ledger:', ledgerResult.reason);
+    if (tbody) {
+      tbody.innerHTML = `<tr><td colspan="5" class="text-center">The ledger could not be loaded. Try again shortly.</td></tr>`;
+    }
+  }
 
-    // 2. Load Projections & Growth Rates
-    const projections = await apiFetch<FinancialProjections>('/api/financials/projections');
-    const elGrowthRate = document.getElementById('finance-growth-rate');
-    const elNextProj = document.getElementById('finance-next-projection');
+  const elGrowthRate = document.getElementById('finance-growth-rate');
+  const elNextProj = document.getElementById('finance-next-projection');
 
-    if (elGrowthRate) elGrowthRate.textContent = `${projections.growthRatePercent}%`;
+  if (projectionResult.status === 'fulfilled') {
+    const projections = projectionResult.value;
+
+    if (elGrowthRate) {
+      elGrowthRate.textContent = `${projections.growthRatePercent}%`;
+    }
     if (elNextProj) {
       elNextProj.textContent = `$${projections.projectedNextWeek.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
-
-  } catch (err) {
-    console.error('Failed loading financials ledger reports:', err);
+  } else {
+    console.error(
+      'Failed loading financial projections:',
+      projectionResult.reason,
+    );
+    if (elGrowthRate) elGrowthRate.textContent = 'Unavailable';
+    if (elNextProj) elNextProj.textContent = 'Unavailable';
   }
 }
 
@@ -53,18 +76,23 @@ export async function handlePaymentSubmit(e: Event): Promise<void> {
   const payAmount = document.getElementById('pay-amount') as HTMLInputElement | null;
   const payMethod = document.getElementById('pay-method') as HTMLSelectElement | null;
   const payAnonymous = document.getElementById('pay-anonymous') as HTMLInputElement | null;
-  const payCardNumber = document.getElementById('pay-card-number') as HTMLInputElement | null;
-  const payCardExpiry = document.getElementById('pay-card-expiry') as HTMLInputElement | null;
-  const payCardCvv = document.getElementById('pay-card-cvv') as HTMLInputElement | null;
+  const payReference = document.getElementById('pay-reference') as HTMLInputElement | null;
   const cardFields = document.getElementById('card-fields');
+
+  const method = payMethod?.value || 'Card';
+  const reference = payReference?.value.trim() || '';
+
+  if (method === 'Card' && !reference) {
+    alert('Card payments require the reference supplied by your payment gateway. Raw card numbers are never accepted.');
+    payReference?.focus();
+    return;
+  }
 
   const body = {
     amount: Number(payAmount?.value || 0),
     category: payCategory?.value || 'Tuition',
-    payment_method: payMethod?.value || 'Card',
-    card_number: payCardNumber?.value || '',
-    card_expiry: payCardExpiry?.value || '',
-    card_cvv: payCardCvv?.value || '',
+    payment_method: method,
+    reference: reference || undefined,
     anonymous: payAnonymous?.checked || false,
   };
 

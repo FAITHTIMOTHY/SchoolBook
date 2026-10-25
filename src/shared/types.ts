@@ -45,6 +45,9 @@ export interface Member {
   guardian_name?: string;
   guardian_email?: string;
   guardian_phone?: string;
+  user_id?: string | null;
+  guardian_id?: string | null;
+  guardian_user_id?: string | null;
 }
 
 export interface MemberProfileSummary {
@@ -99,10 +102,20 @@ export interface WorkerPerformance {
 
 export type StudentPerformance = WorkerPerformance;
 
+export interface RecentServiceSummary {
+  name: string;
+  date: string;
+  present: number;
+  total: number;
+  rate: number;
+  status: 'Closed' | 'Open';
+}
+
 export interface AttendanceStatsResponse {
   type: string;
   avgAttendanceRate: number;
   memberPerformance: WorkerPerformance[];
+  recentServices: RecentServiceSummary[];
 }
 
 export type InventoryStatus = 'Active' | 'Faulty' | 'Unavailable';
@@ -126,6 +139,7 @@ export interface FinancialRecord {
   amount: number;
   category: FinancialCategory;
   payment_method: string;
+  reference?: string | null;
   transaction_date: string;
   recorded_by: string | null;
 }

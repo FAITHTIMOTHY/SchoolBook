@@ -7,6 +7,7 @@
 
 import { apiFetch } from '../api.js';
 import { state } from '../state.js';
+import { escapeAttribute, escapeHtml } from '../html.js';
 import { StudentPortal, CourseGrade, Member } from '../types.js';
 
 let currentPortal: StudentPortal | null = null;
@@ -45,14 +46,14 @@ export function getPerformanceBadge(score: number | undefined): {
 
 export async function loadPortalData(): Promise<void> {
   try {
-    const isTeacherOrAdmin = state.canEditPortal();
+    const canBrowse = state.canBrowsePortals();
     const isStudent = state.isStudent();
 
-    // 1. If Teacher/Management: populate student picker
+    // 1. If Teacher/Management/Library: populate student picker
     const select = document.getElementById('portal-student-select') as HTMLSelectElement | null;
     const studentSelectorWrap = document.getElementById('portal-student-selector-wrap');
 
-    if (isTeacherOrAdmin) {
+    if (canBrowse) {
       if (studentSelectorWrap) studentSelectorWrap.style.display = 'flex';
       const students = await apiFetch<Member[]>('/api/members?role=Student');
 
@@ -60,7 +61,7 @@ export async function loadPortalData(): Promise<void> {
         select.innerHTML = students.map(s => {
           const perf = getPerformanceBadge(s.academic_score);
           const icon = perf.color === 'green' ? '🟢' : perf.color === 'yellow' ? '🟡' : '🔴';
-          return `<option value="${s.id}" ${s.id === currentStudentId ? 'selected' : ''}>${icon} ${s.name} (${s.position || 'Student'}) - ${s.academic_score || 0}%</option>`;
+          return `<option value="${escapeAttribute(s.id)}" ${s.id === currentStudentId ? 'selected' : ''}>${icon} ${escapeHtml(s.name)} (${escapeHtml(s.position || 'Student')}) - ${s.academic_score || 0}%</option>`;
         }).join('');
 
         if (!currentStudentId || !students.some(s => s.id === currentStudentId)) {
@@ -158,10 +159,10 @@ function renderPortalView(portal: StudentPortal): void {
       tbody.innerHTML = portal.grades.map((g, idx) => {
         const gradePerf = getPerformanceBadge(g.score);
         return `
-          <tr data-grade-id="${g.id}">
-            <td><strong>${g.subject}</strong></td>
-            <td>${g.teacher}</td>
-            <td>${g.term}</td>
+          <tr data-grade-id="${escapeAttribute(g.id)}">
+            <td><strong>${escapeHtml(g.subject)}</strong></td>
+            <td>${escapeHtml(g.teacher)}</td>
+            <td>${escapeHtml(g.term)}</td>
             <td>
               <div class="flex-row align-center gap-1">
                 ${gradePerf.circleHtml}
@@ -172,8 +173,8 @@ function renderPortalView(portal: StudentPortal): void {
             </td>
             <td>
               ${isEditable
-            ? `<input type="text" class="notion-input input-comment-sm" value="${g.comments || ''}" onchange="window.updateGradeComment(${idx}, this.value)">`
-            : `<span class="text-secondary">${g.comments || 'Satisfactory work.'}</span>`}
+            ? `<input type="text" class="notion-input input-comment-sm" value="${escapeAttribute(g.comments || '')}" onchange="window.updateGradeComment(${idx}, this.value)">`
+            : `<span class="text-secondary">${escapeHtml(g.comments || 'Satisfactory work.')}</span>`}
             </td>
             ${isEditable ? `<td><button type="button" class="notion-icon-btn text-danger" onclick="window.removeGradeRow(${idx})" title="Remove course grade">✕</button></td>` : ''}
           </tr>
@@ -223,13 +224,11 @@ function renderPortalView(portal: StudentPortal): void {
           <div class="syllabus-item-info">
             <span class="syllabus-icon">📄</span>
             <div class="syllabus-text">
-              <strong>${att.title}</strong>
-              <span class="syllabus-sub">${att.filename} · Uploaded by ${att.uploaded_by} (${att.date})</span>
+              <strong>${escapeHtml(att.title)}</strong>
+              <span class="syllabus-sub">${escapeHtml(att.filename)} · Uploaded by ${escapeHtml(att.uploaded_by)} (${escapeHtml(att.date)})</span>
             </div>
           </div>
-          <button class="btn btn-secondary btn-sm" onclick="alert('Downloading verified academic syllabus: ${att.filename}')">
-            ⬇ Download Syllabus
-          </button>
+          <span class="notion-tag tag-gray" title="This deployment records attachment metadata. File delivery is managed by the school office.">On file</span>
         </div>
       `).join('');
     }
@@ -332,7 +331,26 @@ export async function savePortalChanges(): Promise<void> {
 
 export function bulkEmailGuardian(): void {
   if (!currentPortal) return;
-  const email = currentPortal.guardian_email || 'No email registered';
+
+  const email = (currentPortal.guardian_email || '').trim();
+  if (!email) {
+    alert('No guardian email is registered for this student.');
+    return;
+  }
+
   const name = currentPortal.guardian_name || 'Guardian';
-  alert(`✉️ Bulk Email Dispatch: Term academic evaluation report for ${currentPortal.student_name} (${currentPortal.overall_score}%) has been officially delivered to ${name} <${email}>.`);
+  const subject = encodeURIComponent(
+    `Academic evaluation report for ${currentPortal.student_name}`,
+  );
+  const body = encodeURIComponent(
+    `Dear ${name},\n\n` +
+      `This is the current academic summary for ${currentPortal.student_name} ` +
+      `(${currentPortal.grade_level || 'Student'}, ${currentPortal.term || 'current term'}).\n\n` +
+      `Overall score: ${currentPortal.overall_score}%\n` +
+      `Teacher remarks: ${currentPortal.teacher_remarks || 'None recorded.'}\n\n` +
+      `Please contact the school office if you would like to discuss this report.\n\n` +
+      `Regards,\n${state.activeUser?.name || 'SchoolBook'}`,
+  );
+
+  window.location.href = `mailto:${encodeURIComponent(email)}?subject=${subject}&body=${body}`;
 }

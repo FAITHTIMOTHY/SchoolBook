@@ -60,6 +60,10 @@ export class RefreshTokensService {
     tenantId: string;
     email: string;
     role: UserRole;
+    firstName: string;
+    lastName: string;
+    tenantSlug: string;
+    avatarUrl: string | null;
     newRefreshToken: string;
   }> {
     let payload: JwtRefreshPayload;
@@ -105,7 +109,16 @@ export class RefreshTokensService {
 
     const user = await this.prisma.user.findFirst({
       where: { id: payload.sub, tenantId: payload.tenantId, isActive: true },
-      select: { id: true, tenantId: true, email: true, role: true },
+      select: {
+        id: true,
+        tenantId: true,
+        email: true,
+        role: true,
+        firstName: true,
+        lastName: true,
+        avatarUrl: true,
+        tenant: { select: { slug: true } },
+      },
     });
 
     if (!user) {
@@ -125,7 +138,17 @@ export class RefreshTokensService {
       }),
     ]);
 
-    return { userId: user.id, tenantId: user.tenantId, email: user.email, role: user.role, newRefreshToken };
+    return {
+      userId: user.id,
+      tenantId: user.tenantId,
+      email: user.email,
+      role: user.role,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      tenantSlug: user.tenant.slug,
+      avatarUrl: user.avatarUrl,
+      newRefreshToken,
+    };
   }
 
   async revokeAllForUser(userId: string, tenantId: string): Promise<void> {

@@ -4,7 +4,11 @@ import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { AppModule } from './../src/app.module.js';
 
-describe('AppController (e2e)', () => {
+const hasDatabase = Boolean(process.env.DATABASE_URL && process.env.JWT_SECRET);
+
+// Requires a real database and JWT secret. Run with:
+//   DATABASE_URL=... JWT_SECRET=... npm run test:e2e
+describe.skipIf(!hasDatabase)('AppController (e2e)', () => {
   let app: INestApplication<App>;
 
   beforeEach(async () => {
@@ -16,11 +20,24 @@ describe('AppController (e2e)', () => {
     await app.init();
   });
 
-  it('/ (GET)', () => {
+  it('/api/status (GET)', () => {
     return request(app.getHttpServer())
-      .get('/')
+      .get('/api/status')
       .expect(200)
-      .expect('Hello World!');
+      .expect((response) => {
+        expect(response.body.status).toBe('ok');
+        expect(response.body.service).toBe('schoolbook-backend');
+      });
+  });
+
+  it('/health (GET)', () => {
+    return request(app.getHttpServer())
+      .get('/health')
+      .expect(200)
+      .expect((response) => {
+        expect(response.body.status).toBe('ok');
+        expect(response.body.checks.database).toBe('up');
+      });
   });
 
   afterEach(async () => {

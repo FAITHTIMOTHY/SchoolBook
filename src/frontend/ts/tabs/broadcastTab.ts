@@ -7,6 +7,7 @@
 
 import { apiFetch } from '../api.js';
 import { state } from '../state.js';
+import { escapeAttribute, escapeHtml } from '../html.js';
 import { Unit, BroadcastResponse, BroadcastMessage, BroadcastCategory } from '../types.js';
 
 export async function loadBroadcastContext(): Promise<void> {
@@ -20,7 +21,7 @@ export async function loadBroadcastContext(): Promise<void> {
     
     if (select) {
       select.innerHTML = units.map(u => 
-        `<option value="${u.id}">${u.name}</option>`
+        `<option value="${escapeAttribute(u.id)}">${escapeHtml(u.name)}</option>`
       ).join('');
     }
 
@@ -104,19 +105,19 @@ export async function loadBroadcastFeed(): Promise<void> {
             <div class="bc-author-row">
               <span class="bc-author-avatar">👤</span>
               <div class="bc-author-meta">
-                <strong>${b.sender_name}</strong>
-                <span class="text-secondary" style="font-size:0.75rem"> · ${b.sender_role} · ${formattedDate}</span>
+                <strong>${escapeHtml(b.sender_name)}</strong>
+                <span class="text-secondary" style="font-size:0.75rem"> · ${escapeHtml(b.sender_role)} · ${escapeHtml(formattedDate)}</span>
               </div>
             </div>
             <span class="notion-tag ${catTagClass}">${catIcon} ${catLabel}</span>
           </div>
 
-          <h3 class="bc-title mt-1">${b.title || 'Broadcast Circular'}</h3>
-          <p class="bc-message mt-1">${b.message}</p>
+          <h3 class="bc-title mt-1">${escapeHtml(b.title || 'Broadcast Circular')}</h3>
+          <p class="bc-message mt-1">${escapeHtml(b.message)}</p>
 
           ${b.event_date ? `
             <div class="bc-event-pill mt-1">
-              <span>📅</span> <strong>Event / Due Date:</strong> ${b.event_date}
+              <span>📅</span> <strong>Event / Due Date:</strong> ${escapeHtml(b.event_date)}
             </div>
           ` : ''}
 
@@ -125,19 +126,17 @@ export async function loadBroadcastFeed(): Promise<void> {
               <div class="bc-att-info">
                 <span class="bc-att-icon">📄</span>
                 <div>
-                  <strong>${b.attachment.name}</strong>
-                  <span class="text-secondary" style="font-size:0.75rem">${b.attachment.size || 'PDF'} · ${b.attachment.type || 'Curriculum Syllabus Document'}</span>
+                  <strong>${escapeHtml(b.attachment.name)}</strong>
+                  <span class="text-secondary" style="font-size:0.75rem">${escapeHtml(b.attachment.size || 'PDF')} · ${escapeHtml(b.attachment.type || 'Curriculum Syllabus Document')}</span>
                 </div>
               </div>
-              <button class="btn btn-secondary btn-sm" onclick="alert('Downloading uploaded syllabus: ${b.attachment.name}')">
-                ⬇ Download Syllabus
-              </button>
+              <span class="notion-tag tag-gray" title="This deployment records attachment metadata. File delivery is managed by the school office.">On file</span>
             </div>
           ` : ''}
 
           <div class="bc-card-footer mt-1">
             <span class="bc-recipients-pill">👥 ${b.recipient_count} Recipients</span>
-            ${b.bulk_mailed ? `<span class="notion-tag tag-purple">✉️ Bulk Email Dispatched to Students & Guardians</span>` : ''}
+            ${b.bulk_mailed ? `<span class="notion-tag tag-purple">✉️ Email delivery queued</span>` : ''}
           </div>
         </div>
       `;
@@ -200,9 +199,9 @@ export async function handleBroadcastSubmit(e: Event): Promise<void> {
       const entry = document.createElement('div');
       entry.className = 'log-entry';
       entry.innerHTML = `
-        <span class="log-time" style="color:var(--text-muted)">[${timestamp}]</span> 
-        <strong style="color:var(--notion-blue)">${category.toUpperCase()} Broadcast Dispatched:</strong> ${res.message}<br>
-        <span style="font-size:0.75rem; color:var(--text-secondary)">Recipients (${res.recipientCount})${bulk_mail ? ' [Bulk Email Alert Active]' : ''}: ${res.recipients.join(', ') || 'Directory members'}</span>
+        <span class="log-time" style="color:var(--text-muted)">[${escapeHtml(timestamp)}]</span>
+        <strong style="color:var(--notion-blue)">${escapeHtml(category.toUpperCase())} Broadcast Dispatched:</strong> ${escapeHtml(res.message)}<br>
+        <span style="font-size:0.75rem; color:var(--text-secondary)">Recipients (${res.recipientCount})${bulk_mail ? ' [Email requested]' : ''}: ${escapeHtml(res.recipients.join(', ') || 'Directory members')}</span>
       `;
       bcLogs.insertBefore(entry, bcLogs.firstChild);
     }
@@ -220,8 +219,8 @@ export async function handleBroadcastSubmit(e: Event): Promise<void> {
       const entry = document.createElement('div');
       entry.className = 'log-entry error';
       entry.innerHTML = `
-        <span class="log-time" style="color:var(--text-muted)">[${timestamp}]</span> 
-        <strong>Broadcast Error:</strong> ${err.message}
+        <span class="log-time" style="color:var(--text-muted)">[${escapeHtml(timestamp)}]</span>
+        <strong>Broadcast Error:</strong> ${escapeHtml(err.message)}
       `;
       bcLogs.insertBefore(entry, bcLogs.firstChild);
     }

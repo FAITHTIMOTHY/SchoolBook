@@ -4,18 +4,21 @@
  */
 
 import { state } from './state.js';
-import { apiFetch, showConnectionIssue, API_BASE } from './api.js';
+import { apiFetch, showConnectionIssue } from './api.js';
 import { applyRBACStyling } from './rbac.js';
-import { Tenant, MemberProfileSummary, ActiveTab } from './types.js';
+import { safeImageUrl } from './html.js';
+import { Member, Tenant, Unit, ActiveTab } from './types.js';
 
 import { loadOverviewData } from './tabs/overviewTab.js';
 import { loadPortalData, savePortalChanges, addSubjectRow, bulkEmailGuardian } from './tabs/portalTab.js';
-import { loadMembersData, viewMemberDetail, deleteMemberProfile } from './tabs/membersTab.js';
+import { loadMembersData, viewMemberDetail, deleteMemberProfile, setupAccessModal } from './tabs/membersTab.js';
 import { loadAttendanceSheet, markMemberAttendance, closeServiceAttendance, loadWorkersPerformance } from './tabs/attendanceTab.js';
 import { loadInventoryData, updateInventoryStatus, deleteInventoryItem } from './tabs/inventoryTab.js';
 import { loadFinancialsData, handlePaymentSubmit } from './tabs/financialsTab.js';
 import { loadBroadcastContext, handleBroadcastSubmit } from './tabs/broadcastTab.js';
 import { setupModalListeners, setupRegistrationForms } from './modals.js';
+
+const DEFAULT_AVATAR = '/avatar-default.svg';
 
 // Expose handlers to global window for table row inline triggers
 declare global {
@@ -63,51 +66,84 @@ export function refreshActiveTab(): void {
   }
 }
 
-function selectUserProfile(userId: string): void {
-  state.activeUserId = userId;
-  const profileSelector = document.getElementById('profile-selector') as HTMLSelectElement | null;
-  if (profileSelector) profileSelector.value = userId;
+function setText(id: string, value: string): void {
+  const element = document.getElementById(id);
+  if (element) element.textContent = value;
+}
 
-  state.activeUser = state.profilesList.find(p => p.id === userId) || null;
+function updateUserChrome(member: Member, tenant: Tenant): void {
+  const displayName =
+    member.name ||
+    `${member.email || 'SchoolBook'} User`;
 
-  if (state.activeUser) {
-    const elName = document.getElementById('current-user-name');
-    const elBadge = document.getElementById('current-user-badge');
-    const elAvatar = document.getElementById('current-user-avatar') as HTMLImageElement | null;
-    const elDept = document.getElementById('current-user-dept');
+  setText('current-user-name', displayName);
+  setText('current-user-badge', member.role);
+  setText('current-user-dept', state.getUnitLabel(member.unit_id));
+  setText('notion-breadcrumb-campus', tenant.name);
+  setText('workspace-sidebar-name', tenant.name);
+  setText('topbar-tenant-name', tenant.name);
 
-    if (elName) elName.textContent = state.activeUser.name;
-    if (elBadge) elBadge.textContent = state.activeUser.role;
-    if (elAvatar) {
-      elAvatar.src = state.activeUser.profile_picture_url || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=100&h=100&fit=crop';
-    }
-    if (elDept) {
-      elDept.textContent = state.getUnitLabel(state.activeUser.unit_id);
-    }
+  const avatar = document.getElementById('current-user-avatar') as HTMLImageElement | null;
+  if (avatar) {
+    avatar.src = safeImageUrl(member.profile_picture_url || DEFAULT_AVATAR);
+    avatar.alt = `${displayName} profile picture`;
+    avatar.onerror = () => {
+      avatar.onerror = null;
+      avatar.src = DEFAULT_AVATAR;
+    };
+  }
 
-    applyRBACStyling();
+  const profileCard = document.getElementById('user-profile-summary');
+  if (profileCard) {
+    profileCard.title = `${member.position || member.role} · ${member.email || ''}`;
   }
 }
 
-async function loadProfilesForTenant(tenantId: string): Promise<void> {
-  try {
-    const response = await fetch(`${API_BASE}/api/auth/profiles?tenantId=${tenantId}`);
-    if (!response.ok) throw new Error('Failed to load profiles');
-    state.profilesList = await response.json() as MemberProfileSummary[];
+async function loadSession(): Promise<void> {
+  const [member, tenantResponse, units] = await Promise.all([
+    apiFetch<Member>('/api/members/me'),
+    apiFetch<{
+      id: string;
+      name: string;
+      slug: string;
+      logoUrl?: string | null;
+    }>('/api/tenants/current'),
+    apiFetch<Unit[]>('/api/units').catch(() => [] as Unit[]),
+  ]);
 
-    const profileSelector = document.getElementById('profile-selector') as HTMLSelectElement | null;
-    if (profileSelector) {
-      profileSelector.innerHTML = state.profilesList.map(p =>
-        `<option value="${p.id}">${p.name} (${p.position})</option>`
-      ).join('');
+  const tenant: Tenant = {
+    id: tenantResponse.id,
+    name: tenantResponse.name,
+    logo_url: tenantResponse.logoUrl ?? '',
+  };
+
+  state.setUnits(units);
+  state.activeUser = member;
+  state.activeUserId = member.id;
+  state.activeTenantId = member.tenant_id;
+  state.tenantsList = [tenant];
+
+  updateUserChrome(member, tenant);
+  applyRBACStyling();
+}
+
+function setupLogout(): void {
+  const logoutButton = document.getElementById('btn-logout');
+  if (!logoutButton) return;
+
+  logoutButton.addEventListener('click', async (event) => {
+    event.preventDefault();
+    logoutButton.setAttribute('aria-busy', 'true');
+
+    try {
+      await apiFetch('/api/auth/logout', { method: 'POST' });
+    } catch {
+      // The cookies are cleared by the server even when the session is already
+      // expired. The redirect below is still the correct outcome.
     }
 
-    if (state.profilesList.length > 0) {
-      selectUserProfile(state.profilesList[0].id);
-    }
-  } catch (err) {
-    console.error('Failed to load profiles for tenant:', err);
-  }
+    window.location.assign('/login');
+  });
 }
 
 function setupTabNavigation(): void {
@@ -199,8 +235,10 @@ function setupThemeHandler(): void {
 function setupDOMListeners(): void {
   setupThemeHandler();
   setupTabNavigation();
+  setupLogout();
   setupModalListeners();
   setupRegistrationForms();
+  setupAccessModal();
 
   // Set default date for attendance form
   const attDateInput = document.getElementById('att-service-date') as HTMLInputElement | null;
@@ -275,46 +313,17 @@ document.addEventListener('DOMContentLoaded', async () => {
   setupDOMListeners();
 
   try {
-    // 1. Load Tenants
-    const response = await fetch(`${API_BASE}/api/tenants`);
-    if (!response.ok) throw new Error('Could not fetch tenants');
-    state.tenantsList = await response.json() as Tenant[];
-
-    const tenantSelector = document.getElementById('tenant-selector') as HTMLSelectElement | null;
-    if (tenantSelector) {
-      tenantSelector.innerHTML = state.tenantsList.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
-
-      if (state.tenantsList.length > 0) {
-        state.activeTenantId = state.tenantsList[0].id;
-        tenantSelector.value = state.activeTenantId;
-      }
-
-      tenantSelector.addEventListener('change', async (e) => {
-        state.activeTenantId = (e.target as HTMLSelectElement).value;
-        await loadProfilesForTenant(state.activeTenantId);
-        refreshActiveTab();
-      });
-    }
-
-    // 2. Load Profiles for selected tenant
-    if (state.activeTenantId) {
-      await loadProfilesForTenant(state.activeTenantId);
-    }
-
-    const profileSelector = document.getElementById('profile-selector');
-    if (profileSelector) {
-      profileSelector.addEventListener('change', (e) => {
-        selectUserProfile((e.target as HTMLSelectElement).value);
-        refreshActiveTab();
-      });
-    }
-
-    // 3. Initial active tab render
+    await loadSession();
     refreshActiveTab();
-
   } catch (err) {
+    const status = (err as { status?: number }).status;
+
+    if (status === 401 || status === 403) {
+      window.location.assign('/login');
+      return;
+    }
+
     console.error('Initialization error:', err);
     showConnectionIssue();
   }
 });
-

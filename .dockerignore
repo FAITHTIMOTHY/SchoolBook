@@ -1,0 +1,12 @@
+node_modules
+backend/node_modules
+dist
+backend/dist
+backend/ui-screenshots
+backend/.env
+database.json
+*.log
+.git
+.gitignore
+.vscode
+.idea
