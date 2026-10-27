@@ -1,4 +1,4 @@
-import { cp, mkdir, rm } from 'node:fs/promises';
+import { cp, copyFile, mkdir, rm } from 'node:fs/promises';
 import path from 'node:path';
 
 const source = path.resolve('src/frontend');
@@ -24,6 +24,9 @@ for (const target of targets) {
       return !entry.endsWith('.map');
     },
   });
+
+  // Provide app.html so cleanUrls matches /app directly
+  await copyFile(path.join(source, 'index.html'), path.join(target, 'app.html'));
 
   console.log(`Copied static frontend assets to ${path.relative(process.cwd(), target)}`);
 }

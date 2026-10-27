@@ -10,10 +10,13 @@
     { "source": "/login", "destination": "/login.html" },
     { "source": "/reset-password", "destination": "/reset-password.html" },
     { "source": "/verify-email", "destination": "/verify-email.html" },
-    { "source": "/app", "destination": "/index.html" },
-    { "source": "/app/:path*", "destination": "/index.html" },
-    { "source": "/dashboard", "destination": "/index.html" },
-    { "source": "/dashboard/:path*", "destination": "/index.html" }
+    { "source": "/app", "destination": "/app.html" },
+    { "source": "/app/:path*", "destination": "/app.html" },
+    { "source": "/dashboard", "destination": "/app.html" },
+    { "source": "/dashboard/:path*", "destination": "/app.html" },
+    { "source": "/health", "destination": "/api" },
+    { "source": "/health/:path*", "destination": "/api" },
+    { "source": "/api/:path*", "destination": "/api" }
   ],
   "headers": [
     {
