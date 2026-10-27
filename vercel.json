@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "node --input-type=module -e \"import fs from 'node:fs'; if (!fs.existsSync('src/app.ts') || !fs.existsSync('backend/package-lock.json')) { console.error('ERROR: Vercel Root Directory must be the repository root, not backend. Set Project Settings > Build and Deployment > Root Directory to the repository root, then redeploy.'); process.exit(1); }\" && npm ci --include=dev && npm ci --include=dev --prefix backend && DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build DIRECT_URL=postgresql://build:build@127.0.0.1:5432/build npm run prisma:generate --prefix backend",
+  "installCommand": "node scripts/vercel-install.mjs",
   "buildCommand": "npm run vercel-build && node scripts/vercel-migrate.mjs",
   "cleanUrls": true,
   "functions": {
