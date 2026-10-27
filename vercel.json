@@ -1,8 +1,16 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "installCommand": "node -e \"process.exit(require('fs').existsSync('src/app.ts')&&require('fs').existsSync('backend/package-lock.json')?0:1)\" || (echo 'ERROR: Vercel Root Directory must be the repository root, not backend. Set Project Settings > Build and Deployment > Root Directory to the repository root, then redeploy.' && exit 1) && npm ci && npm ci --prefix backend && DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build DIRECT_URL=postgresql://build:build@127.0.0.1:5432/build npm run prisma:generate --prefix backend",
+  "installCommand": "node --input-type=module -e \"import fs from 'node:fs'; if (!fs.existsSync('src/app.ts') || !fs.existsSync('backend/package-lock.json')) { console.error('ERROR: Vercel Root Directory must be the repository root, not backend. Set Project Settings > Build and Deployment > Root Directory to the repository root, then redeploy.'); process.exit(1); }\" && npm ci --include=dev && npm ci --include=dev --prefix backend && DATABASE_URL=postgresql://build:build@127.0.0.1:5432/build DIRECT_URL=postgresql://build:build@127.0.0.1:5432/build npm run prisma:generate --prefix backend",
   "buildCommand": "npm run vercel-build && node scripts/vercel-migrate.mjs",
   "cleanUrls": true,
+  "functions": {
+    "src/app.ts": {
+      "includeFiles": [
+        "backend/node_modules/.prisma/**",
+        "backend/prisma/schema.prisma"
+      ]
+    }
+  },
   "rewrites": [
     { "source": "/", "destination": "/landing.html" },
     { "source": "/landing", "destination": "/landing.html" },

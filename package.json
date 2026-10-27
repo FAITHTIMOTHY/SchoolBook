@@ -2,7 +2,7 @@
   "name": "schoolbook-sms",
   "version": "1.0.0",
   "description": "SchoolBook School Management System (SMS) Framework",
-  "main": "dist/backend/server.js",
+  "main": "src/app.ts",
   "type": "module",
   "scripts": {
     "build:app": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022",
