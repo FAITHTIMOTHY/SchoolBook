@@ -3,11 +3,6 @@
   "installCommand": "node scripts/vercel-install.mjs",
   "buildCommand": "npm run vercel-build && node scripts/vercel-migrate.mjs",
   "cleanUrls": true,
-  "functions": {
-    "src/app.ts": {
-      "includeFiles": "{backend/node_modules/.prisma/**,backend/prisma/schema.prisma}"
-    }
-  },
   "rewrites": [
     { "source": "/", "destination": "/landing.html" },
     { "source": "/landing", "destination": "/landing.html" },
