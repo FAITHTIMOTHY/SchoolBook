@@ -5,10 +5,7 @@
   "cleanUrls": true,
   "functions": {
     "src/app.ts": {
-      "includeFiles": [
-        "backend/node_modules/.prisma/**",
-        "backend/prisma/schema.prisma"
-      ]
+      "includeFiles": "{backend/node_modules/.prisma/**,backend/prisma/schema.prisma}"
     }
   },
   "rewrites": [
