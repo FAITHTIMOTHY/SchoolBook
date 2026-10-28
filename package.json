@@ -21,7 +21,7 @@
     "vercel-build": "npm run build:fe && npm run build:be && node scripts/prepare-vercel.mjs"
   },
   "engines": {
-    "node": "22.x"
+    "node": ">=22.0.0"
   },
   "dependencies": {
     "cors": "^2.8.5",
