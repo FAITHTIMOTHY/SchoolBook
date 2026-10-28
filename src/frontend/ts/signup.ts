@@ -33,15 +33,30 @@ function hideAlert(): void {
   if (alertBox) alertBox.hidden = true;
 }
 
+function updateSubmitState(): void {
+  if (!submitButton) return;
+  const hasSchool = Boolean(schoolInput?.value?.trim());
+  const hasFirst = Boolean(firstNameInput?.value?.trim());
+  const hasLast = Boolean(lastNameInput?.value?.trim());
+  const hasEmail = Boolean(emailInput?.value?.trim());
+  const hasPass = Boolean(passwordInput && passwordInput.value.length >= 8);
+
+  const isReady = hasSchool && hasFirst && hasLast && hasEmail && hasPass;
+  submitButton.disabled = !isReady;
+  submitButton.classList.toggle('is-inactive', !isReady);
+}
+
 function setLoading(loading: boolean): void {
   if (!submitButton || !submitLabel) return;
   submitButton.disabled = loading;
   if (loading) {
     submitLabel.innerHTML = '<span class="spinner" aria-hidden="true"></span> Creating workspace…';
     submitButton.setAttribute('aria-busy', 'true');
+    submitButton.classList.remove('is-inactive');
   } else {
     submitLabel.textContent = 'Create school workspace';
     submitButton.removeAttribute('aria-busy');
+    updateSubmitState();
   }
 }
 
@@ -50,8 +65,10 @@ function setupPasswordToggle(): void {
   togglePassword.addEventListener('click', () => {
     const showing = passwordInput.type === 'text';
     passwordInput.type = showing ? 'password' : 'text';
-    togglePassword.textContent = showing ? 'Show' : 'Hide';
+    togglePassword.classList.toggle('is-showing', !showing);
     togglePassword.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    togglePassword.setAttribute('title', showing ? 'Show password' : 'Hide password');
+    passwordInput.focus();
   });
 }
 
@@ -143,3 +160,9 @@ document.documentElement.setAttribute('data-theme', 'light');
 setupPasswordToggle();
 setupSignupForm();
 
+schoolInput?.addEventListener('input', updateSubmitState);
+firstNameInput?.addEventListener('input', updateSubmitState);
+lastNameInput?.addEventListener('input', updateSubmitState);
+emailInput?.addEventListener('input', updateSubmitState);
+passwordInput?.addEventListener('input', updateSubmitState);
+updateSubmitState();

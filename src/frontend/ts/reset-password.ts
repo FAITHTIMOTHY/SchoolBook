@@ -70,16 +70,29 @@ function setupPasswordToggle(): void {
   togglePassword.addEventListener('click', () => {
     const showing = passwordInput.type === 'text';
     passwordInput.type = showing ? 'password' : 'text';
-    togglePassword.textContent = showing ? 'Show' : 'Hide';
+    togglePassword.classList.toggle('is-showing', !showing);
     togglePassword.setAttribute('aria-label', showing ? 'Show password' : 'Hide password');
+    togglePassword.setAttribute('title', showing ? 'Show password' : 'Hide password');
     passwordInput.focus();
   });
+}
+
+function updateSubmitState(): void {
+  if (!submitButton || !passwordInput || !confirmInput) return;
+  const isReady = passwordInput.value.length >= 8 && confirmInput.value.length >= 8;
+  submitButton.disabled = !isReady;
+  submitButton.classList.toggle('is-inactive', !isReady);
 }
 
 function setLoading(loading: boolean): void {
   if (!submitButton) return;
   submitButton.disabled = loading;
   submitButton.textContent = loading ? 'Updating…' : 'Update password';
+  if (loading) {
+    submitButton.classList.remove('is-inactive');
+  } else {
+    updateSubmitState();
+  }
 }
 
 if (!token || !tenantSlug) {
@@ -150,3 +163,7 @@ if (!token || !tenantSlug) {
 
 setupThemeToggle();
 setupPasswordToggle();
+
+passwordInput?.addEventListener('input', updateSubmitState);
+confirmInput?.addEventListener('input', updateSubmitState);
+updateSubmitState();

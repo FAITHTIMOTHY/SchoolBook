@@ -53,9 +53,11 @@
     if (loading) {
       submitLabel.innerHTML = '<span class="spinner" aria-hidden="true"></span> Signing in\u2026';
       submitButton.setAttribute("aria-busy", "true");
+      submitButton.classList.remove("is-inactive");
     } else {
       submitLabel.textContent = "Sign in";
       submitButton.removeAttribute("aria-busy");
+      updateSubmitState();
     }
   }
   function setResetLoading(loading) {
@@ -160,10 +162,17 @@
     togglePassword.addEventListener("click", () => {
       const showing = passwordInput.type === "text";
       passwordInput.type = showing ? "password" : "text";
-      togglePassword.textContent = showing ? "Show" : "Hide";
+      togglePassword.classList.toggle("is-showing", !showing);
       togglePassword.setAttribute("aria-label", showing ? "Show password" : "Hide password");
+      togglePassword.setAttribute("title", showing ? "Show password" : "Hide password");
       passwordInput.focus();
     });
+  }
+  function updateSubmitState() {
+    if (!submitButton || !emailInput || !passwordInput) return;
+    const isReady = Boolean(emailInput.value.trim()) && Boolean(passwordInput.value);
+    submitButton.disabled = !isReady;
+    submitButton.classList.toggle("is-inactive", !isReady);
   }
   function setupLoginForm() {
     if (!form) return;
@@ -318,6 +327,9 @@
   setupResetDialog();
   setupGoogle();
   showQueryMessages();
+  emailInput?.addEventListener("input", updateSubmitState);
+  passwordInput?.addEventListener("input", updateSubmitState);
+  updateSubmitState();
   void redirectIfSignedIn();
   void loadProviders();
 })();

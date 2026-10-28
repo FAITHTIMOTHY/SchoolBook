@@ -129,8 +129,8 @@
                   <div class="password-wrap">
                     <input class="auth-input" id="password" name="password" type="password"
                       autocomplete="current-password" placeholder="Enter your password" required>
-                    <button class="password-toggle" id="toggle-password" type="button" aria-label="Show password">
-                      Show
+                    <button class="password-toggle" id="toggle-password" type="button" aria-label="Show password" title="Show password">
+                      <span class="eye-emote" aria-hidden="true">👁️</span>
                     </button>
                   </div>
                 </div>
@@ -140,7 +140,7 @@
                   <button class="auth-link" id="forgot-password" type="button">Forgot password?</button>
                 </div>
 
-                <button class="auth-submit" id="login-submit" type="submit">
+                <button class="auth-submit is-inactive" id="login-submit" type="submit" disabled>
                   <span id="login-submit-label">Sign in</span>
                 </button>
               </form>
