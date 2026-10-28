@@ -2517,3 +2517,60 @@ a.notion-icon-btn {
     padding: 0 9px;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Mobile & Small Screen Optimizations
+   -------------------------------------------------------------------------- */
+@media (max-width: 992px) {
+  .sidebar-menu-wrapper.active {
+    max-height: calc(100dvh - 56px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 640px) {
+  .notion-workspace-chip {
+    max-width: 140px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 11px;
+    padding: 3px 8px;
+  }
+
+  .notion-modal-backdrop,
+  .modal-backdrop {
+    padding: 12px;
+  }
+
+  .notion-modal-card,
+  .modal-card {
+    max-width: calc(100vw - 24px);
+    max-height: calc(100dvh - 24px);
+  }
+
+  .notion-modal-body,
+  .modal-body {
+    padding: 14px 12px;
+  }
+
+  .notion-modal-footer,
+  .modal-footer {
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 400px) {
+  .notion-workspace-chip {
+    max-width: 95px;
+  }
+
+  .notion-plan-badge {
+    display: none;
+  }
+
+  .notion-brand-title {
+    font-size: 13.5px;
+  }
+}

@@ -561,6 +561,9 @@ label,
 .sb-mobile-menu .sb-btn {
   margin-top: 12px;
   border-bottom: 0;
+}
+
+.sb-mobile-menu .sb-btn-primary {
   color: #fff;
 }
 
@@ -2131,6 +2134,19 @@ label,
 
   .sb-subject-list em {
     align-self: start;
+  }
+}
+
+@media (max-width: 480px) {
+  .sb-hero-actions {
+    flex-direction: column;
+    align-self: stretch;
+    width: 100%;
+    max-width: 360px;
+    margin-inline: auto;
+  }
+  .sb-hero-actions .sb-btn {
+    width: 100%;
   }
 }
 

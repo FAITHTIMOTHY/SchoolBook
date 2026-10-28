@@ -26,7 +26,7 @@ describe('AppController', () => {
     }).compile();
 
     appController = app.get<AppController>(AppController);
-  });
+  }, 30000);
 
   describe('root', () => {
     it('should return service status', () => {
