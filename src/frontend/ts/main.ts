@@ -150,6 +150,17 @@ function setupTabNavigation(): void {
   const buttons = document.querySelectorAll<HTMLButtonElement>('.nav-btn');
   const menuWrapper = document.getElementById('sidebar-menu-wrapper');
   const hamburgerBtn = document.getElementById('mobile-hamburger');
+  const sidebar = document.querySelector<HTMLElement>('.notion-sidebar');
+  const backdrop = document.getElementById('sidebar-backdrop');
+
+  const closeDrawer = (): void => {
+    sidebar?.classList.remove('is-open');
+    hamburgerBtn?.classList.remove('active');
+    backdrop?.classList.remove('active');
+    if (menuWrapper?.classList.contains('active')) {
+      menuWrapper.classList.remove('active');
+    }
+  };
 
   buttons.forEach(btn => {
     btn.addEventListener('click', () => {
@@ -164,25 +175,22 @@ function setupTabNavigation(): void {
       });
       document.getElementById(`pane-${tabId}`)?.classList.add('active');
 
-      // Auto-collapse mobile drawer
-      if (menuWrapper?.classList.contains('active')) {
-        menuWrapper.classList.remove('active');
-      }
-      if (hamburgerBtn?.classList.contains('active')) {
-        hamburgerBtn.classList.remove('active');
-      }
-
+      closeDrawer();
       refreshActiveTab();
     });
   });
 
-  // Mobile hamburger toggle
-  if (hamburgerBtn && menuWrapper) {
+  if (hamburgerBtn) {
     hamburgerBtn.addEventListener('click', () => {
-      hamburgerBtn.classList.toggle('active');
-      menuWrapper.classList.toggle('active');
+      const willOpen = !sidebar?.classList.contains('is-open');
+      sidebar?.classList.toggle('is-open', willOpen);
+      hamburgerBtn.classList.toggle('active', willOpen);
+      backdrop?.classList.toggle('active', willOpen);
+      menuWrapper?.classList.toggle('active', willOpen);
     });
   }
+
+  backdrop?.addEventListener('click', closeDrawer);
 }
 
 /**

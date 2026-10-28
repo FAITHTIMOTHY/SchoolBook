@@ -2021,6 +2021,16 @@ Share this privately. The person should change it after signing in.`
     const buttons = document.querySelectorAll(".nav-btn");
     const menuWrapper = document.getElementById("sidebar-menu-wrapper");
     const hamburgerBtn = document.getElementById("mobile-hamburger");
+    const sidebar = document.querySelector(".notion-sidebar");
+    const backdrop = document.getElementById("sidebar-backdrop");
+    const closeDrawer = () => {
+      sidebar?.classList.remove("is-open");
+      hamburgerBtn?.classList.remove("active");
+      backdrop?.classList.remove("active");
+      if (menuWrapper?.classList.contains("active")) {
+        menuWrapper.classList.remove("active");
+      }
+    };
     buttons.forEach((btn) => {
       btn.addEventListener("click", () => {
         buttons.forEach((b) => b.classList.remove("active"));
@@ -2031,21 +2041,20 @@ Share this privately. The person should change it after signing in.`
           pane.classList.remove("active");
         });
         document.getElementById(`pane-${tabId}`)?.classList.add("active");
-        if (menuWrapper?.classList.contains("active")) {
-          menuWrapper.classList.remove("active");
-        }
-        if (hamburgerBtn?.classList.contains("active")) {
-          hamburgerBtn.classList.remove("active");
-        }
+        closeDrawer();
         refreshActiveTab();
       });
     });
-    if (hamburgerBtn && menuWrapper) {
+    if (hamburgerBtn) {
       hamburgerBtn.addEventListener("click", () => {
-        hamburgerBtn.classList.toggle("active");
-        menuWrapper.classList.toggle("active");
+        const willOpen = !sidebar?.classList.contains("is-open");
+        sidebar?.classList.toggle("is-open", willOpen);
+        hamburgerBtn.classList.toggle("active", willOpen);
+        backdrop?.classList.toggle("active", willOpen);
+        menuWrapper?.classList.toggle("active", willOpen);
       });
     }
+    backdrop?.addEventListener("click", closeDrawer);
   }
   function setupThemeHandler() {
     const themeToggleBtn = document.getElementById("theme-toggle-btn");

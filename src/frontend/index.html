@@ -38,6 +38,12 @@
   <!-- NOTION TOP BAR: Global Workspace & Navigation Bar -->
   <header class="simulation-bar notion-topbar">
     <div class="notion-topbar-left">
+      <button class="hamburger-btn" id="mobile-hamburger" aria-label="Toggle Menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
       <div class="sim-brand notion-brand">
         <div class="logo-mark"><img src="logo.png" alt="SchoolBook Logo"></div>
         <span class="notion-brand-title">SchoolBook</span>
@@ -80,21 +86,11 @@
 
   <!-- MAIN APP CONTAINER -->
   <div class="app-layout">
+    <div class="sidebar-backdrop" id="sidebar-backdrop" aria-hidden="true"></div>
 
     <!-- NOTION SIDEBAR NAVIGATION -->
     <aside class="sidebar-nav notion-sidebar">
-      <!-- Mobile Header Row -->
-      <div class="sidebar-mobile-header">
-        <div class="mobile-brand">
-          <div class="logo-mark sm"><img src="logo.png" alt="SchoolBook Logo"></div>
-          <span>SchoolBook</span>
-        </div>
-        <button class="hamburger-btn" id="mobile-hamburger" aria-label="Toggle Menu">
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-          <span class="hamburger-line"></span>
-        </button>
-      </div>
+
 
       <!-- Collapsible Menu Container -->
       <div class="sidebar-menu-wrapper" id="sidebar-menu-wrapper">
