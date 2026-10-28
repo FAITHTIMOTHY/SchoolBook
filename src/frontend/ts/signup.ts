@@ -142,3 +142,4 @@ if (year) year.textContent = String(new Date().getFullYear());
 document.documentElement.setAttribute('data-theme', 'light');
 setupPasswordToggle();
 setupSignupForm();
+

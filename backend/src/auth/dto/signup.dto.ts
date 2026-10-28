@@ -31,3 +31,4 @@ export class SignupDto {
   @MaxLength(100)
   schoolSlug?: string;
 }
+

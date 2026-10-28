@@ -171,8 +171,8 @@ body {
   border-right: 1px solid var(--auth-border);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  gap: 32px;
+  justify-content: center;
+  gap: 24px;
 }
 
 @media (max-width: 860px) {
