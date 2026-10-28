@@ -194,30 +194,10 @@ function closeResetDialog(): void {
 }
 
 function setupThemeToggle(): void {
-  const button = document.getElementById('theme-toggle');
-  const icon = document.getElementById('theme-toggle-icon');
-
-  const sync = (): void => {
-    const theme = document.documentElement.getAttribute('data-theme') || 'light';
-    if (icon) icon.textContent = theme === 'dark' ? '☀️' : '🌙';
-    button?.setAttribute('title', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
-  };
-
-  sync();
-
-  button?.addEventListener('click', () => {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
-
-    try {
-      localStorage.setItem('schoolbook-theme', next);
-    } catch {
-      // ignore storage restrictions
-    }
-
-    sync();
-  });
+  document.documentElement.setAttribute("data-theme", "light");
+  try {
+    localStorage.removeItem("schoolbook-theme");
+  } catch {}
 }
 
 function setupPasswordToggle(): void {

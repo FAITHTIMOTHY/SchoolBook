@@ -10,151 +10,202 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
   <link rel="stylesheet" href="auth.css">
   <link rel="icon" type="image/png" href="favicon.png">
-
-  <script>
-    (function () {
-      try {
-        var saved = localStorage.getItem('schoolbook-theme');
-        if (saved === 'dark' || saved === 'light') {
-          document.documentElement.setAttribute('data-theme', saved);
-        } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        }
-      } catch (e) {
-        // ignore storage restrictions
-      }
-    })();
-  </script>
 </head>
 
 <body>
-  <button type="button" class="auth-theme-toggle" id="theme-toggle" aria-label="Toggle dark mode" title="Toggle dark mode">
-    <span id="theme-toggle-icon">🌙</span>
-  </button>
 
-  <main class="auth-shell">
-    <section class="auth-brand" aria-label="SchoolBook introduction">
-      <div class="auth-brand-top">
-        <a class="auth-logo" href="/">
-          <img src="logo.png" alt="">
-          <span>SchoolBook</span>
-        </a>
-        <a class="auth-brand-link" href="/">Explore the public site</a>
+  <!-- ============================================================
+       NAVIGATION (Consistent with Landing Page)
+       ============================================================ -->
+  <header class="sb-nav">
+    <div class="sb-nav-inner">
+      <a href="/" class="sb-logo" aria-label="SchoolBook home">
+        <img src="logo.png" alt="" width="26" height="26">
+        <span>SchoolBook</span>
+      </a>
+
+      <nav class="sb-nav-links" aria-label="Primary">
+        <a href="/#tour">Product tour</a>
+        <a href="/#features">Features</a>
+        <a href="/#roles">Roles</a>
+        <a href="/#faq">FAQ</a>
+      </nav>
+
+      <div class="sb-nav-actions">
+        <a href="/" class="sb-link">← Explore site</a>
+        <a href="/app" class="sb-btn sb-btn-ghost sb-btn-sm">Open workspace</a>
       </div>
 
-      <div class="auth-brand-copy">
-        <span class="auth-eyebrow">One campus, one calm workspace</span>
-        <h1>Everything your school runs on, finally in one place.</h1>
-        <p>
-          Attendance, student records, tuition, inventory, and family communication — designed for
-          real schools, not spreadsheets.
-        </p>
+      <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="sb-mobile-menu" id="sb-mobile-menu">
+      <a href="/#tour">Product tour</a>
+      <a href="/#features">Features</a>
+      <a href="/#roles">Roles</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/" class="sb-btn sb-btn-ghost">Back to home</a>
+    </div>
+  </header>
 
-        <ul class="auth-points">
-          <li>
-            <span class="auth-point-icon">✓</span>
-            <span>Live attendance registers with class-level insight and same-day follow-up.</span>
-          </li>
-          <li>
-            <span class="auth-point-icon">✓</span>
-            <span>One student record from enrolment to graduation, with guardians attached.</span>
-          </li>
-          <li>
-            <span class="auth-point-icon">✓</span>
-            <span>Finance, inventory, and broadcasts that stay in sync with your campus.</span>
-          </li>
-        </ul>
-      </div>
+  <!-- ============================================================
+       AUTH MAIN
+       ============================================================ -->
+  <main class="auth-wrapper">
+    <div class="sb-aura" aria-hidden="true" style="top: 0; height: 600px; opacity: 0.85;"></div>
 
-      <div class="auth-brand-bottom">
-        <span><strong>Built for real schools</strong> · Multi-school ready</span>
-        <span>Secure sessions · Role-based access</span>
-      </div>
-    </section>
+    <div>
+      <section class="auth-hero-header">
+        <h1>Sign in to your workspace</h1>
+        <p>Attendance, student records, tuition, and family communication — held together in one calm workspace.</p>
+      </section>
 
-    <section class="auth-panel">
-      <div class="auth-card">
-        <div class="auth-mobile-brand">
-          <img src="logo.png" alt="">
-          <span>SchoolBook</span>
-        </div>
-
-        <h2>Welcome back</h2>
-        <p class="auth-subtitle">Sign in to your campus workspace with the account your school provided.</p>
-
-        <div class="auth-alert" id="login-alert" role="alert" aria-live="polite" hidden>
-          <span class="auth-alert-icon" id="login-alert-icon">!</span>
-          <span id="login-alert-text"></span>
-        </div>
-
-        <form class="auth-form" id="login-form" novalidate>
-          <div class="auth-field">
-            <label for="tenant-slug">School code</label>
-            <input class="auth-input" id="tenant-slug" name="tenantSlug" type="text"
-              autocomplete="organization" autocapitalize="none" spellcheck="false"
-              placeholder="your-school" required>
-            <span class="hint">Your administrator can confirm this code. It is usually your school's short name.</span>
-          </div>
-
-          <div class="auth-field">
-            <label for="email">Email address</label>
-            <input class="auth-input" id="email" name="email" type="email"
-              autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false"
-              placeholder="you@school.edu" required>
-          </div>
-
-          <div class="auth-field">
-            <label for="password">Password</label>
-            <div class="password-wrap">
-              <input class="auth-input" id="password" name="password" type="password"
-                autocomplete="current-password" placeholder="Enter your password" required>
-              <button class="password-toggle" id="toggle-password" type="button" aria-label="Show password">
-                Show
-              </button>
+      <div class="auth-canvas-container">
+        <div class="auth-canvas-card">
+          <!-- macOS Canvas Bar -->
+          <div class="auth-canvas-bar">
+            <div class="auth-canvas-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="auth-canvas-crumb">
+              SchoolBook / <strong>Workspace Sign In</strong>
             </div>
           </div>
 
-          <div class="auth-row">
-            <span class="hint">Sessions are secured with HttpOnly cookies.</span>
-            <button class="auth-link" id="forgot-password" type="button">Forgot password?</button>
+          <div class="auth-canvas-grid">
+            <!-- Left Side: Campus Overview -->
+            <section class="auth-brand-col" aria-label="SchoolBook Overview">
+              <div class="auth-brand-lead">
+                <h2>Everything your school runs on, finally in one place.</h2>
+                <p>Designed for real schools with live attendance, unified student profiles, tuition, and family communication.</p>
+
+                <ul class="auth-feature-list">
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>Live attendance registers with class-level insight and same-day follow-up.</span>
+                  </li>
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>One student record from enrolment to graduation, with guardians attached.</span>
+                  </li>
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>Finance, inventory, and broadcasts that stay in sync with your campus.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="auth-roles-wrap">
+                  <span class="auth-roles-label">Supported Roles</span>
+                  <div class="auth-roles-pills">
+                    <span class="auth-role-pill">Principal</span>
+                    <span class="auth-role-pill">Teacher</span>
+                    <span class="auth-role-pill">Counselor</span>
+                    <span class="auth-role-pill">Bursar</span>
+                    <span class="auth-role-pill">Student</span>
+                    <span class="auth-role-pill">Guardian</span>
+                  </div>
+                </div>
+
+                <div class="auth-security-note" style="margin-top: 18px;">
+                  <span><strong>Multi-school ready</strong></span>
+                  <span>·</span>
+                  <span>Secure HttpOnly sessions</span>
+                  <span>·</span>
+                  <span>Role-based access</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Right Side: Sign-in Form -->
+            <section class="auth-form-col">
+              <div class="auth-form-head">
+                <h2>Welcome back</h2>
+                <p class="auth-subtitle">Sign in to your campus workspace with the account your school provided.</p>
+              </div>
+
+              <div class="auth-alert" id="login-alert" role="alert" aria-live="polite" hidden>
+                <span class="auth-alert-icon" id="login-alert-icon">!</span>
+                <span id="login-alert-text"></span>
+              </div>
+
+              <form class="auth-form" id="login-form" novalidate>
+                <div class="auth-field">
+                  <label for="tenant-slug">School code</label>
+                  <input class="auth-input" id="tenant-slug" name="tenantSlug" type="text"
+                    autocomplete="organization" autocapitalize="none" spellcheck="false"
+                    placeholder="your-school" required>
+                  <span class="hint">Your administrator can confirm this code. It is usually your school's short name.</span>
+                </div>
+
+                <div class="auth-field">
+                  <label for="email">Email address</label>
+                  <input class="auth-input" id="email" name="email" type="email"
+                    autocomplete="username" inputmode="email" autocapitalize="none" spellcheck="false"
+                    placeholder="you@school.edu" required>
+                </div>
+
+                <div class="auth-field">
+                  <label for="password">Password</label>
+                  <div class="password-wrap">
+                    <input class="auth-input" id="password" name="password" type="password"
+                      autocomplete="current-password" placeholder="Enter your password" required>
+                    <button class="password-toggle" id="toggle-password" type="button" aria-label="Show password">
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+                <div class="auth-row">
+                  <span class="hint">Sessions are secured with HttpOnly cookies.</span>
+                  <button class="auth-link" id="forgot-password" type="button">Forgot password?</button>
+                </div>
+
+                <button class="auth-submit" id="login-submit" type="submit">
+                  <span id="login-submit-label">Sign in</span>
+                </button>
+              </form>
+
+              <div id="google-section" hidden>
+                <div class="auth-divider"><span>or</span></div>
+                <a class="auth-google" id="google-login" href="#">
+                  <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path fill="#4285F4"
+                      d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.54-5.17 3.54-8.87Z" />
+                    <path fill="#34A853"
+                      d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24Z" />
+                    <path fill="#FBBC05"
+                      d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a11.99 11.99 0 0 0 0 10.76l3.98-3.09Z" />
+                    <path fill="#EA4335"
+                      d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75Z" />
+                  </svg>
+                  Continue with Google
+                </a>
+              </div>
+
+              <p class="auth-help">
+                Need an account or a password reset? Contact your school administrator.
+                <br>
+                <a href="/">Back to the public site</a>
+              </p>
+            </section>
           </div>
-
-          <button class="auth-submit" id="login-submit" type="submit">
-            <span id="login-submit-label">Sign in</span>
-          </button>
-        </form>
-
-        <div id="google-section" hidden>
-          <div class="auth-divider"><span>or</span></div>
-          <a class="auth-google" id="google-login" href="#">
-            <svg viewBox="0 0 24 24" aria-hidden="true">
-              <path fill="#4285F4"
-                d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.47a5.53 5.53 0 0 1-2.4 3.63v3h3.88c2.27-2.09 3.54-5.17 3.54-8.87Z" />
-              <path fill="#34A853"
-                d="M12 24c3.24 0 5.96-1.07 7.95-2.9l-3.88-3c-1.08.72-2.45 1.15-4.07 1.15-3.13 0-5.78-2.11-6.73-4.96H1.29v3.09A11.99 11.99 0 0 0 12 24Z" />
-              <path fill="#FBBC05"
-                d="M5.27 14.29a7.2 7.2 0 0 1 0-4.58V6.62H1.29a11.99 11.99 0 0 0 0 10.76l3.98-3.09Z" />
-              <path fill="#EA4335"
-                d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.25 2.69 1.29 6.62l3.98 3.09C6.22 6.86 8.87 4.75 12 4.75Z" />
-            </svg>
-            Continue with Google
-          </a>
         </div>
-
-        <p class="auth-help">
-          Need an account or a password reset? Contact your school administrator.
-          <br>
-          <a href="/">Back to the public site</a>
-        </p>
       </div>
+    </div>
 
-      <p class="auth-footer">
-        © <span id="year">2026</span> SchoolBook · <a href="/">Home</a> · <a href="/app">Workspace</a>
+    <!-- Clean Footer -->
+    <footer style="text-align: center; margin-top: 48px; padding-inline: var(--sb-gutter, 20px);">
+      <p style="font-size: 0.8rem; color: var(--auth-faint); margin: 0;">
+        © <span id="year">2026</span> SchoolBook · <a href="/" style="color: var(--auth-muted); text-decoration: none;">Home</a> · <a href="/app" style="color: var(--auth-muted); text-decoration: none;">Workspace</a>
       </p>
-    </section>
+    </footer>
   </main>
 
   <!-- Password reset request dialog -->
@@ -184,6 +235,23 @@
     </div>
   </div>
 
+  <script>
+    // Navigation burger menu for mobile
+    const burger = document.getElementById('sb-burger');
+    const mobileMenu = document.getElementById('sb-mobile-menu');
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(open));
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
   <script src="login.js"></script>
 </body>
 
