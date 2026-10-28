@@ -1,3 +1,11 @@
+if (process.env.NODE_ENV !== 'production' || process.env.DATABASE_URL?.includes('supabase.com')) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
+if (process.env.NODE_ENV !== 'production' || process.env.DATABASE_URL?.includes('supabase.com')) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 import { ConfigService } from '@nestjs/config';
 import { createApp } from './app.setup.js';
 
@@ -19,3 +27,4 @@ async function bootstrap() {
 }
 
 await bootstrap();
+

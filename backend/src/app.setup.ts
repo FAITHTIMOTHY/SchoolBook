@@ -1,3 +1,7 @@
+if (process.env.NODE_ENV !== 'production' || process.env.DATABASE_URL?.includes('supabase.com')) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+}
+
 import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
