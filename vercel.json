@@ -5,11 +5,6 @@
   "buildCommand": "npm run vercel-build && node scripts/vercel-migrate.mjs",
   "cleanUrls": true,
   "rewrites": [
-    { "source": "/", "destination": "/landing.html" },
-    { "source": "/landing", "destination": "/landing.html" },
-    { "source": "/login", "destination": "/login.html" },
-    { "source": "/reset-password", "destination": "/reset-password.html" },
-    { "source": "/verify-email", "destination": "/verify-email.html" },
     { "source": "/app", "destination": "/app.html" },
     { "source": "/app/:path*", "destination": "/app.html" },
     { "source": "/dashboard", "destination": "/app.html" },

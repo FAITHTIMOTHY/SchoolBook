@@ -25,7 +25,10 @@ for (const target of targets) {
     },
   });
 
-  // Provide app.html so cleanUrls matches /app directly
+  // On static hosts like Vercel CDN, index.html is served automatically for "/".
+  // SchoolBook's landing page (landing.html) must be served at "/",
+  // while the school dashboard workspace (index.html) must be served at "/app".
+  await copyFile(path.join(source, 'landing.html'), path.join(target, 'index.html'));
   await copyFile(path.join(source, 'index.html'), path.join(target, 'app.html'));
 
   console.log(`Copied static frontend assets to ${path.relative(process.cwd(), target)}`);
