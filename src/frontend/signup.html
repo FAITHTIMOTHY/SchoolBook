@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="description" content="Create your SchoolBook campus workspace.">
+  <meta name="robots" content="noindex, nofollow">
+  <title>Get Started | SchoolBook</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="landing.css">
+  <link rel="stylesheet" href="auth.css">
+  <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+
+  <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+  <header class="sb-nav">
+    <div class="sb-nav-inner">
+      <a href="/" class="sb-logo" aria-label="SchoolBook home">
+        <img src="logo.png" alt="" width="26" height="26">
+        <span>SchoolBook</span>
+      </a>
+
+      <nav class="sb-nav-links" aria-label="Primary">
+        <a href="/#tour">Product tour</a>
+        <a href="/#features">Features</a>
+        <a href="/#roles">Roles</a>
+        <a href="/#faq">FAQ</a>
+      </nav>
+
+      <div class="sb-nav-actions">
+        <a href="/" class="sb-link">← Explore site</a>
+        <a href="/login" class="sb-btn sb-btn-ghost sb-btn-sm">Sign in</a>
+      </div>
+
+      <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="sb-mobile-menu" id="sb-mobile-menu">
+      <a href="/#tour">Product tour</a>
+      <a href="/#features">Features</a>
+      <a href="/#roles">Roles</a>
+      <a href="/#faq">FAQ</a>
+      <a href="/login" class="sb-btn sb-btn-ghost">Sign in</a>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       SIGN UP MAIN
+       ============================================================ -->
+  <main class="auth-wrapper">
+    <div class="sb-aura" aria-hidden="true" style="top: 0; height: 600px; opacity: 0.85;"></div>
+
+    <div>
+      <section class="auth-hero-header">
+        <h1>Get started with SchoolBook</h1>
+        <p>Set up a calm, unified operating workspace for your school in minutes.</p>
+      </section>
+
+      <div class="auth-canvas-container">
+        <div class="auth-canvas-card">
+          <!-- macOS Canvas Bar -->
+          <div class="auth-canvas-bar">
+            <div class="auth-canvas-dots">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="auth-canvas-crumb">
+              SchoolBook / <strong>Create School Workspace</strong>
+            </div>
+          </div>
+
+          <div class="auth-canvas-grid">
+            <!-- Left Side: Benefits -->
+            <section class="auth-brand-col" aria-label="SchoolBook Setup Overview">
+              <div class="auth-brand-lead">
+                <h2>Set up your school in minutes.</h2>
+                <p>Everything your school runs on, finally in one place without spreadsheets or fragmented software.</p>
+
+                <ul class="auth-feature-list">
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>Live attendance registers with class-level insight and same-day follow-up.</span>
+                  </li>
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>One student record from enrolment to graduation, with guardians attached.</span>
+                  </li>
+                  <li class="auth-feature-item">
+                    <span class="auth-check-icon">✓</span>
+                    <span>Tuition, invoicing, inventory, and announcements held in sync.</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div class="auth-roles-wrap">
+                  <span class="auth-roles-label">Supported Roles</span>
+                  <div class="auth-roles-pills">
+                    <span class="auth-role-pill">Principal</span>
+                    <span class="auth-role-pill">Teacher</span>
+                    <span class="auth-role-pill">Counselor</span>
+                    <span class="auth-role-pill">Bursar</span>
+                    <span class="auth-role-pill">Student</span>
+                    <span class="auth-role-pill">Guardian</span>
+                  </div>
+                </div>
+
+                <div class="auth-security-note" style="margin-top: 18px;">
+                  <span><strong>Multi-school ready</strong></span>
+                  <span>·</span>
+                  <span>Secure HttpOnly sessions</span>
+                  <span>·</span>
+                  <span>Role-based access</span>
+                </div>
+              </div>
+            </section>
+
+            <!-- Right Side: Sign-up Form -->
+            <section class="auth-form-col">
+              <div class="auth-form-head">
+                <h2>Create school workspace</h2>
+                <p class="auth-subtitle">Initialize your campus and create your principal account.</p>
+              </div>
+
+              <div class="auth-alert" id="signup-alert" role="alert" aria-live="polite" hidden>
+                <span class="auth-alert-icon" id="signup-alert-icon">!</span>
+                <span id="signup-alert-text"></span>
+              </div>
+
+              <form class="auth-form" id="signup-form" novalidate>
+                <div class="auth-field">
+                  <label for="signup-school">School or Organization name</label>
+                  <input class="auth-input" id="signup-school" name="schoolName" type="text"
+                    autocomplete="organization" placeholder="e.g. St. Jude International Academy" required>
+                </div>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+                  <div class="auth-field">
+                    <label for="signup-firstname">First name</label>
+                    <input class="auth-input" id="signup-firstname" name="firstName" type="text"
+                      autocomplete="given-name" placeholder="First name" required>
+                  </div>
+                  <div class="auth-field">
+                    <label for="signup-lastname">Last name</label>
+                    <input class="auth-input" id="signup-lastname" name="lastName" type="text"
+                      autocomplete="family-name" placeholder="Last name" required>
+                  </div>
+                </div>
+
+                <div class="auth-field">
+                  <label for="signup-email">Administrator email</label>
+                  <input class="auth-input" id="signup-email" name="email" type="email"
+                    autocomplete="email" inputmode="email" autocapitalize="none" spellcheck="false"
+                    placeholder="principal@school.edu" required>
+                </div>
+
+                <div class="auth-field">
+                  <label for="signup-password">Password</label>
+                  <div class="password-wrap">
+                    <input class="auth-input" id="signup-password" name="password" type="password"
+                      autocomplete="new-password" placeholder="At least 8 characters" minlength="8" required>
+                    <button class="password-toggle" id="toggle-signup-password" type="button" aria-label="Show password">
+                      Show
+                    </button>
+                  </div>
+                </div>
+
+                <button class="auth-submit" id="signup-submit" type="submit">
+                  <span id="signup-submit-label">Create school workspace</span>
+                </button>
+              </form>
+
+              <p class="auth-help">
+                Already have an account? <a href="/login" style="font-weight: 600;">Sign in</a>
+                <br>
+                <a href="/" style="display: inline-block; margin-top: 8px;">Back to the public site</a>
+              </p>
+            </section>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Clean Footer -->
+    <footer style="text-align: center; margin-top: 48px; padding-inline: var(--sb-gutter, 20px);">
+      <p style="font-size: 0.8rem; color: var(--auth-faint); margin: 0;">
+        © <span id="year">2026</span> SchoolBook · <a href="/" style="color: var(--auth-muted); text-decoration: none;">Home</a> · <a href="/login" style="color: var(--auth-muted); text-decoration: none;">Sign in</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    // Navigation burger menu for mobile
+    const burger = document.getElementById('sb-burger');
+    const mobileMenu = document.getElementById('sb-mobile-menu');
+    if (burger && mobileMenu) {
+      burger.addEventListener('click', () => {
+        const open = mobileMenu.classList.toggle('is-open');
+        burger.setAttribute('aria-expanded', String(open));
+      });
+      mobileMenu.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => {
+          mobileMenu.classList.remove('is-open');
+          burger.setAttribute('aria-expanded', 'false');
+        });
+      });
+    }
+  </script>
+  <script src="signup.js"></script>
+</body>
+
+</html>

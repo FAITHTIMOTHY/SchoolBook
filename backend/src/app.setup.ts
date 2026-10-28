@@ -144,6 +144,11 @@ export function configureApp(app: NestExpressApplication): void {
       return;
     }
 
+    if (pathname === '/signup' || pathname === '/register') {
+      sendHtml('signup.html', res, next);
+      return;
+    }
+
     if (pathname === '/reset-password') {
       sendHtml('reset-password.html', res, next);
       return;

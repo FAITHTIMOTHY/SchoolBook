@@ -6,10 +6,10 @@
   "type": "module",
   "scripts": {
     "build:app": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022",
-    "build:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022",
+    "build:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/signup.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022",
     "build:fe": "npm run build:app && npm run build:auth",
     "watch:app": "esbuild src/frontend/ts/main.ts --bundle --outfile=src/frontend/app.js --sourcemap --target=es2022 --watch",
-    "watch:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022 --watch",
+    "watch:auth": "esbuild src/frontend/ts/login.ts src/frontend/ts/signup.ts src/frontend/ts/reset-password.ts src/frontend/ts/verify-email.ts --bundle --outdir=src/frontend --sourcemap --target=es2022 --watch",
     "watch:fe": "npm run watch:app",
     "build:be": "cd backend && npm run build",
     "build": "npm run build:fe && npm run build:be",

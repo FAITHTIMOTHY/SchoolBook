@@ -37,7 +37,7 @@
 
       <div class="sb-nav-actions">
         <a href="/" class="sb-link">← Explore site</a>
-        <a href="/app" class="sb-btn sb-btn-ghost sb-btn-sm">Open workspace</a>
+        <a href="/signup" class="sb-btn sb-btn-primary sb-btn-sm">Get started</a>
       </div>
 
       <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
@@ -49,6 +49,7 @@
       <a href="/#features">Features</a>
       <a href="/#roles">Roles</a>
       <a href="/#faq">FAQ</a>
+      <a href="/signup" class="sb-btn sb-btn-primary">Get started</a>
       <a href="/" class="sb-btn sb-btn-ghost">Back to home</a>
     </div>
   </header>
@@ -136,13 +137,7 @@
               </div>
 
               <form class="auth-form" id="login-form" novalidate>
-                <div class="auth-field">
-                  <label for="tenant-slug">School code</label>
-                  <input class="auth-input" id="tenant-slug" name="tenantSlug" type="text"
-                    autocomplete="organization" autocapitalize="none" spellcheck="false"
-                    placeholder="your-school" required>
-                  <span class="hint">Your administrator can confirm this code. It is usually your school's short name.</span>
-                </div>
+                <input type="hidden" id="tenant-slug" name="tenantSlug" value="schoolbook">
 
                 <div class="auth-field">
                   <label for="email">Email address</label>
@@ -190,9 +185,9 @@
               </div>
 
               <p class="auth-help">
-                Need an account or a password reset? Contact your school administrator.
+                Don't have a school account yet? <a href="/signup" style="font-weight: 600;">Get started with SchoolBook</a>
                 <br>
-                <a href="/">Back to the public site</a>
+                <a href="/" style="display: inline-block; margin-top: 8px;">Back to the public site</a>
               </p>
             </section>
           </div>
@@ -203,7 +198,7 @@
     <!-- Clean Footer -->
     <footer style="text-align: center; margin-top: 48px; padding-inline: var(--sb-gutter, 20px);">
       <p style="font-size: 0.8rem; color: var(--auth-faint); margin: 0;">
-        © <span id="year">2026</span> SchoolBook · <a href="/" style="color: var(--auth-muted); text-decoration: none;">Home</a> · <a href="/app" style="color: var(--auth-muted); text-decoration: none;">Workspace</a>
+        © <span id="year">2026</span> SchoolBook · <a href="/" style="color: var(--auth-muted); text-decoration: none;">Home</a> · <a href="/signup" style="color: var(--auth-muted); text-decoration: none;">Get started</a>
       </p>
     </footer>
   </main>

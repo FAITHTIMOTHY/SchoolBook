@@ -148,6 +148,8 @@
   }
   function setupThemeToggle() {
     document.documentElement.setAttribute("data-theme", "light");
+    return;
+    document.documentElement.setAttribute("data-theme", "light");
     try {
       localStorage.removeItem("schoolbook-theme");
     } catch {
@@ -168,14 +170,10 @@
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       hideAlert("login");
-      const tenantSlug = normalizeSlug(tenantInput?.value || "");
+      const params = new URLSearchParams(window.location.search);
+      const tenantSlug = normalizeSlug(tenantInput?.value || params.get("tenant") || "schoolbook");
       const email = (emailInput?.value || "").trim();
       const password = passwordInput?.value || "";
-      if (!tenantSlug) {
-        showAlert("error", "Enter your school code.");
-        tenantInput?.focus();
-        return;
-      }
       if (!EMAIL_PATTERN.test(email)) {
         showAlert("error", "Enter a valid email address.");
         emailInput?.focus();
@@ -232,13 +230,9 @@
     resetForm.addEventListener("submit", async (event) => {
       event.preventDefault();
       hideAlert("reset");
+      const params = new URLSearchParams(window.location.search);
+      const tenantSlug = normalizeSlug(tenantInput?.value || params.get("tenant") || "schoolbook");
       const email = (resetEmail?.value || "").trim();
-      const tenantSlug = normalizeSlug(tenantInput?.value || "");
-      if (!tenantSlug) {
-        showAlert("error", "Enter your school code first.", "reset");
-        tenantInput?.focus();
-        return;
-      }
       if (!EMAIL_PATTERN.test(email)) {
         showAlert("error", "Enter a valid email address.", "reset");
         resetEmail?.focus();

@@ -18,6 +18,7 @@ import { GoogleAuthGuard } from './guards/google-auth.guard.js';
 import { RefreshTokensService } from './refresh-tokens/refresh-tokens.service.js';
 import { LocalAuthService } from './local-auth.service.js';
 import { LoginDto } from './dto/login.dto.js';
+import { SignupDto } from './dto/signup.dto.js';
 import { ForgotPasswordDto, ResetPasswordDto, VerifyEmailDto } from './dto/password.dto.js';
 import { PasswordService } from './password.service.js';
 import { EmailService } from '../common/email/email.service.js';
@@ -135,6 +136,19 @@ export class AuthController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const result = await this.localAuthService.login(dto);
+    response.cookie(AUTH_COOKIE_NAME, result.accessToken, this.authService.cookieOptions());
+    response.cookie(REFRESH_TOKEN_COOKIE_NAME, result.refreshToken, this.authService.refreshCookieOptions());
+    return { user: result.user };
+  }
+
+  @Public()
+  @Throttle({ default: { limit: 10, ttl: 60_000 } })
+  @Post('signup')
+  async signup(
+    @Body() dto: SignupDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const result = await this.localAuthService.signup(dto);
     response.cookie(AUTH_COOKIE_NAME, result.accessToken, this.authService.cookieOptions());
     response.cookie(REFRESH_TOKEN_COOKIE_NAME, result.refreshToken, this.authService.refreshCookieOptions());
     return { user: result.user };
