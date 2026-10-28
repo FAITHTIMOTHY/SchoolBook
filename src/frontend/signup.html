@@ -28,28 +28,10 @@
         <span>SchoolBook</span>
       </a>
 
-      <nav class="sb-nav-links" aria-label="Primary">
-        <a href="/#tour">Product tour</a>
-        <a href="/#features">Features</a>
-        <a href="/#roles">Roles</a>
-        <a href="/#faq">FAQ</a>
-      </nav>
-
-      <div class="sb-nav-actions">
-        <a href="/" class="sb-link">← Explore site</a>
+      <div class="sb-nav-actions auth-nav-actions">
+        <a href="/" class="sb-link auth-nav-back">← Explore site</a>
         <a href="/login" class="sb-btn sb-btn-ghost sb-btn-sm">Sign in</a>
       </div>
-
-      <button class="sb-nav-burger" id="sb-burger" aria-label="Open menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-    </div>
-    <div class="sb-mobile-menu" id="sb-mobile-menu">
-      <a href="/#tour">Product tour</a>
-      <a href="/#features">Features</a>
-      <a href="/#roles">Roles</a>
-      <a href="/#faq">FAQ</a>
-      <a href="/login" class="sb-btn sb-btn-ghost">Sign in</a>
     </div>
   </header>
 
@@ -182,23 +164,7 @@
     </footer>
   </main>
 
-  <script>
-    // Navigation burger menu for mobile
-    const burger = document.getElementById('sb-burger');
-    const mobileMenu = document.getElementById('sb-mobile-menu');
-    if (burger && mobileMenu) {
-      burger.addEventListener('click', () => {
-        const open = mobileMenu.classList.toggle('is-open');
-        burger.setAttribute('aria-expanded', String(open));
-      });
-      mobileMenu.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => {
-          mobileMenu.classList.remove('is-open');
-          burger.setAttribute('aria-expanded', 'false');
-        });
-      });
-    }
-  </script>
+
   <script src="signup.js"></script>
 </body>
 

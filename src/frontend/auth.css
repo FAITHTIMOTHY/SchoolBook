@@ -48,6 +48,20 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Auth top navigation bar */
+.sb-nav .auth-nav-actions {
+  display: flex !important;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+
+@media (max-width: 480px) {
+  .auth-nav-back {
+    display: none !important;
+  }
+}
+
 /* --------------------------------------------------------------------------
    Auth Layout: Hero & Canvas
    -------------------------------------------------------------------------- */
