@@ -4,6 +4,11 @@
   "installCommand": "node scripts/vercel-install.mjs",
   "buildCommand": "npm run vercel-build && node scripts/vercel-migrate.mjs",
   "cleanUrls": true,
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "backend/**"
+    }
+  },
   "rewrites": [
     { "source": "/app", "destination": "/app.html" },
     { "source": "/app/:path*", "destination": "/app.html" },
