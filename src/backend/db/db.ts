@@ -289,8 +289,8 @@ export function seedDB(): void {
     {
       id: 'm_oak_student1',
       tenant_id: 'tenant_oakridge',
-      name: 'Sophia Chen',
-      email: 'sophia.chen@student.oakridge.edu',
+      name: 'Chioma Adebayo',
+      email: 'chioma.adebayo@student.oakridge.edu',
       phone: '+1 234-567-8905',
       address: '88 Meadowbrook Lane, Oakridge',
       profile_picture_url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop',
@@ -302,8 +302,8 @@ export function seedDB(): void {
       status: 'Active',
       joined_date: '2024-06-01T10:00:00Z',
       academic_score: 88, // > 70 -> GREEN CIRCLE
-      guardian_name: 'Mrs. Wei Chen',
-      guardian_email: 'wei.chen@family.com',
+      guardian_name: 'Mrs. Ngozi Adebayo',
+      guardian_email: 'ngozi.adebayo@family.com',
       guardian_phone: '+1 234-555-0199',
       bio: 'Honors STEM scholar, student council member, and science olympiad medalist.'
     },
@@ -424,7 +424,7 @@ export function seedDB(): void {
 
   // Seeding attendance records
   const attendance: Attendance[] = [
-    // Sophia's records
+    // Chioma's records
     { id: 'att_o_1', tenant_id: 'tenant_oakridge', member_id: 'm_oak_student1', service_date: getPastDateStr(28), service_name: 'Morning Roll Call', status: 'Present', recorded_by: 'm_oak_teacher', recorded_at: new Date().toISOString() },
     { id: 'att_o_2', tenant_id: 'tenant_oakridge', member_id: 'm_oak_student1', service_date: getPastDateStr(21), service_name: 'Morning Roll Call', status: 'Present', recorded_by: 'm_oak_teacher', recorded_at: new Date().toISOString() },
     { id: 'att_o_3', tenant_id: 'tenant_oakridge', member_id: 'm_oak_student1', service_date: getPastDateStr(14), service_name: 'Morning Roll Call', status: 'Present', recorded_by: 'm_oak_teacher', recorded_at: new Date().toISOString() },
@@ -484,7 +484,7 @@ export function seedDB(): void {
       id: 'portal_sophia',
       tenant_id: 'tenant_oakridge',
       student_id: 'm_oak_student1',
-      student_name: 'Sophia Chen',
+      student_name: 'Chioma Adebayo',
       grade_level: 'Grade 10 - Class A (Sophomores)',
       overall_score: 88, // > 70 -> GREEN CIRCLE
       term: 'Fall Term 2026',
@@ -494,9 +494,9 @@ export function seedDB(): void {
         { id: 'g_3', subject: 'World Literature & Rhetoric', score: 85, teacher: 'Mr. Aaron Wright', term: 'Fall 2026', comments: 'Insightful essay contributions during seminar debates.' },
         { id: 'g_4', subject: 'Robotics & STEM Design', score: 86, teacher: 'Prof. Marcus Brody', term: 'Fall 2026', comments: 'Outstanding sensor integration on autonomous rover prototype.' }
       ],
-      teacher_remarks: 'Sophia continues to perform at the highest academic standard. Her leadership in classroom discussions and laboratory group experiments sets a benchmark for the cohort. Recommended for the Honors List.',
-      guardian_name: 'Mrs. Wei Chen',
-      guardian_email: 'wei.chen@family.com',
+      teacher_remarks: 'Chioma continues to perform at the highest academic standard. Her leadership in classroom discussions and laboratory group experiments sets a benchmark for the cohort. Recommended for the Honors List.',
+      guardian_name: 'Mrs. Ngozi Adebayo',
+      guardian_email: 'ngozi.adebayo@family.com',
       guardian_phone: '+1 234-555-0199',
       guardian_relation: 'Mother',
       syllabus_attachments: [
