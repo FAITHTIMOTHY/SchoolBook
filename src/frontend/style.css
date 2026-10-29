@@ -1318,6 +1318,11 @@ textarea {
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 input:focus,
 select:focus,
 textarea:focus {
@@ -2745,4 +2750,66 @@ a.notion-icon-btn {
   .notion-workspace-chip {
     display: none !important;
   }
+}
+
+/* ==========================================================================
+   Decluttered Dashboard: Quick Action Pills & Overview Enhancements
+   ========================================================================== */
+.overview-header {
+  margin-bottom: 18px;
+  padding-top: 6px;
+}
+
+.overview-quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+.quick-action-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  background: var(--notion-card-bg);
+  border: 1px solid var(--notion-border-strong);
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--notion-text);
+  cursor: pointer;
+  transition: all 0.16s ease;
+  user-select: none;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+}
+
+.quick-action-pill:hover {
+  background: var(--glass-bg-strong);
+  border-color: var(--notion-blue);
+  color: var(--notion-blue);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.quick-action-pill:active {
+  transform: translateY(0);
+}
+
+.quick-action-pill .pill-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.link-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--notion-blue);
+  transition: opacity 0.15s ease;
+}
+
+.link-btn:hover {
+  opacity: 0.8;
+  text-decoration: underline;
 }

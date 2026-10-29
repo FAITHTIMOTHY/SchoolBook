@@ -447,6 +447,12 @@ body {
   transform: translateY(-50%) scale(0.92);
 }
 
+/* Suppress Edge / IE default password reveal and clear icons */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear {
+  display: none;
+}
+
 .password-toggle svg.eye-icon {
   width: 18px;
   height: 18px;
@@ -456,22 +462,21 @@ body {
   stroke-linejoin: round;
   fill: none;
   pointer-events: none;
+}
+
+.password-toggle svg.eye-icon-show {
   display: block;
 }
 
-.password-toggle .eye-icon-show {
-  display: block;
-}
-
-.password-toggle .eye-icon-hide {
+.password-toggle svg.eye-icon-hide {
   display: none;
 }
 
-.password-toggle.is-showing .eye-icon-show {
+.password-toggle.is-showing svg.eye-icon-show {
   display: none;
 }
 
-.password-toggle.is-showing .eye-icon-hide {
+.password-toggle.is-showing svg.eye-icon-hide {
   display: block;
 }
 

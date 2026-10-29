@@ -47,29 +47,9 @@
       <div class="sim-brand notion-brand">
         <div class="logo-mark"><img src="logo.png" alt="SchoolBook Logo"></div>
         <span class="notion-brand-title">SchoolBook</span>
-        <span class="notion-plan-badge">Campus Workspace</span>
-      </div>
-
-      <div class="notion-breadcrumbs">
-        <span class="crumb-separator">/</span>
-        <span class="crumb-campus" id="notion-breadcrumb-campus">SchoolBook Academy</span>
-        <span class="crumb-separator">/</span>
-        <span class="crumb-page" id="notion-breadcrumb-page">📊 Campus Dashboard</span>
       </div>
     </div>
-
     <div class="sim-controls notion-topbar-right">
-      <!-- Active campus (bound to the signed-in account) -->
-      <span class="notion-workspace-chip" id="topbar-tenant-name" title="Active campus">
-        SchoolBook Academy
-      </span>
-
-      <!-- Public Landing Page Link -->
-      <a href="/" class="notion-icon-btn" title="Visit Public Landing Page"
-        style="text-decoration: none; display: inline-flex; align-items: center; justify-content: center; font-size: 0.85rem; padding: 0 12px; gap: 5px; height: 34px; color: var(--notion-text);">
-        🌐 <span class="notion-public-label" style="font-size: 0.8rem; font-weight: 500;">Public Site</span>
-      </a>
-
       <!-- Theme Switcher (Notion Light / Dark Mode) -->
       <button class="notion-icon-btn" id="theme-toggle-btn" title="Toggle Notion Dark/Light theme"
         aria-label="Toggle theme">
@@ -107,7 +87,6 @@
         <div class="notion-search-pill" id="notion-quick-search" title="Click to search student directory">
           <span class="search-icon">🔍</span>
           <span class="search-label">Quick search...</span>
-          <span class="search-kbd">⌘K</span>
         </div>
 
         <!-- Navigation Sections -->
@@ -179,23 +158,37 @@
 
       <!-- TAB: OVERVIEW -->
       <section class="tab-pane active" id="pane-overview">
-        <!-- Notion Page Cover & Header -->
-        <div class="notion-page-cover cover-solid-1"></div>
-        <div class="notion-page-header">
+        <!-- Notion Page Header -->
+        <div class="notion-page-header overview-header">
           <div class="notion-page-icon">📊</div>
           <div class="view-header">
             <h2>Campus Dashboard</h2>
-            <p id="overview-welcome">A calm, clear view of your school community.</p>
+            <p id="overview-welcome" class="text-secondary">A calm, clear view of your school community.</p>
           </div>
         </div>
 
-        <!-- Notion Callout Info Block -->
-        <div class="notion-callout">
-          <span class="callout-emoji">💡</span>
-          <div class="callout-text">
-            <strong>Campus Status:</strong> Attendance tracking is active. Student attendance
-            is monitored over a 30-day window to keep enrolled statuses up to date.
-          </div>
+        <!-- Quick Actions Toolbar -->
+        <div class="overview-quick-actions" role="toolbar" aria-label="Campus quick actions">
+          <button type="button" class="quick-action-pill" onclick="document.getElementById('nav-attendance')?.click()">
+            <span class="pill-icon">📋</span>
+            <span>Take Attendance</span>
+          </button>
+          <button type="button" class="quick-action-pill" onclick="document.getElementById('nav-portal')?.click()">
+            <span class="pill-icon">🎓</span>
+            <span>Student Portal</span>
+          </button>
+          <button type="button" class="quick-action-pill" onclick="document.getElementById('nav-members')?.click()">
+            <span class="pill-icon">👥</span>
+            <span>Students & Staff</span>
+          </button>
+          <button type="button" class="quick-action-pill" onclick="document.getElementById('nav-financials')?.click()">
+            <span class="pill-icon">💵</span>
+            <span>Tuition & Fees</span>
+          </button>
+          <button type="button" class="quick-action-pill" onclick="document.getElementById('nav-broadcast')?.click()">
+            <span class="pill-icon">📢</span>
+            <span>Circulars & Hub</span>
+          </button>
         </div>
 
         <!-- Notion Database / KPI Metric Cards -->
@@ -230,7 +223,7 @@
           </div>
         </div>
 
-        <div class="dashboard-grid">
+        <div class="dashboard-grid mt-3">
           <!-- Recent Sessions Database Table -->
           <div class="glass-panel notion-panel" id="overview-attendance-panel">
             <div class="notion-db-header">
@@ -238,7 +231,7 @@
                 <span class="db-icon">📋</span>
                 <h3>Recent Class Sessions</h3>
               </div>
-              <div class="notion-view-badge">⊞ Table View</div>
+              <button type="button" class="notion-view-badge link-btn" onclick="document.getElementById('nav-attendance')?.click()">View all →</button>
             </div>
 
             <div class="table-container notion-table-container">
@@ -248,7 +241,7 @@
                     <th><span class="prop-icon">Aa</span> Session / Class Name</th>
                     <th><span class="prop-icon">📅</span> Date</th>
                     <th><span class="prop-icon">👥</span> Attendance</th>
-                    <th><span class="prop-icon">⚡</span> Roll Call Status</th>
+                    <th><span class="prop-icon">⚡</span> Status</th>
                   </tr>
                 </thead>
                 <tbody id="overview-services-tbody">
@@ -258,41 +251,38 @@
             </div>
           </div>
 
-          <!-- Academic Projections Block -->
+          <!-- Campus Snapshot Card -->
           <div class="glass-panel text-panel notion-panel">
             <div class="notion-db-header">
               <div class="db-title">
-                <span class="db-icon">📈</span>
-                <h3>Academic & Tuition Forecasts</h3>
+                <span class="db-icon">⚡</span>
+                <h3>Campus Snapshot</h3>
               </div>
             </div>
 
-            <div class="projection-highlight notion-callout-panel">
-              <span class="proj-accent" id="overview-projection-status">Calculations Pending</span>
-              <p>Based on student attendance consistency and fee collection analytics, the model computes weekly rates
-                to forecast campus operations.</p>
-            </div>
-
-            <div class="details-list notion-property-list">
+            <div class="details-list notion-property-list mt-1">
               <div class="detail-row">
                 <span class="prop-name"><span class="prop-icon">📊</span> Active Student Ratio</span>
                 <strong id="overview-active-ratio" class="notion-tag tag-green">0%</strong>
               </div>
               <div class="detail-row">
-                <span class="prop-name"><span class="prop-icon">💵</span> Next Week Inflow Estimate</span>
+                <span class="prop-name"><span class="prop-icon">💵</span> Inflow Projection</span>
                 <strong id="overview-finance-forecast" class="notion-tag tag-blue">$-.--</strong>
+              </div>
+              <div class="detail-row">
+                <span class="prop-name"><span class="prop-icon">📈</span> Growth Rate</span>
+                <span id="overview-projection-status" class="text-secondary" style="font-size:0.85rem; font-weight:500;">Calculating…</span>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- VISUAL STATISTICS: PERFORMANCE, ATTENDANCE, FINANCIAL USING GRAPHS, CHARTS, AND BARS -->
+        <!-- VISUAL STATISTICS: PERFORMANCE, ATTENDANCE, FINANCIAL -->
         <div class="notion-db-header mt-3">
           <div class="db-title">
             <span class="db-icon">📊</span>
-            <h3>Campus Analytics & Reports</h3>
+            <h3>Academic & Operational Analytics</h3>
           </div>
-          <div class="notion-view-badge">Interactive Graphs, Charts & Bars</div>
         </div>
 
         <div class="stats-grid-3">
@@ -302,9 +292,8 @@
               <div class="flex-row align-center gap-1">
                 <span class="stat-card-icon">🎯</span>
                 <div>
-                  <h4>Academic Standing Distribution</h4>
-                  <span class="text-secondary" style="font-size:0.75rem">Green (>70%) · Yellow (50-69%) · Red
-                    (&lt;50%)</span>
+                  <h4>Academic Standing</h4>
+                  <span class="text-secondary" style="font-size:0.75rem">Tier distribution & mastery</span>
                 </div>
               </div>
             </div>
@@ -335,31 +324,27 @@
             </div>
 
             <!-- Subject Performance Comparison Bars -->
-            <h5 class="mt-2 text-secondary" style="font-size:0.8rem; text-transform: uppercase; letter-spacing:0.5px">
-              Subject Mastery Averages</h5>
+            <h5 class="mt-2 text-secondary" style="font-size:0.78rem; text-transform: uppercase; letter-spacing:0.5px">
+              Subject Mastery</h5>
             <div class="stat-bars-list mt-1" id="stat-subject-bars">
               <!-- Rendered dynamically -->
             </div>
           </div>
 
-          <!-- 2. ATTENDANCE CONSISTENCY 5-DAY TREND BAR GRAPH -->
+          <!-- 2. ATTENDANCE TREND BAR GRAPH -->
           <div class="glass-panel stat-card-panel notion-panel">
             <div class="stat-card-header">
               <div class="flex-row align-center gap-1">
                 <span class="stat-card-icon">📈</span>
                 <div>
                   <h4>Attendance Rate Trends</h4>
-                  <span class="text-secondary" style="font-size:0.75rem">5-Day Weekly Roll Call Graph</span>
+                  <span class="text-secondary" style="font-size:0.75rem">5-day weekly roll call</span>
                 </div>
               </div>
             </div>
 
             <div class="chart-vertical-bars-container mt-2" id="stat-attendance-chart">
               <!-- Rendered dynamically as vertical bars -->
-            </div>
-
-            <div class="chart-footer-note mt-2">
-              <span class="notion-tag tag-green">⚡ Mon-Fri Attendance Tracking Active</span>
             </div>
           </div>
 
