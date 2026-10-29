@@ -191,6 +191,13 @@ label,
   transform: translateY(1px);
 }
 
+.sb-section,
+.sb-hero,
+.sb-footer {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 /* -------------------------------------------------------------------------- 
    3. PRIMITIVES
    -------------------------------------------------------------------------- */
@@ -2079,13 +2086,15 @@ label,
     --sb-gutter: 18px;
   }
 
-  /* keep the side-slide motion gentle on narrow screens */
-  [data-reveal="left"] {
-    transform: translateX(-44px);
+  /* On narrow screens, slide only vertically so content never spills past the viewport */
+  [data-reveal="left"],
+  [data-reveal="right"] {
+    transform: translateY(14px);
   }
 
-  [data-reveal="right"] {
-    transform: translateX(44px);
+  .sb-cta-glow {
+    left: 0;
+    right: 0;
   }
 
   .sb-kpis {

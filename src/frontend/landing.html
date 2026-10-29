@@ -773,14 +773,14 @@
     )];
 
     if (scrubTargets.length && !reduceMotion) {
-      const travel = () => (window.innerWidth <= 720 ? 44 : 96);
       let frame = 0;
 
       const render = () => {
         frame = 0;
         const vh = window.innerHeight;
         const span = Math.max(260, vh * 0.62);
-        const dist = travel();
+        const isNarrow = window.innerWidth <= 860;
+        const dist = 96;
 
         // read all positions first, then write (no layout thrash)
         const items = scrubTargets.map(el => {
@@ -793,7 +793,11 @@
           const eased = 1 - Math.pow(1 - p, 3);
           el.style.opacity = Math.min(1, eased * 1.4).toFixed(3);
 
-          if (kind === 'fade') {
+          if (isNarrow) {
+            // On mobile and tablet, reveal vertically to guarantee zero sideways overflow
+            const y = (14 * (1 - eased)).toFixed(1);
+            el.style.transform = `translate3d(0, ${y}px, 0)`;
+          } else if (kind === 'fade') {
             el.style.transform = 'none';
           } else {
             const x = (kind === 'left' ? -1 : 1) * dist * (1 - eased);
